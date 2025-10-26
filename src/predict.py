@@ -2,7 +2,7 @@ import torch
 from src.model.transformer import Model
 
 vocab = torch.load("src/model/vocab.pt")
-scaler = torch.load("src/model/scaler.pt")
+# scaler = torch.load("src/model/scaler.pt")
 
 model = Model(len(vocab))
 model.load_state_dict(torch.load("src/model/simple_model.pt"))
@@ -14,7 +14,7 @@ x = torch.tensor([ids])
 
 with torch.no_grad():
     pred_scaled = model(x).item()
-    band = scaler.inverse_transform([[pred_scaled]])[0][0]
+    band = pred_scaled * 9 
 
 print(f"Predicted Band: {band:.2f}")
 if band < 6:

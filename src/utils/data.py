@@ -5,7 +5,7 @@ from typing import Dict, List
 import re
 from collections import Counter
 import numpy as np
-from ..model.transformer import Model
+from ..model.transformer import SimpleTransformerForIELTS
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler
 
@@ -29,9 +29,10 @@ def build_vocab(df):
     return vocab    
 
 def prepare_data(df):
-    scaler = MinMaxScaler()
-    df["Scaled"] = scaler.fit_transform(df[["Overall"]])
-    torch.save(scaler, "src/model/scaler.pt")
+    # scaler = MinMaxScaler()
+    # df["Scaled"] = scaler.fit_transform(df[["Overall"]])
+    # torch.save(scaler, "src/model/scaler.pt")
+    df["Scaled"] = df["Overall"] / 9.0
     print("Scaler Model saved")
     train_df, val_df = train_test_split(df, test_size=0.1, random_state=42)
     return train_df, val_df
@@ -43,7 +44,13 @@ if __name__ == "__main__":
     prepare_data(df)
     print(f"Vocab size: {len(vocab)}")
 
-    model = Model(vocab_size=len(vocab))
+    model = SimpleTransformerForIELTS(
+    vocab_size=len(vocab),
+    d_model=256,
+    nhead=8,
+    num_layers=3,
+    dropout=0.1
+    ).to(torch.device)
     print(model)
 
     # test forward pass
