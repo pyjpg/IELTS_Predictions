@@ -18,11 +18,16 @@ import math
 #         return self.fc(x)
 
 class SimpleTransformerForIELTS(nn.Module):
-    def __init__(self, vocab_size, d_model: int = 256, nhead: int = 8, 
-                 num_layers: int = 2, max_len: int = 200, dropout: float = 0.2, learned_pos=False, use_cls=False):
+    def __init__(self, vocab_size, d_model: int = 300, nhead: int = 6, 
+                 num_layers: int = 4, max_len: int = 200, dropout: float = 0.1, learned_pos=False, use_cls=False, pretrained_embeddings=None):
         super().__init__()
         self.use_cls = use_cls
         self.embedding = nn.Embedding(vocab_size, d_model)
+
+        if pretrained_embeddings is not None:
+            self.embedding.weight.data.copy_(torch.tensor(pretrained_embeddings))
+            self.embedding.weight.requires_grad = True
+            d_model = pretrained_embeddings.shape[1]
         
         if learned_pos:
             self.pos_embedding = nn.Parameter(torch.zeros(1, max_len + 1, d_model))

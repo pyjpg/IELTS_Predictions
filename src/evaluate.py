@@ -3,9 +3,11 @@ from sklearn.metrics import mean_absolute_error, r2_score
 from src.utils.data import load_dataset, build_vocab, prepare_data
 from torch.utils.data import DataLoader, TensorDataset
 from src.model.transformer import SimpleTransformerForIELTS
+import os
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
-
+project_root = "/home/mastermind/ielts_pred"
+glove_path = os.path.join(project_root, "embeddings", "glove.6B.300d.txt")
 df = load_dataset()
 vocab = torch.load("src/model/vocab.pt")
 train_df, val_df = prepare_data(df)
@@ -24,15 +26,24 @@ y_true = val_df['Overall'].values
 val_dataset = TensorDataset(X_val, torch.tensor(y_true, dtype=torch.float32))
 val_loader = DataLoader(val_dataset, batch_size=32)
 
+embedding_dim = 300
+embedding_matrix = np.zeros((len(vocab), embedding_dim))
+with open(glove_path, encoding="utf8") as f:
+    for line in f:
+        values = line.split()
+        word = values[0]
+        vector = np.array(values[1:], dtype='float32')
+        if word in vocab:
+            embedding_matrix[vocab[word]] = vector
+
 model = SimpleTransformerForIELTS(
     vocab_size=len(vocab),
-    d_model=384,
-    nhead=8,
-    num_layers=3,
-    learned_pos=True,   
-    use_cls=True      
+    d_model=embedding_dim,
+    pretrained_embeddings=embedding_matrix,
+    learned_pos=False,   
+    use_cls=False      
 ).to(device)
-model.load_state_dict(torch.load("src/model/simple_transformer_adjusted_384x3_lr5e-4_model.pt"))
+model.load_state_dict(torch.load("src/model/simple_transformer_pretrained_embeddings_300_4.pt"))
 model = model.to(device)
 model.eval()
 

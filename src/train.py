@@ -1,9 +1,14 @@
 import numpy as np
 import torch, torch.nn as nn
+import os
 from src.utils.data import load_dataset, build_vocab, prepare_data
 from torch.utils.data import DataLoader, TensorDataset
 from src.model.transformer import SimpleTransformerForIELTS
 from tqdm import tqdm
+
+project_root = "/home/mastermind/ielts_pred"
+glove_path = os.path.join(project_root, "embeddings", "glove.6B.300d.txt")
+
 
 df = load_dataset()
 vocab = build_vocab(df)
@@ -32,18 +37,27 @@ y_val = torch.tensor(val_df['Scaled'].values, dtype=torch.float32)
 train_loader = DataLoader(TensorDataset(X_train, y_train), batch_size=32, shuffle=True)
 val_loader = DataLoader(TensorDataset(X_val, y_val), batch_size=32)
 
+embedding_dim = 300
+embedding_matrix = np.zeros((len(vocab), embedding_dim))
+with open(glove_path, encoding="utf8") as f:
+    for line in f:
+        values = line.split()
+        word = values[0]
+        vector = np.array(values[1:], dtype='float32')
+        if word in vocab:
+            embedding_matrix[vocab[word]] = vector
+
 model = SimpleTransformerForIELTS(
     vocab_size=len(vocab),
-    d_model=384,
-    nhead=8,
-    num_layers=3,
-    learned_pos=True,   
-    use_cls=True      
+    d_model=embedding_dim,
+    pretrained_embeddings=embedding_matrix,
+    learned_pos=False,   
+    use_cls=False      
 ).to(device)
 opt = torch.optim.AdamW(model.parameters(), lr=1e-4, weight_decay=0.01)
 loss_fn = nn.SmoothL1Loss(beta=0.1)
 
-for epoch in tqdm(range(20), desc="Training Epochs"):
+for epoch in tqdm(range(40), desc="Training Epochs"):
     model.train()
     running_loss = 0
     for xb, yb in train_loader:
@@ -65,9 +79,9 @@ for epoch in tqdm(range(20), desc="Training Epochs"):
             val_maes.append((preds - yb).abs().mean().item())
         avg_loss = running_loss / len(train_loader.dataset)
     print(f"Epoch {epoch+1} - Val Loss: {np.mean(val_losses):.4f} - Val MAE: {np.mean(val_maes):.4f}")
-    print(f"Epoch {epoch+1}/20 - Train Loss: {avg_loss:.4f}")
+    print(f"Epoch {epoch+1}/40 - Train Loss: {avg_loss:.4f}")
 
-torch.save(model.state_dict(), "src/model/simple_transformer_adjusted_384x3_lr5e-4_model.pt")
+torch.save(model.state_dict(), "src/model/simple_transformer_pretrained_embeddings_300_4.pt")
 # import pandas as pd
 # from model.transformer import IELTSTransformer
 # from utils.data import Tokenizer, load_dataset, prepare_dataloaders
