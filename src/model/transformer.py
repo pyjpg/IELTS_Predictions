@@ -25,9 +25,24 @@ class SimpleTransformerForIELTS(nn.Module):
         self.embedding = nn.Embedding(vocab_size, d_model)
 
         if pretrained_embeddings is not None:
+            orig_dim = pretrained_embeddings.shape[1]
+            # Create embedding with original pretrained dimension
+            self.embedding = nn.Embedding(vocab_size, orig_dim)
             self.embedding.weight.data.copy_(torch.tensor(pretrained_embeddings))
             self.embedding.weight.requires_grad = True
-            d_model = pretrained_embeddings.shape[1]
+
+            # Add projection to target d_model if different
+            if orig_dim != d_model:
+                self.proj = nn.Linear(orig_dim, d_model)
+                final_d_model = d_model
+            else:
+                final_d_model = orig_dim
+        else:
+            # No pretrained embeddings
+            self.embedding = nn.Embedding(vocab_size, d_model)
+            final_d_model = d_model
+
+        self.d_model = final_d_model 
         
         if learned_pos:
             self.pos_embedding = nn.Parameter(torch.zeros(1, max_len + 1, d_model))
@@ -64,7 +79,10 @@ class SimpleTransformerForIELTS(nn.Module):
         return pe.unsqueeze(0)
 
     def forward(self, x, src_mask=None, src_key_padding_mask=None):
-        emb = self.embedding(x) * math.sqrt(self.d_model)
+        emb = self.embedding(x) 
+        if hasattr(self, 'proj'):
+            emb = self.proj(emb) 
+        emb = emb * math.sqrt(self.d_model)
         if self.use_cls:
             batch_size = x.size(0)
             cls_token = self.cls_token.expand(batch_size, -1, -1)
