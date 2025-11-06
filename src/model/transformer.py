@@ -1,184 +1,324 @@
-import torch, torch.nn as nn, numpy as np
+import torch
+import torch.nn as nn
 import math
+import numpy as np
 
-# class Model(nn.Module):
-#     def __init__(self, vocab_size, embed_dim=256):
-#         super().__init__()
-#         self.embedding = nn.Embedding(vocab_size, embed_dim)
-#         self.fc = nn.Sequential(
-#             nn.Linear(embed_dim, 256),
-#             nn.ReLU(),
-#             nn.Linear(256, 1),
-#             nn.Sigmoid()
-#         )
-    
-#     def forward(self, x):
-#         x = self.embedding(x)
-#         x = x.mean(dim=1)
-#         return self.fc(x)
-
-class SimpleTransformerForIELTS(nn.Module):
-    def __init__(self, vocab_size, d_model: int = 300, nhead: int = 6, 
-                 num_layers: int = 4, max_len: int = 200, dropout: float = 0.1, learned_pos=False, use_cls=False, pretrained_embeddings=None):
+class AttentionPooling(nn.Module):
+    """
+    Learnable attention pooling - much better than mean pooling.
+    Learns to focus on important parts of the essay.
+    """
+    def __init__(self, d_model):
         super().__init__()
-        self.use_cls = use_cls
-        self.embedding = nn.Embedding(vocab_size, d_model)
+        self.attention = nn.Linear(d_model, 1)
+        
+    def forward(self, x, mask=None):
+        # x shape: (batch, seq_len, d_model)
+        attn_weights = self.attention(x)  # (batch, seq_len, 1)
+        
+        if mask is not None:
+            attn_weights = attn_weights.masked_fill(mask.unsqueeze(-1) == 0, float('-inf'))
+        
+        attn_weights = torch.softmax(attn_weights, dim=1)  # (batch, seq_len, 1)
+        pooled = torch.sum(x * attn_weights, dim=1)  # (batch, d_model)
+        return pooled
 
+
+class MultiPooling(nn.Module):
+    """
+    Combines multiple pooling strategies for richer representation.
+    Research shows this improves essay scoring significantly.
+    """
+    def __init__(self, d_model):
+        super().__init__()
+        self.attention_pool = AttentionPooling(d_model)
+        
+    def forward(self, x, mask=None):
+        # Mean pooling
+        if mask is not None:
+            mask_expanded = mask.unsqueeze(-1).expand_as(x)
+            sum_embeddings = torch.sum(x * mask_expanded, dim=1)
+            sum_mask = mask_expanded.sum(dim=1).clamp(min=1e-9)
+            mean_pooled = sum_embeddings / sum_mask
+        else:
+            mean_pooled = x.mean(dim=1)
+        
+        # Max pooling
+        max_pooled = x.max(dim=1)[0]
+        
+        # Attention pooling
+        attn_pooled = self.attention_pool(x, mask)
+        
+        # First and last token (like BERT's [CLS] and [SEP])
+        first_token = x[:, 0, :]
+        last_token = x[:, -1, :]
+        
+        # Concatenate all pooling strategies
+        return torch.cat([
+            mean_pooled, 
+            max_pooled, 
+            attn_pooled,
+            first_token,
+            last_token
+        ], dim=-1)
+
+
+class ImprovedIELTSTransformer(nn.Module):
+    """
+    Enhanced transformer with multiple improvements:
+    1. Better pooling mechanism
+    2. Residual connections in prediction head
+    3. Layer normalization
+    4. Dropout in multiple places
+    5. Separate position embeddings
+    """
+    def __init__(
+        self, 
+        vocab_size, 
+        d_model=200, 
+        nhead=4, 
+        num_layers=3, 
+        max_len=200, 
+        dropout=0.15,
+        pretrained_embeddings=None
+    ):
+        super().__init__()
+        
+        # Embedding layer
         if pretrained_embeddings is not None:
-            orig_dim = pretrained_embeddings.shape[1]
-            # Create embedding with original pretrained dimension
-            self.embedding = nn.Embedding(vocab_size, orig_dim)
+            self.embedding = nn.Embedding(vocab_size, d_model)
             self.embedding.weight.data.copy_(torch.tensor(pretrained_embeddings))
             self.embedding.weight.requires_grad = True
-
-            # Add projection to target d_model if different
-            if orig_dim != d_model:
-                self.proj = nn.Linear(orig_dim, d_model)
-                final_d_model = d_model
-            else:
-                final_d_model = orig_dim
         else:
-            # No pretrained embeddings
             self.embedding = nn.Embedding(vocab_size, d_model)
-            final_d_model = d_model
-
-        self.d_model = final_d_model 
         
-        if learned_pos:
-            self.pos_embedding = nn.Parameter(torch.zeros(1, max_len + 1, d_model))
-        else:
-            self.register_buffer("pos_embedding", self._build_sinusoidal(max_len + 1, d_model))
-
-        if use_cls:
-            self.cls_token = nn.Parameter(torch.zeros(1, 1, d_model))
-
+        # Learnable positional embeddings (better than sinusoidal for small data)
+        self.pos_embedding = nn.Parameter(torch.zeros(1, max_len, d_model))
+        nn.init.normal_(self.pos_embedding, std=0.02)
+        
+        # Optional: Add [CLS] token for classification
+        self.cls_token = nn.Parameter(torch.zeros(1, 1, d_model))
+        nn.init.normal_(self.cls_token, std=0.02)
+        
+        self.d_model = d_model
+        self.dropout_emb = nn.Dropout(dropout)
+        
+        # Transformer encoder
         encoder_layer = nn.TransformerEncoderLayer(
             d_model=d_model,
             nhead=nhead,
             dim_feedforward=d_model * 4,
             dropout=dropout,
-            batch_first=True
+            batch_first=True,
+            norm_first=True  # Pre-norm architecture (more stable)
         )
-        self.transformer_encoder = nn.TransformerEncoder(encoder_layer, num_layers=num_layers)
-        self.fc = nn.Sequential(
+        self.transformer_encoder = nn.TransformerEncoder(
+            encoder_layer, 
+            num_layers=num_layers
+        )
+        
+        # Multi-pooling strategy
+        self.pooling = MultiPooling(d_model)
+        pooled_dim = d_model * 5  # 5 pooling strategies
+        
+        # Enhanced prediction head with residual connections
+        self.fc1 = nn.Linear(pooled_dim, d_model * 2)
+        self.ln1 = nn.LayerNorm(d_model * 2)
+        self.dropout1 = nn.Dropout(dropout)
+        
+        self.fc2 = nn.Linear(d_model * 2, d_model)
+        self.ln2 = nn.LayerNorm(d_model)
+        self.dropout2 = nn.Dropout(dropout)
+        
+        self.fc3 = nn.Linear(d_model, d_model // 2)
+        self.ln3 = nn.LayerNorm(d_model // 2)
+        self.dropout3 = nn.Dropout(dropout)
+        
+        self.fc_out = nn.Linear(d_model // 2, 1)
+        
+    
+    def forward(self, x, mask=None, return_pooled=False):
+        batch_size = x.size(0)
+
+        # Embedding with scaling
+        emb = self.embedding(x) * math.sqrt(self.d_model)
+
+        # Add positional embeddings
+        seq_len = x.size(1)
+        emb = emb + self.pos_embedding[:, :seq_len, :]
+
+        # Add [CLS] token
+        cls_tokens = self.cls_token.expand(batch_size, -1, -1)
+        emb = torch.cat([cls_tokens, emb], dim=1)
+
+        # Adjust mask for [CLS] token
+        if mask is not None:
+            cls_mask = torch.ones(batch_size, 1, device=x.device, dtype=mask.dtype)
+            mask = torch.cat([cls_mask, mask], dim=1)
+
+        emb = self.dropout_emb(emb)
+
+        # Create attention mask for padding (Transformer expects True for padding)
+        src_key_padding_mask = None
+        if mask is not None:
+            src_key_padding_mask = (mask == 0)
+
+        # Transformer encoding
+        encoded = self.transformer_encoder(emb, src_key_padding_mask=src_key_padding_mask)
+
+        # Pooling (mask-aware)
+        pooled = self.pooling(encoded, mask)
+
+        if return_pooled:
+            return pooled  # (batch, pooled_dim)
+
+        # Otherwise, go through the prediction head (existing behavior)
+        x = self.fc1(pooled)
+        x = self.ln1(x)
+        x = torch.relu(x)
+        x = self.dropout1(x)
+
+        x = self.fc2(x)
+        x = self.ln2(x)
+        x = torch.relu(x)
+        x = self.dropout2(x)
+
+        x = self.fc3(x)
+        x = self.ln3(x)
+        x = torch.relu(x)
+        x = self.dropout3(x)
+
+        out = self.fc_out(x)
+        return out
+
+
+class IELTSTransformerWithFeatures(nn.Module):
+    """
+    Advanced model that combines transformer with linguistic features.
+    This is where you'll see the biggest gains!
+    
+    Features to add:
+    - Essay length (word count, sentence count)
+    - Lexical diversity (unique words / total words)
+    - Average sentence length
+    - Grammar complexity (POS tag distribution)
+    - Coherence metrics (transition word usage)
+    """
+    def __init__(
+        self, 
+        vocab_size, 
+        d_model=200, 
+        nhead=4, 
+        num_layers=3,
+        max_len=200,
+        dropout=0.15,
+        num_features=10,  # Number of hand-crafted features
+        pretrained_embeddings=None
+    ):
+        super().__init__()
+        self.num_features = num_features
+        # Base transformer
+        self.transformer = ImprovedIELTSTransformer(
+            vocab_size=vocab_size,
+            d_model=d_model,
+            nhead=nhead,
+            num_layers=num_layers,
+            max_len=max_len,
+            dropout=dropout,
+            pretrained_embeddings=pretrained_embeddings
+        )
+        
+        # Feature processing
+        self.feature_fc = nn.Sequential(
+            nn.Linear(num_features, 64),
+            nn.LayerNorm(64),
+            nn.ReLU(),
+            nn.Dropout(dropout),
+            nn.Linear(64, 32),
+            nn.LayerNorm(32),
+            nn.ReLU()
+        )
+        
+        # Combine transformer output with features
+        pooled_dim = d_model * 5  # From MultiPooling
+        combined_dim = 32  # From feature processing
+        
+        self.final_fc = nn.Sequential(
+            nn.Linear(pooled_dim + combined_dim, d_model),
+            nn.LayerNorm(d_model),
+            nn.ReLU(),
+            nn.Dropout(dropout),
             nn.Linear(d_model, d_model // 2),
             nn.LayerNorm(d_model // 2),
             nn.ReLU(),
             nn.Dropout(dropout),
             nn.Linear(d_model // 2, 1)
         )
-        self.d_model = d_model
-
-
-    def _build_sinusoidal(self, max_len, d_model):
-        pe = torch.zeros(max_len, d_model)
-        position = torch.arange(0, max_len).unsqueeze(1)
-        div_term = torch.exp(torch.arange(0, d_model, 2) * -(math.log(10000.0) / d_model))
-        pe[:, 0::2] = torch.sin(position * div_term)
-        pe[:, 1::2] = torch.cos(position * div_term)
-        return pe.unsqueeze(0)
-
-    def forward(self, x, src_mask=None, src_key_padding_mask=None):
-        emb = self.embedding(x) 
-        if hasattr(self, 'proj'):
-            emb = self.proj(emb) 
-        emb = emb * math.sqrt(self.d_model)
-        if self.use_cls:
-            batch_size = x.size(0)
-            cls_token = self.cls_token.expand(batch_size, -1, -1)
-            emb = torch.cat([cls_token, emb], dim=1)
-
-        emb = emb + self.pos_embedding[:, :emb.size(1), :]
-
-        encoded = self.transformer_encoder(emb, mask=src_mask, src_key_padding_mask=src_key_padding_mask)
-        if self.use_cls:
-            pooled = encoded[:, 0, :]
-        else:
-            pooled = encoded.mean(dim=1)
-
-
-        out = self.fc(pooled)       
-        return out
         
-
-class PositionalEncoding(nn.Module):
-    def __init__(self, d_model: int, max_len: int = 200):
-        super().__init__()
-        pe = torch.zeros(max_len, d_model)
-        position = torch.arange(0, max_len, dtype=torch.float).unsqueeze(1)
-        div_term = torch.exp(torch.arange(0, d_model, 2).float() * (-math.log(10000.0) / d_model))
-        pe[:, 0::2] = torch.sin(position * div_term)
-        pe[:, 1::2] = torch.cos(position * div_term)
-        pe = pe.unsqueeze(0)  
-        self.register_buffer('pe', pe)
-
-    def forward(self, x):
-        seq_len = x.size(1)
-        x = x + self.pe[:, :seq_len, :]
-        return x
-
-# class PositionalEncoding(nn.Module):
-#     def __init__(self, d_model: int, max_len: int = 5000):
-#         super().__init__()
-#         position = torch.arange(max_len).unsqueeze(1)
-#         div_term = torch.exp(torch.arange(0, d_model, 2) * (-math.log(10000.0) / d_model))
-#         pe = torch.zeros(max_len, 1, d_model)
-#         pe[:, 0, 0::2] = torch.sin(position * div_term)
-#         pe[:, 0, 1::2] = torch.cos(position * div_term)
-#         self.register_buffer('pe', pe)
-
-#     def forward(self, x):
-#         return x + self.pe[:x.size(0)]
-
-# class IELTSTransformer(nn.Module):
-#     def __init__(self, vocab_size: int, d_model: int = 256, nhead: int = 8, 
-#                  num_layers: int = 3, dropout: float = 0.1):
-#         super().__init__()
+    def forward(self, x, features, mask=None):
+        # Get transformer representation
+        # We need to modify the base transformer to return pooled features
+        # For now, this is a template
         
-#         # Embedding layers
-#         self.embedding = nn.Embedding(vocab_size, d_model)
-#         self.pos_encoder = PositionalEncoding(d_model)
+        # Process transformer
+        transformer_pooled = self.transformer(x, mask, return_pooled=True)
         
-#         # Transformer layers
-#         encoder_layer = nn.TransformerEncoderLayer(
-#             d_model=d_model,
-#             nhead=nhead,
-#             dim_feedforward=d_model * 4,
-#             dropout=dropout,
-#             batch_first=True
-#         )
-#         self.transformer_encoder = nn.TransformerEncoder(encoder_layer, num_layers=num_layers)
+        # Process features
+        feature_out = self.feature_fc(features)
         
-#         # Output layers
-#         self.fc1 = nn.Linear(d_model, d_model // 2)
-#         self.dropout = nn.Dropout(dropout)
-#         self.fc2 = nn.Linear(d_model // 2, 1)
+        # Combine and predict
+        combined = torch.cat([transformer_pooled, feature_out], dim=-1)
+        out = self.final_fc(combined)
         
-#         # Initialize weights
-#         self._init_weights()
+        return out.squeeze(-1)
+
+
+# ============================================================================
+# USAGE EXAMPLE
+# ============================================================================
+
+def create_improved_model(vocab_size, embedding_matrix, device='cuda'):
+    """
+    Creates the improved model with better architecture.
+    """
+    model = ImprovedIELTSTransformer(
+        vocab_size=vocab_size,
+        d_model=200,
+        nhead=4,
+        num_layers=3,
+        max_len=200,
+        dropout=0.15,
+        pretrained_embeddings=embedding_matrix
+    ).to(device)
     
-#     def _init_weights(self):
-#         initrange = 0.1
-#         self.embedding.weight.data.uniform_(-initrange, initrange)
-#         for layer in [self.fc1, self.fc2]:
-#             layer.bias.data.zero_()
-#             layer.weight.data.uniform_(-initrange, initrange)
+    return model
+
+
+def create_padding_mask(x, pad_token_id=0):
+    """
+    Creates attention mask for padded sequences.
+    """
+    return (x != pad_token_id).long()
+
+
+# Example forward pass
+if __name__ == "__main__":
+    # Dummy data
+    vocab_size = 4000
+    batch_size = 16
+    seq_len = 200
     
-#     def forward(self, src, src_mask=None, src_key_padding_mask=None):
-#         # Embed and add positional encoding
-#         x = self.embedding(src) * math.sqrt(self.embedding.embedding_dim)
-#         x = self.pos_encoder(x)
-        
-#         # Transform
-#         x = self.transformer_encoder(x, src_mask, src_key_padding_mask)
-        
-#         # Pool and predict
-#         x = x.mean(dim=1)  # Global average pooling
-#         x = torch.relu(self.fc1(x))
-#         x = self.dropout(x)
-#         x = self.fc2(x)
-        
-#         # Scale to IELTS range (0-9)
-#         x = torch.sigmoid(x) * 9
-        
-#         return x
+    # Create dummy embedding matrix
+    embedding_matrix = np.random.randn(vocab_size, 200).astype('float32')
+    
+    # Create model
+    model = create_improved_model(vocab_size, embedding_matrix, device='cpu')
+    
+    # Dummy input
+    x = torch.randint(0, vocab_size, (batch_size, seq_len))
+    mask = create_padding_mask(x, pad_token_id=0)
+    
+    # Forward pass
+    output = model(x, mask)
+    print(f"Output shape: {output.shape}")  # Should be (batch_size, 1)
+    print(f"Model parameters: {sum(p.numel() for p in model.parameters()):,}")
