@@ -103,7 +103,13 @@ print("LOADING AND VALIDATING DATA")
 print("="*70)
 
 df = load_dataset()
-train_df, val_df = prepare_data(df)
+train_df, val_df = prepare_data(
+    df, 
+    augment=True,       
+    target_size=4000,   
+    test_size=0.15,     
+    random_state=42      
+)
 
 print(f"Training samples: {len(train_df)}")
 print(f"Validation samples: {len(val_df)}")
