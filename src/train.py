@@ -22,7 +22,7 @@ embedding_cache = os.path.join(project_root, "embeddings", "embedding_matrix.npy
 model_save_path = "src/model/ielts_improved_model.pt"
 
 # IMPROVED HYPERPARAMETERS
-BATCH_SIZE = 8  # Smaller batch for better gradients with small dataset
+BATCH_SIZE = 8  # Smaller batch for better gradients with small datase t
 EPOCHS = 200
 LEARNING_RATE = 2e-4  # Slightly higher initial LR
 WEIGHT_DECAY = 0.01
