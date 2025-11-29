@@ -1,265 +1,464 @@
-# src/train_improved.py
-import os
-import math
-import random
+"""
+STEP 2: Training with Balanced Data
+====================================
+Save this as: train_improved.py
+
+This is your existing training script with ONE LINE CHANGED:
+Load balanced data instead of raw HF data
+"""
+
 import numpy as np
-import pandas as pd
-from sklearn.model_selection import train_test_split
 import torch
 import torch.nn as nn
+import os
 from torch.utils.data import DataLoader, TensorDataset
 from tqdm import tqdm
 import sentencepiece as spm
+import re
+import pandas as pd
+from sklearn.model_selection import train_test_split
+import random
 
-# replace with your model import path
-from src.model.transformer import SimpleTransformerForIELTS
+from src.model.transformer import IELTSTransformerWithFeatures
 
-# ---------------------------
-# CONFIG
-# ---------------------------
-PROJECT_ROOT = "/home/mastermind/ielts_pred"
-DATA_PATH = os.path.join(PROJECT_ROOT, "data", "ielts_clean.csv")
-SPM_MODEL = os.path.join(PROJECT_ROOT, "tokenizer", "spm.model")
-SPM_VOCAB = os.path.join(PROJECT_ROOT, "tokenizer", "spm.vocab")
-EMBEDDING_CACHE = os.path.join(PROJECT_ROOT, "embeddings", "embedding_matrix_subword.npy")
-MODEL_SAVE = os.path.join(PROJECT_ROOT, "src", "model", "ielts_final_model.pt")
+# ============================================================================
+# CONFIGURATION
+# ============================================================================
+project_root = "/home/mastermind/ielts_pred"
+SPM_MODEL = os.path.join(project_root, "tokenizer", "spm.model")
+embedding_cache = os.path.join(project_root, "embeddings", "fasttext_embedding_matrix.npy")
+model_save_path = "src/model/ielts_improved_model.pt"
 
-SEED = 42
+HF_DATA_PATH = "data/train_balanced.csv"  
+
 BATCH_SIZE = 16
-EPOCHS = 70
-LR = 1e-4
-WEIGHT_DECAY = 0.01
-MAX_SEQ_LEN = 150
+EPOCHS = 60
+LEARNING_RATE = 8e-5
+WEIGHT_DECAY = 0.02
+MAX_SEQ_LEN = 200
+EMBEDDING_DIM = 300
+DROPOUT = 0.35  
 
-# Small model for ~1k samples:
-EMBEDDING_DIM = 32    # small embedding (subword)
-NHEAD = 1             # must divide EMBEDDING_DIM (1 is always safe)
-NUM_LAYERS = 1
-DROPOUT = 0.4
+WARMUP_EPOCHS = 5
+EARLY_STOP_PATIENCE = 15  
 
-# Splits
-HOLDOUT_TEST_SIZE = 0.10   # 10% true holdout
-VAL_FROM_REMAINING = 0.25  # 25% of remaining -> overall val ≈ 22.5%
+AUGMENTATION_FACTOR = 1.15  
+AUG_PROB = 0.15
 
-PATIENCE = 10     # early stopping patience based on val MAE
-UNFREEZE_ON_IMPROVEMENT = True  # whether to unfreeze embeddings when val MAE improves
-scaled_tolerance = 0.5 / 9.0
-device = "cuda" if torch.cuda.is_available() else "cpu"
-print("Device:", device)
+device = 'cuda' if torch.cuda.is_available() else 'cpu'
+print(f"Using device: {device}")
 
-torch.manual_seed(SEED)
-np.random.seed(SEED)
-random.seed(SEED)
 
-# ---------------------------
-# LOAD DATA & HOLDOUT SPLIT
-# ---------------------------
-df = pd.read_csv(DATA_PATH)[['Essay', 'Overall']].dropna()
-df['Scaled'] = df['Overall'] / 9.0  # primary target 0-1
-print(df['Scaled'].describe())
-print(f"Total samples: {len(df)}")
+# ============================================================================
+# SAFE AUGMENTATION
+# ============================================================================
 
-# remove exact duplicates first (keeps first)
-df = df[~df.duplicated(subset=['Essay'], keep='first')].reset_index(drop=True)
-print(f"After dedup: {len(df)}")
-
-# 1) create true holdout
-trainval_df, test_df = train_test_split(df, test_size=HOLDOUT_TEST_SIZE, random_state=SEED, shuffle=True)
-# 2) create validation from remaining
-train_df, val_df = train_test_split(trainval_df, test_size=VAL_FROM_REMAINING, random_state=SEED, shuffle=True)
-
-print(f"Train: {len(train_df)}, Val: {len(val_df)}, Test (holdout): {len(test_df)}")
-
-# ---------------------------
-# TRAIN SentencePiece tokenizer (subword)
-# ---------------------------
-os.makedirs(os.path.dirname(SPM_MODEL), exist_ok=True)
-if not os.path.exists(SPM_MODEL):
-    print("Training SentencePiece model...")
-    corpus_file = os.path.join(PROJECT_ROOT, "tokenizer", "corpus.txt")
-    os.makedirs(os.path.dirname(corpus_file), exist_ok=True)
-    with open(corpus_file, "w", encoding="utf8") as fh:
-        for text in df['Essay'].astype(str).values:
-            fh.write(text.replace("\n", " ") + "\n")
-    # train: vocab_size choose between 4k-16k depending on dataset; small data -> small vocab
-    spm.SentencePieceTrainer.Train(
-        input=corpus_file,
-        model_prefix=os.path.splitext(SPM_MODEL)[0],
-        vocab_size=4000,
-        character_coverage=1.0,
-        model_type='unigram',  # or 'bpe'
-        user_defined_symbols=[]
-    )
-    print("SentencePiece trained:", SPM_MODEL)
-else:
-    print("Using existing SentencePiece model:", SPM_MODEL)
-
-sp = spm.SentencePieceProcessor()
-sp.load(SPM_MODEL)
-vocab_size = sp.get_piece_size()
-print("SPM vocab size:", vocab_size)
-
-# ---------------------------
-# Tokenize & convert to tensors
-# ---------------------------
-def encode_texts(texts, sp, max_len=MAX_SEQ_LEN):
-    encs = []
-    for t in texts:
-        ids = sp.encode(t, out_type=int)[:max_len]
-        if len(ids) < max_len:
-            ids = ids + [0] * (max_len - len(ids))  # pad id 0 is usually <unk> or first token; ensure consistency
-        encs.append(ids)
-    return torch.tensor(encs, dtype=torch.long)
-
-X_train = encode_texts(train_df['Essay'].astype(str).values, sp)
-y_train = torch.tensor(train_df['Scaled'].values, dtype=torch.float32)
-X_val = encode_texts(val_df['Essay'].astype(str).values, sp)
-y_val = torch.tensor(val_df['Scaled'].values, dtype=torch.float32)
-X_test = encode_texts(test_df['Essay'].astype(str).values, sp)
-y_test = torch.tensor(test_df['Scaled'].values, dtype=torch.float32)
-
-print("Shapes:", X_train.shape, X_val.shape, X_test.shape)
-
-train_loader = DataLoader(TensorDataset(X_train, y_train), batch_size=BATCH_SIZE, shuffle=True, pin_memory=True)
-val_loader = DataLoader(TensorDataset(X_val, y_val), batch_size=BATCH_SIZE, shuffle=False, pin_memory=True)
-test_loader = DataLoader(TensorDataset(X_test, y_test), batch_size=BATCH_SIZE, shuffle=False, pin_memory=True)
-
-# ---------------------------
-# Embeddings: load cached if present OR random init
-# If you have pretrained embeddings matching subword vocab, put them in EMBEDDING_CACHE.
-# ---------------------------
-if os.path.exists(EMBEDDING_CACHE):
-    print("Loading cached embedding matrix...")
-    embedding_matrix = np.load(EMBEDDING_CACHE)
-    assert embedding_matrix.shape == (vocab_size, EMBEDDING_DIM), "Cached embedding shape mismatch"
-    pretrained_embeddings_available = True
-else:
-    print("No cached subword pretrained embeddings found; init random embeddings.")
-    embedding_matrix = np.random.normal(0.0, 0.1, size=(vocab_size, EMBEDDING_DIM)).astype('float32')
-    pretrained_embeddings_available = False
-
-# ---------------------------
-# MODEL INIT
-# ---------------------------
-model = SimpleTransformerForIELTS(
-    vocab_size=vocab_size,
-    d_model=EMBEDDING_DIM,
-    nhead=NHEAD,
-    num_layers=NUM_LAYERS,
-    dropout=DROPOUT,
-    pretrained_embeddings=embedding_matrix if pretrained_embeddings_available else None,
-    learned_pos=False,
-    use_cls=False
-).to(device)
-
-# Freeze embeddings initially if we have pretrained embeddings
-if pretrained_embeddings_available:
-    print("Freezing embedding weights initially (pretrained embeddings).")
-    model.embedding.weight.requires_grad = False
-    embeddings_frozen = True
-else:
-    embeddings_frozen = False
-
-# small safety: ensure embedding dim divisible by nhead (nhead=1 safe)
-assert EMBEDDING_DIM % max(1, NHEAD) == 0, "EMBEDDING_DIM must be divisible by NHEAD"
-
-# ---------------------------
-# Optimizer, scheduler, loss
-# ---------------------------
-optimizer = torch.optim.AdamW(filter(lambda p: p.requires_grad, model.parameters()), lr=LR, weight_decay=WEIGHT_DECAY)
-scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min', factor=0.5, patience=3, verbose=True)
-loss_fn = nn.L1Loss()  # MAE (will also report)
-# or keep SmoothL1Loss if preferred: nn.SmoothL1Loss(beta=0.1)
-
-# ---------------------------
-# Training loop with MAE primary metric and embedding unfreeze logic
-# ---------------------------
-best_val_mae = float('inf')
-epochs_no_improve = 0
-best_model_state = None
-
-for epoch in range(1, EPOCHS + 1):
-    model.train()
-    running_loss = 0.0
-    for xb, yb in train_loader:
-        xb = xb.to(device)
-        yb = yb.to(device)
-        optimizer.zero_grad()
-        preds = model(xb).squeeze()
-        loss = loss_fn(preds, yb)
-        loss.backward()
-        torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
-        optimizer.step()
-        running_loss += loss.item() * xb.size(0)
-    train_mae = running_loss / len(train_loader.dataset)
+class SafeEssayAugmenter:
+    """Conservative augmentation that preserves essay quality."""
     
-    # validation
-    model.eval()
-    val_losses = []
-    val_within05 = []
-    with torch.no_grad():
-        for xb, yb in val_loader:
-            xb = xb.to(device)
-            yb = yb.to(device)
-            preds = model(xb).squeeze()
-            mae_batch = (preds - yb).abs().mean().item()
-            val_losses.append(mae_batch)
-            within05 = ((preds - yb).abs() <= scaled_tolerance).float().mean().item() 
-            val_within05.append(within05)
-    avg_val_mae = float(np.mean(val_losses))
-    avg_within05 = float(np.mean(val_within05))
+    SYNONYMS = {
+        'important': ['crucial', 'significant', 'vital'],
+        'good': ['beneficial', 'positive', 'favorable'],
+        'bad': ['negative', 'harmful', 'detrimental'],
+        'think': ['believe', 'consider', 'argue'],
+        'show': ['demonstrate', 'illustrate', 'indicate'],
+        'many': ['numerous', 'various', 'several'],
+        'people': ['individuals', 'persons'],
+        'because': ['since', 'as'],
+        'also': ['additionally', 'furthermore'],
+    }
     
-    # scheduler step (minimize MAE)
-    scheduler.step(avg_val_mae)
+    def __init__(self, prob=0.15):
+        self.prob = prob
     
-    print(f"Epoch {epoch:3d}/{EPOCHS} | Train MAE: {train_mae:.4f} | Val MAE: {avg_val_mae:.4f} | ±0.5 Acc: {avg_within05:.2%}")
+    def augment_essay(self, essay):
+        if random.random() < self.prob:
+            essay = self._synonym_replacement(essay)
+        return essay
     
-    # check improvement (primary metric)
-    improved = avg_val_mae + 1e-6 < best_val_mae
-    if improved:
-        print(f"  ✓ Val MAE improved: {best_val_mae:.4f} -> {avg_val_mae:.4f}")
-        best_val_mae = avg_val_mae
-        best_model_state = {k: v.cpu().clone() for k, v in model.state_dict().items()}
-        epochs_no_improve = 0
+    def _synonym_replacement(self, essay):
+        words = essay.split()
+        new_words = []
+        replacements = 0
+        max_replacements = len(words) // 5
         
-        # if embeddings were frozen and we see improvement, unfreeze them to fine-tune
-        if pretrained_embeddings_available and embeddings_frozen and UNFREEZE_ON_IMPROVEMENT:
-            print("  -> Unfreezing embedding weights for fine-tuning (validation improved).")
-            model.embedding.weight.requires_grad = True
-            embeddings_frozen = False
-            # re-create optimizer to include embeddings
-            optimizer = torch.optim.AdamW(model.parameters(), lr=LR * 0.5, weight_decay=WEIGHT_DECAY)
-            scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min', factor=0.5, patience=3, verbose=True)
-    else:
-        epochs_no_improve += 1
+        for word in words:
+            word_lower = word.lower().strip('.,!?;:')
+            if (word_lower in self.SYNONYMS and 
+                replacements < max_replacements and 
+                random.random() < 0.3):
+                synonym = random.choice(self.SYNONYMS[word_lower])
+                if word[0].isupper():
+                    synonym = synonym.capitalize()
+                new_words.append(synonym + word[len(word_lower):])
+                replacements += 1
+            else:
+                new_words.append(word)
+        
+        return ' '.join(new_words)
+
+
+def augment_split_safely(train_df, target_factor=1.15):
+    print("\n" + "="*70)
+    print(f"SAFE DATA AUGMENTATION (Train set only, {target_factor}x)")
+    print("="*70)
     
-    if epochs_no_improve >= PATIENCE:
-        print(f"Early stopping: no improvement for {PATIENCE} epochs.")
-        break
+    original_size = len(train_df)
+    target_size = int(original_size * target_factor)
+    num_to_augment = target_size - original_size
+    
+    print(f"Original train size: {original_size}")
+    print(f"Target size: {target_size}")
+    print(f"Samples to augment: {num_to_augment}")
+    
+    augmenter = SafeEssayAugmenter(prob=AUG_PROB)
+    augmented_samples = []
+    
+    for score in sorted(train_df['Overall'].unique()):
+        score_df = train_df[train_df['Overall'] == score]
+        n_samples = int(num_to_augment * len(score_df) / original_size)
+        
+        if n_samples > 0:
+            sampled = score_df.sample(n=min(n_samples, len(score_df)), 
+                                     replace=False, random_state=42)
+            
+            for _, row in sampled.iterrows():
+                aug_essay = augmenter.augment_essay(row['Essay'])
+                augmented_samples.append({
+                    'Essay': aug_essay,
+                    'Overall': row['Overall'],
+                    'Scaled': row['Scaled'],
+                    'is_augmented': True
+                })
+    
+    df_original = train_df.copy()
+    df_original['is_augmented'] = False
+    
+    df_augmented = pd.DataFrame(augmented_samples)
+    df_combined = pd.concat([df_original, df_augmented], ignore_index=True)
+    
+    print(f"\n✓ Final train size: {len(df_combined)}")
+    print(f"✓ Augmented: {len(df_augmented)} samples")
+    
+    return df_combined
 
-# save best model
-if best_model_state is not None:
-    model.load_state_dict(best_model_state)
-torch.save({
-    "model_state_dict": model.state_dict(),
-    "spm_model": SPM_MODEL,
-    "spm_vocab_size": vocab_size,
-    "embedding_dim": EMBEDDING_DIM,
-    "best_val_mae": best_val_mae
-}, MODEL_SAVE)
-print("Saved best model to", MODEL_SAVE)
 
-# ---------------------------
-# Evaluate on holdout test set
-# ---------------------------
-model.eval()
-test_losses = []
-test_within05 = []
-with torch.no_grad():
-    for xb, yb in test_loader:
-        xb = xb.to(device)
-        yb = yb.to(device)
-        preds = model(xb).squeeze()
-        test_losses.append((preds - yb).abs().mean().item())
-        test_within05.append(((preds - yb).abs() <= scaled_tolerance).float().mean().item())
-print(f"Test MAE: {np.mean(test_losses):.4f} | Test ±0.5 Acc: {np.mean(test_within05):.2%}")
+# ============================================================================
+# FEATURE EXTRACTION
+# ============================================================================
+
+def extract_linguistic_features(essay):
+    """Extract hand-crafted features."""
+    features = []
+    
+    words = essay.split()
+    sentences = re.split(r'[.!?]+', essay)
+    sentences = [s.strip() for s in sentences if s.strip()]
+    
+    word_count = len(words)
+    sent_count = len(sentences) if sentences else 1
+    
+    normalized_wc = (word_count - 200) / 50.0  
+    features.append(normalized_wc)
+    
+    features.append(sent_count)
+    features.append(word_count / sent_count)
+    
+    unique_words = len(set(w.lower() for w in words))
+    features.append(unique_words / max(word_count, 1))
+    
+    features.append(len(essay))
+    features.append(sum(1 for c in essay if c.isupper()) / max(len(essay), 1))
+    
+    features.append(essay.count(',') / max(word_count, 1))
+    features.append(essay.count('.') / max(sent_count, 1))
+    
+    avg_word_len = sum(len(w) for w in words) / max(word_count, 1)
+    features.append(avg_word_len)
+    
+    transition_words = {
+        'however', 'moreover', 'furthermore', 'therefore', 'consequently',
+        'nevertheless', 'additionally', 'specifically', 'particularly'
+    }
+    transition_count = sum(1 for w in words if w.lower() in transition_words)
+    features.append(transition_count / max(word_count, 1))
+    
+    return np.array(features, dtype='float32')
+
+
+def normalize_features(features_list):
+    features = np.array(features_list)
+    mean = features.mean(axis=0)
+    std = features.std(axis=0) + 1e-8
+    normalized = (features - mean) / std
+    return normalized, mean, std
+
+
+# ============================================================================
+# MAIN TRAINING
+# ============================================================================
+
+def main():
+    print("\n" + "="*70)
+    print("LOADING BALANCED DATASET")
+    print("="*70)
+    
+    if not os.path.exists(HF_DATA_PATH):
+        print(f"\n ERROR: Balanced data not found at {HF_DATA_PATH}")
+        print("   Run this first: python utils/prepare_balanced_data.py")
+        return
+    
+    df = pd.read_csv(HF_DATA_PATH)
+    df = df[['Essay', 'Overall']].dropna()
+    df['Scaled'] = df['Overall'] / 9.0
+    
+    df = df[~df.duplicated(subset=['Essay'], keep='first')].reset_index(drop=True)
+    print(f"✓ Loaded {len(df)} unique samples")
+    print(f"✓ Score range: {df['Overall'].min():.1f} - {df['Overall'].max():.1f}")
+    
+    # Calculate word count stats
+    word_counts = df['Essay'].apply(lambda x: len(x.split()))
+    print(f"✓ Word count: {word_counts.mean():.0f} ± {word_counts.std():.0f}")
+    
+    print("\n" + "="*70)
+    print("SPLITTING DATA (BEFORE AUGMENTATION)")
+    print("="*70)
+    
+    train_df, val_df = train_test_split(
+        df,
+        test_size=0.15,
+        random_state=42,
+        stratify=df['Overall'].round()
+    )
+    
+    print(f"Original split:")
+    print(f"  Train: {len(train_df)} samples")
+    print(f"  Val:   {len(val_df)} samples")
+    
+    # Augment only training set
+    train_df_augmented = augment_split_safely(train_df, target_factor=AUGMENTATION_FACTOR)
+    
+    # Verify no overlap
+    train_texts = set(train_df_augmented['Essay'].str.strip().str.lower())
+    val_texts = set(val_df['Essay'].str.strip().str.lower())
+    overlap = train_texts & val_texts
+    print(f"\n Data leakage check: {len(overlap)} overlaps (should be 0!)")
+    
+    # Tokenization
+    print("\n" + "="*70)
+    print("TOKENIZATION")
+    print("="*70)
+    
+    sp = spm.SentencePieceProcessor(model_file=SPM_MODEL)
+    vocab_size = sp.get_piece_size()
+    
+    def tokenise_with_mask(essays, max_len=MAX_SEQ_LEN):
+        encoded, masks = [], []
+        for e in essays:
+            ids = sp.encode(e, out_type=int)[:max_len]
+            mask = [1] * len(ids) + [0] * (max_len - len(ids))
+            padded = ids + [0] * (max_len - len(ids))
+            encoded.append(padded)
+            masks.append(mask)
+        return torch.tensor(encoded), torch.tensor(masks)
+    
+    X_train, X_train_mask = tokenise_with_mask(train_df_augmented['Essay'].values)
+    X_val, X_val_mask = tokenise_with_mask(val_df['Essay'].values)
+    
+    # Feature extraction
+    print("Extracting features...")
+    train_features = [extract_linguistic_features(e) for e in train_df_augmented['Essay'].values]
+    val_features = [extract_linguistic_features(e) for e in val_df['Essay'].values]
+    
+    train_features_norm, feat_mean, feat_std = normalize_features(train_features)
+    val_features_norm = (np.array(val_features) - feat_mean) / feat_std
+    
+    np.save(os.path.join(project_root, "features_mean_improved.npy"), feat_mean)
+    np.save(os.path.join(project_root, "features_std_improved.npy"), feat_std)
+    
+    X_train_feat = torch.tensor(train_features_norm, dtype=torch.float32)
+    X_val_feat = torch.tensor(val_features_norm, dtype=torch.float32)
+    
+    y_train = torch.tensor(train_df_augmented['Scaled'].values, dtype=torch.float32)
+    y_val = torch.tensor(val_df['Scaled'].values, dtype=torch.float32)
+    
+    # Create dataloaders
+    train_dataset = TensorDataset(X_train, X_train_mask, X_train_feat, y_train)
+    val_dataset = TensorDataset(X_val, X_val_mask, X_val_feat, y_val)
+    
+    train_loader = DataLoader(train_dataset, batch_size=BATCH_SIZE, shuffle=True)
+    val_loader = DataLoader(val_dataset, batch_size=BATCH_SIZE)
+    
+    # Load embeddings
+    embedding_matrix = np.load(embedding_cache)
+    print(f"\n✓ Loaded FastText embeddings: {embedding_matrix.shape}")
+    
+    # Initialize model
+    print("\n" + "="*70)
+    print("INITIALIZING MODEL (FROZEN EMBEDDINGS)")
+    print("="*70)
+    
+    model = IELTSTransformerWithFeatures(
+        vocab_size=vocab_size,
+        d_model=EMBEDDING_DIM,
+        nhead=6,
+        num_layers=3,
+        max_len=MAX_SEQ_LEN,
+        dropout=DROPOUT,
+        pretrained_embeddings=embedding_matrix
+    ).to(device)
+    
+    # FREEZE EMBEDDINGS
+    model.transformer.embedding.weight.requires_grad = False
+    print("Embeddings frozen (not trainable)")
+    
+    trainable_params = sum(p.numel() for p in model.parameters() if p.requires_grad)
+    total_params = sum(p.numel() for p in model.parameters())
+    print(f"Trainable parameters: {trainable_params:,} / {total_params:,}")
+    
+    # Training setup
+    optimizer = torch.optim.AdamW(
+        filter(lambda p: p.requires_grad, model.parameters()),
+        lr=LEARNING_RATE,
+        weight_decay=WEIGHT_DECAY,
+        betas=(0.9, 0.999)
+    )
+    
+    def get_lr_scheduler(optimizer, num_warmup_steps, num_training_steps):
+        def lr_lambda(current_step):
+            if current_step < num_warmup_steps:
+                return float(current_step) / float(max(1, num_warmup_steps))
+            progress = float(current_step - num_warmup_steps) / float(max(1, num_training_steps - num_warmup_steps))
+            return max(0.1, 0.5 * (1.0 + np.cos(np.pi * progress)))
+        return torch.optim.lr_scheduler.LambdaLR(optimizer, lr_lambda)
+    
+    total_steps = len(train_loader) * EPOCHS
+    warmup_steps = len(train_loader) * WARMUP_EPOCHS
+    scheduler = get_lr_scheduler(optimizer, warmup_steps, total_steps)
+    
+    loss_fn = nn.SmoothL1Loss(beta=0.08)
+    
+    scaled_tolerance_05 = 0.5 / 9.0
+    scaled_tolerance_10 = 1.0 / 9.0
+    
+    # Training loop
+    print("\n" + "="*70)
+    print("STARTING TRAINING")
+    print("="*70 + "\n")
+    
+    best_val_mae = float('inf')
+    epochs_without_improvement = 0
+    
+    training_history = {
+        'train_loss': [],
+        'val_loss': [],
+        'val_mae': [],
+        'val_within_05': [],
+        'val_within_10': []
+    }
+    
+    for epoch in range(EPOCHS):
+        # Training
+        model.train()
+        running_loss = 0.0
+        
+        pbar = tqdm(train_loader, desc=f"Epoch {epoch+1}/{EPOCHS}")
+        for xb, mask, feat, yb in pbar:
+            xb, mask, feat, yb = xb.to(device), mask.to(device), feat.to(device), yb.to(device)
+            
+            optimizer.zero_grad()
+            preds = model(xb, feat, mask).squeeze()
+            loss = loss_fn(preds, yb)
+            loss.backward()
+            
+            torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
+            optimizer.step()
+            scheduler.step()
+            
+            running_loss += loss.item() * xb.size(0)
+            pbar.set_postfix({'loss': f'{loss.item():.4f}'})
+        
+        avg_train_loss = running_loss / len(train_loader.dataset)
+        
+        # Validation
+        model.eval()
+        val_losses, val_maes = [], []
+        total_samples = 0
+        correct_05 = 0
+        correct_10 = 0
+
+        with torch.no_grad():
+            for xb, mask, feat, yb in val_loader:
+                xb, mask, feat, yb = xb.to(device), mask.to(device), feat.to(device), yb.to(device)
+
+                preds = model(xb, feat, mask).squeeze()
+
+                # Loss + MAE
+                val_losses.append(loss_fn(preds, yb).item())
+                val_maes.append((preds - yb).abs().mean().item())
+
+                # Absolute error
+                abs_err = (preds - yb).abs()
+
+                # Count correct samples globally
+                correct_05 += (abs_err <= scaled_tolerance_05).sum().item()
+                correct_10 += (abs_err <= scaled_tolerance_10).sum().item()
+                total_samples += yb.size(0)
+
+                # OPTIONAL: debug print first batch of first epoch
+                if epoch == 0 and len(val_losses) == 1:
+                    print("\nSample preds vs truth (FIRST BATCH):")
+                    for p, t in zip(preds[:10], yb[:10]):
+                        print(f"Pred: {p.item()*9:.2f}, True: {t.item()*9:.2f}")
+
+        avg_val_loss = np.mean(val_losses)
+        avg_val_mae = np.mean(val_maes)
+        avg_within_05 = correct_05 / total_samples
+        avg_within_10 = correct_10 / total_samples
+ 
+        
+        training_history['train_loss'].append(avg_train_loss)
+        training_history['val_loss'].append(avg_val_loss)
+        training_history['val_mae'].append(avg_val_mae)
+        training_history['val_within_05'].append(avg_within_05)
+        training_history['val_within_10'].append(avg_within_10)
+        
+        current_lr = optimizer.param_groups[0]['lr']
+        
+        print(f"Epoch {epoch+1}/{EPOCHS} | LR: {current_lr:.2e} | "
+              f"Train: {avg_train_loss:.4f} | Val: {avg_val_loss:.4f} | "
+              f"MAE: {avg_val_mae:.4f} ({avg_val_mae*9:.3f} bands) | "
+              f"±0.5: {avg_within_05:.2%} | ±1.0: {avg_within_10:.2%}")
+        
+        # Save best model
+        if avg_val_mae < best_val_mae:
+            best_val_mae = avg_val_mae
+            epochs_without_improvement = 0
+            
+            torch.save({
+                'epoch': epoch + 1,
+                'model_state_dict': model.state_dict(),
+                'optimizer_state_dict': optimizer.state_dict(),
+                'best_val_mae': best_val_mae,
+                'vocab_size': vocab_size,
+                'embedding_dim': EMBEDDING_DIM,
+                'training_history': training_history
+            }, model_save_path)
+            
+            print(f"  ✅ New best MAE: {best_val_mae:.4f} ({best_val_mae*9:.3f} bands)")
+        else:
+            epochs_without_improvement += 1
+        
+        if epochs_without_improvement >= EARLY_STOP_PATIENCE:
+            print(f"\n⚠️  Early stopping at epoch {epoch+1}")
+            break
+    
+    print("\n" + "="*70)
+    print("TRAINING COMPLETE")
+    print("="*70)
+    print(f"Best Val MAE: {best_val_mae:.4f} (scaled) = {best_val_mae*9:.3f} IELTS bands")
+    print(f"✓ Model saved to: {model_save_path}")
+
+
+if __name__ == "__main__":
+    main()

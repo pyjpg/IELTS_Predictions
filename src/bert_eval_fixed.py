@@ -16,7 +16,7 @@ from tqdm import tqdm
 # CONFIGURATION
 # ============================================================================
 project_root = "/home/mastermind/ielts_pred"
-model_checkpoint = "src/model/bert_ielts_model_v2.pt"
+model_checkpoint = "src/model/bert_ielts_model_v2.pt"  # v2 model
 features_mean_path = os.path.join(project_root, "bert_features_mean.npy")
 features_std_path = os.path.join(project_root, "bert_features_std.npy")
 
@@ -54,48 +54,54 @@ def extract_linguistic_features(essay):
 
 
 # ============================================================================
-# MODEL DEFINITION
+# MODEL DEFINITION - V2 ARCHITECTURE (MUST MATCH TRAINING!)
 # ============================================================================
 class BERTIELTSScorer(nn.Module):
-    """BERT-based IELTS scorer."""
+    """V2 BERT-based IELTS scorer with BatchNorm and simplified architecture."""
     def __init__(
         self,
         bert_model_name="distilbert-base-uncased",
         num_features=10,
-        dropout=0.3,
-        freeze_bert=False
+        dropout=0.4,
+        freeze_bert_layers=4
     ):
         super().__init__()
         
         self.bert = AutoModel.from_pretrained(bert_model_name)
         
-        if freeze_bert:
-            for param in self.bert.parameters():
-                param.requires_grad = False
+        # Freeze early BERT layers
+        if freeze_bert_layers > 0:
+            for i, layer in enumerate(self.bert.transformer.layer):
+                if i < freeze_bert_layers:
+                    for param in layer.parameters():
+                        param.requires_grad = False
         
         self.bert_hidden_size = self.bert.config.hidden_size
         
+        # Feature network with BatchNorm (v2)
         self.feature_network = nn.Sequential(
             nn.Linear(num_features, 64),
-            nn.LayerNorm(64),
+            nn.BatchNorm1d(64),
             nn.ReLU(),
             nn.Dropout(dropout),
             nn.Linear(64, 32),
-            nn.LayerNorm(32),
-            nn.ReLU()
+            nn.BatchNorm1d(32),
+            nn.ReLU(),
+            nn.Dropout(dropout * 0.5)
         )
         
+        # Simplified prediction head (v2: 128→32)
         combined_size = self.bert_hidden_size + 32
         self.prediction_head = nn.Sequential(
-            nn.Linear(combined_size, 256),
-            nn.LayerNorm(256),
+            nn.Linear(combined_size, 128),
+            nn.BatchNorm1d(128),
             nn.ReLU(),
             nn.Dropout(dropout),
-            nn.Linear(256, 64),
-            nn.LayerNorm(64),
+            nn.Linear(128, 32),
+            nn.BatchNorm1d(32),
             nn.ReLU(),
-            nn.Dropout(dropout),
-            nn.Linear(64, 1)
+            nn.Dropout(dropout * 0.5),
+            nn.Linear(32, 1)
         )
         
     def forward(self, input_ids, attention_mask, features):
@@ -163,6 +169,7 @@ def evaluate_dataset(model, dataloader, dataset_name="Dataset"):
     model.eval()
     all_preds = []
     all_true = []
+    all_preds_scaled = []  # Keep scaled predictions for debugging
     
     with torch.no_grad():
         for input_ids, attention_mask, features, y in tqdm(dataloader, desc=f"Evaluating"):
@@ -170,14 +177,27 @@ def evaluate_dataset(model, dataloader, dataset_name="Dataset"):
             attention_mask = attention_mask.to(device)
             features = features.to(device)
             
+            # Model outputs in [0,1] range (scaled)
             pred_scaled = model(input_ids, attention_mask, features)
+            
+            # Convert to IELTS bands [1,9]
             pred = (pred_scaled.cpu().numpy() * 9.0).clip(1, 9)
             
             all_preds.extend(pred)
+            all_preds_scaled.extend(pred_scaled.cpu().numpy())
             all_true.extend(y.numpy())
     
     y_pred = np.array(all_preds)
     y_true = np.array(all_true)
+    y_pred_scaled = np.array(all_preds_scaled)
+    
+    # Debug: Check prediction ranges
+    print(f"\n🔍 Debug Info:")
+    print(f"  Scaled predictions range: [{y_pred_scaled.min():.3f}, {y_pred_scaled.max():.3f}]")
+    print(f"  Final predictions range: [{y_pred.min():.3f}, {y_pred.max():.3f}]")
+    print(f"  True values range: [{y_true.min():.3f}, {y_true.max():.3f}]")
+    print(f"  Mean prediction: {y_pred.mean():.3f}")
+    print(f"  Mean true value: {y_true.mean():.3f}")
     
     # Calculate metrics
     mae = mean_absolute_error(y_true, y_pred)
@@ -204,83 +224,109 @@ def evaluate_dataset(model, dataloader, dataset_name="Dataset"):
 
 
 # ============================================================================
-# LOAD AND PREPARE DATA (NO STRATIFICATION FOR SMALL DATASETS)
+# MAIN EVALUATION
 # ============================================================================
-def load_and_prepare_data(csv_path, tokenizer, feat_mean, feat_std, test_size=0.15):
-    """Load data and create dataloader. Handles small datasets gracefully."""
-    print(f"\nLoading data from: {csv_path}")
+def main():
+    print("="*70)
+    print("LOADING V2 MODEL")
+    print("="*70)
     
+    full_checkpoint_path = os.path.join(project_root, model_checkpoint)
+    
+    if not os.path.exists(full_checkpoint_path):
+        print(f"❌ Error: Model not found at {full_checkpoint_path}")
+        print(f"   Please check the path or train the model first.")
+        return
+    
+    checkpoint = torch.load(full_checkpoint_path, map_location=device)
+    bert_model_name = checkpoint.get('bert_model_name', 'distilbert-base-uncased')
+    
+    print(f"BERT model: {bert_model_name}")
+    print(f"Best val MAE from training: {checkpoint.get('best_val_mae', 'N/A'):.4f} "
+          f"({checkpoint.get('best_val_mae', 0)*9:.3f} bands)")
+    print(f"Training epoch: {checkpoint.get('epoch', 'N/A')}")
+    
+    # Check architecture
+    state_dict = checkpoint['model_state_dict']
+    pred_head_shape = state_dict['prediction_head.0.weight'].shape
+    print(f"Detected architecture: {'v2 (128 units)' if pred_head_shape[0] == 128 else 'v1 (256 units)'}")
+    
+    if pred_head_shape[0] != 128:
+        print("⚠️  Warning: This model appears to be v1, not v2!")
+        print("   Use the bert_ielts_model.pt checkpoint or retrain with v2 script.")
+        return
+    
+    tokenizer = AutoTokenizer.from_pretrained(bert_model_name)
+    
+    # Initialize v2 model
+    model = BERTIELTSScorer(
+        bert_model_name=bert_model_name,
+        num_features=10,
+        dropout=0.4,
+        freeze_bert_layers=4
+    )
+    
+    # Load state dict
+    try:
+        model.load_state_dict(checkpoint['model_state_dict'])
+        print("✓ Model loaded successfully")
+    except Exception as e:
+        print(f"❌ Error loading model: {e}")
+        print("\nModel architecture mismatch!")
+        return
+    
+    model.to(device)
+    model.eval()
+    
+    # Load feature normalization
+    feat_mean = np.load(features_mean_path)
+    feat_std = np.load(features_std_path)
+    
+    # Load and evaluate data
+    print("\n" + "="*70)
+    print("LOADING DATA")
+    print("="*70)
+    
+    csv_path = os.path.join(project_root, "data/predictions_hf_converted.csv")
     df = pd.read_csv(csv_path)
     df = df[['Essay', 'Overall']].dropna()
     df = df[~df.duplicated(subset=['Essay'], keep='first')].reset_index(drop=True)
     
     print(f"Total samples: {len(df)}")
     
-    # Check class distribution
-    class_counts = df['Overall'].round().value_counts()
-    min_class_count = class_counts.min()
+    # Use same split as training (80/20)
+    from sklearn.model_selection import train_test_split
+    train_df, test_df = train_test_split(
+        df,
+        test_size=0.2,
+        random_state=42,
+        stratify=df['Overall'].round()
+    )
     
-    print(f"\nClass distribution:")
-    print(class_counts.sort_index())
+    print(f"Train: {len(train_df)} samples")
+    print(f"Test: {len(test_df)} samples")
     
-    # Decide whether to split based on dataset size and class distribution
-    if len(df) < 100 or min_class_count < 2:
-        print(f"\n⚠️  Dataset too small or imbalanced for splitting (min class: {min_class_count})")
-        print("Evaluating on entire dataset (no train/test split)")
-        
-        dataset = IELTSDataset(df['Essay'].values, df['Overall'].values)
-        collate_fn = create_collate_fn(tokenizer, feat_mean, feat_std, MAX_SEQ_LEN)
-        dataloader = DataLoader(dataset, batch_size=BATCH_SIZE, shuffle=False, collate_fn=collate_fn)
-        
-        return {'full': dataloader}, df
+    collate_fn = create_collate_fn(tokenizer, feat_mean, feat_std, MAX_SEQ_LEN)
     
-    else:
-        print("\n✓ Sufficient data for train/test split")
-        
-        # Try stratified split, fall back to random if it fails
-        try:
-            from sklearn.model_selection import train_test_split
-            train_df, test_df = train_test_split(
-                df,
-                test_size=test_size,
-                random_state=42,
-                stratify=df['Overall'].round()
-            )
-            print(f"Train: {len(train_df)}, Test: {len(test_df)} (stratified)")
-        except ValueError as e:
-            print(f"⚠️  Stratified split failed: {e}")
-            print("Using random split instead")
-            from sklearn.model_selection import train_test_split
-            train_df, test_df = train_test_split(
-                df,
-                test_size=test_size,
-                random_state=42
-            )
-            print(f"Train: {len(train_df)}, Test: {len(test_df)} (random)")
-        
-        collate_fn = create_collate_fn(tokenizer, feat_mean, feat_std, MAX_SEQ_LEN)
-        
-        train_dataset = IELTSDataset(train_df['Essay'].values, train_df['Overall'].values)
-        test_dataset = IELTSDataset(test_df['Essay'].values, test_df['Overall'].values)
-        
-        train_loader = DataLoader(train_dataset, batch_size=BATCH_SIZE, shuffle=False, collate_fn=collate_fn)
-        test_loader = DataLoader(test_dataset, batch_size=BATCH_SIZE, shuffle=False, collate_fn=collate_fn)
-        
-        return {'train': train_loader, 'test': test_loader}, df
-
-
-# ============================================================================
-# VISUALIZATION
-# ============================================================================
-def plot_results(results_dict, save_path='bert_evaluation_comparison.png'):
-    """Plot scatter plots for all evaluated datasets."""
-    n_datasets = len(results_dict)
-    fig, axes = plt.subplots(1, n_datasets, figsize=(6*n_datasets, 5))
+    train_dataset = IELTSDataset(train_df['Essay'].values, train_df['Overall'].values)
+    test_dataset = IELTSDataset(test_df['Essay'].values, test_df['Overall'].values)
     
-    if n_datasets == 1:
-        axes = [axes]
+    train_loader = DataLoader(train_dataset, batch_size=BATCH_SIZE, shuffle=False, collate_fn=collate_fn)
+    test_loader = DataLoader(test_dataset, batch_size=BATCH_SIZE, shuffle=False, collate_fn=collate_fn)
     
-    for idx, (name, (y_true, y_pred, metrics)) in enumerate(results_dict.items()):
+    # Evaluate
+    all_results = {}
+    
+    train_true, train_pred, train_metrics = evaluate_dataset(model, train_loader, "Train Set")
+    all_results['Train'] = (train_true, train_pred, train_metrics)
+    
+    test_true, test_pred, test_metrics = evaluate_dataset(model, test_loader, "Test Set")
+    all_results['Test'] = (test_true, test_pred, test_metrics)
+    
+    # Visualization
+    fig, axes = plt.subplots(1, 2, figsize=(12, 5))
+    
+    for idx, (name, (y_true, y_pred, metrics)) in enumerate(all_results.items()):
         ax = axes[idx]
         ax.scatter(y_true, y_pred, alpha=0.4, s=30)
         ax.plot([1, 9], [1, 9], 'r--', linewidth=2)
@@ -292,80 +338,28 @@ def plot_results(results_dict, save_path='bert_evaluation_comparison.png'):
         ax.set_ylim(0.5, 9.5)
     
     plt.tight_layout()
-    plt.savefig(save_path, dpi=150, bbox_inches='tight')
-    print(f"\n✓ Saved: {save_path}")
-    plt.show()
-
-
-# ============================================================================
-# MAIN EVALUATION
-# ============================================================================
-def main():
-    # Define datasets to evaluate
-    datasets_to_eval = [
-        ("Original Training Data", "data/predictions_hf_converted.csv"),
-        # Add more datasets here as needed
-        # ("New Dataset 1", "data/new_dataset_1.csv"),
-        # ("New Dataset 2", "data/new_dataset_2.csv"),
-    ]
+    plt.savefig('bert_v2_evaluation.png', dpi=150, bbox_inches='tight')
+    print(f"\n✓ Saved: bert_v2_evaluation.png")
     
+    # Summary
+    print("\n" + "="*70)
+    print("SUMMARY")
     print("="*70)
-    print("LOADING MODEL")
-    print("="*70)
+    print(f"{'Split':<10} {'MAE':>8} {'R²':>8} {'±0.5 Acc':>10} {'±1.0 Acc':>10}")
+    print("-" * 50)
+    for name, (_, _, metrics) in all_results.items():
+        print(f"{name:<10} {metrics['mae']:>8.3f} {metrics['r2']:>8.3f} "
+              f"{metrics['within_05']:>9.1%} {metrics['within_10']:>9.1%}")
     
-    checkpoint = torch.load(model_checkpoint, map_location=device)
-    bert_model_name = checkpoint.get('bert_model_name', 'distilbert-base-uncased')
-    
-    print(f"BERT model: {bert_model_name}")
-    print(f"Best val MAE from training: {checkpoint.get('best_val_mae', 'N/A'):.4f}")
-    
-    tokenizer = AutoTokenizer.from_pretrained(bert_model_name)
-    
-    model = BERTIELTSScorer(
-        bert_model_name=bert_model_name,
-        num_features=10,
-        dropout=0.3
-    )
-    model.load_state_dict(checkpoint['model_state_dict'])
-    model.to(device)
-    model.eval()
-    
-    print("✓ Model loaded successfully\n")
-    
-    # Load feature normalization
-    feat_mean = np.load(features_mean_path)
-    feat_std = np.load(features_std_path)
-    
-    # Evaluate each dataset
-    all_results = {}
-    
-    for dataset_name, csv_path in datasets_to_eval:
-        full_path = os.path.join(project_root, csv_path) if not os.path.isabs(csv_path) else csv_path
-        
-        if not os.path.exists(full_path):
-            print(f"\n⚠️  File not found: {full_path}")
-            continue
-        
-        loaders, df = load_and_prepare_data(full_path, tokenizer, feat_mean, feat_std)
-        
-        for split_name, loader in loaders.items():
-            result_key = f"{dataset_name} - {split_name}" if len(loaders) > 1 else dataset_name
-            y_true, y_pred, metrics = evaluate_dataset(model, loader, result_key)
-            all_results[result_key] = (y_true, y_pred, metrics)
-    
-    # Plot comparison
-    if all_results:
-        plot_results(all_results)
-        
-        # Summary table
-        print("\n" + "="*70)
-        print("SUMMARY TABLE")
-        print("="*70)
-        print(f"{'Dataset':<40} {'MAE':>8} {'R²':>8} {'±0.5 Acc':>10} {'±1.0 Acc':>10}")
-        print("-" * 70)
-        for name, (_, _, metrics) in all_results.items():
-            print(f"{name:<40} {metrics['mae']:>8.3f} {metrics['r2']:>8.3f} "
-                  f"{metrics['within_05']:>9.1%} {metrics['within_10']:>9.1%}")
+    # Overfitting check
+    gap = train_metrics['mae'] - test_metrics['mae']
+    print(f"\nTrain-Test Gap: {gap:.3f} bands")
+    if abs(gap) < 0.15:
+        print("✅ Excellent generalization")
+    elif abs(gap) < 0.3:
+        print("⚠️  Moderate overfitting")
+    else:
+        print("❌ Significant overfitting")
     
     print("\n✓ Evaluation complete!")
 

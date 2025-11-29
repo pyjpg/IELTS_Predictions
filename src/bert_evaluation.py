@@ -15,8 +15,18 @@ from tqdm import tqdm
 # ============================================================================
 # CONFIGURATION
 # ============================================================================
+import sys
+
 project_root = "/home/mastermind/ielts_pred"
-model_checkpoint = "src/model/bert_ielts_model_v2.pt"
+
+# Allow command-line argument to specify model version
+# Usage: python -m src.bert_evaluation v2
+#        python -m src.bert_evaluation v1
+model_version = sys.argv[1] if len(sys.argv) > 1 else "v2"
+model_checkpoint = f"src/model/bert_ielts_model_{model_version}.pt" if model_version != "v1" else "src/model/bert_ielts_model.pt"
+
+print(f"Loading model: {model_checkpoint}")
+
 features_mean_path = os.path.join(project_root, "bert_features_mean.npy")
 features_std_path = os.path.join(project_root, "bert_features_std.npy")
 
@@ -54,20 +64,23 @@ def extract_linguistic_features(essay):
 
 
 # ============================================================================
-# MODEL DEFINITION
+# MODEL DEFINITION (Supports both v1 and v2 architectures)
 # ============================================================================
 class BERTIELTSScorer(nn.Module):
-    """BERT-based IELTS scorer."""
+    """BERT-based IELTS scorer with support for multiple architectures."""
     def __init__(
         self,
         bert_model_name="distilbert-base-uncased",
         num_features=10,
         dropout=0.3,
-        freeze_bert=False
+        freeze_bert=False,
+        use_batch_norm=False,  # v2 uses BatchNorm, v1 uses LayerNorm
+        architecture_version="v1"  # "v1" or "v2"
     ):
         super().__init__()
         
         self.bert = AutoModel.from_pretrained(bert_model_name)
+        self.architecture_version = architecture_version
         
         if freeze_bert:
             for param in self.bert.parameters():
@@ -75,28 +88,72 @@ class BERTIELTSScorer(nn.Module):
         
         self.bert_hidden_size = self.bert.config.hidden_size
         
-        self.feature_network = nn.Sequential(
-            nn.Linear(num_features, 64),
-            nn.LayerNorm(64),
-            nn.ReLU(),
-            nn.Dropout(dropout),
-            nn.Linear(64, 32),
-            nn.LayerNorm(32),
-            nn.ReLU()
-        )
+        # Feature network
+        if use_batch_norm:
+            self.feature_network = nn.Sequential(
+                nn.Linear(num_features, 64),
+                nn.BatchNorm1d(64),
+                nn.ReLU(),
+                nn.Dropout(dropout),
+                nn.Linear(64, 32),
+                nn.BatchNorm1d(32),
+                nn.ReLU(),
+                nn.Dropout(dropout * 0.5)
+            )
+        else:
+            self.feature_network = nn.Sequential(
+                nn.Linear(num_features, 64),
+                nn.LayerNorm(64),
+                nn.ReLU(),
+                nn.Dropout(dropout),
+                nn.Linear(64, 32),
+                nn.LayerNorm(32),
+                nn.ReLU()
+            )
         
         combined_size = self.bert_hidden_size + 32
-        self.prediction_head = nn.Sequential(
-            nn.Linear(combined_size, 256),
-            nn.LayerNorm(256),
-            nn.ReLU(),
-            nn.Dropout(dropout),
-            nn.Linear(256, 64),
-            nn.LayerNorm(64),
-            nn.ReLU(),
-            nn.Dropout(dropout),
-            nn.Linear(64, 1)
-        )
+        
+        # Prediction head - different architectures for v1 and v2
+        if architecture_version == "v2":
+            # v2: Simplified architecture with BatchNorm
+            if use_batch_norm:
+                self.prediction_head = nn.Sequential(
+                    nn.Linear(combined_size, 128),
+                    nn.BatchNorm1d(128),
+                    nn.ReLU(),
+                    nn.Dropout(dropout),
+                    nn.Linear(128, 32),
+                    nn.BatchNorm1d(32),
+                    nn.ReLU(),
+                    nn.Dropout(dropout * 0.5),
+                    nn.Linear(32, 1)
+                )
+            else:
+                # Fallback if BatchNorm not requested
+                self.prediction_head = nn.Sequential(
+                    nn.Linear(combined_size, 128),
+                    nn.LayerNorm(128),
+                    nn.ReLU(),
+                    nn.Dropout(dropout),
+                    nn.Linear(128, 32),
+                    nn.LayerNorm(32),
+                    nn.ReLU(),
+                    nn.Dropout(dropout),
+                    nn.Linear(32, 1)
+                )
+        else:
+            # v1: Original architecture
+            self.prediction_head = nn.Sequential(
+                nn.Linear(combined_size, 256),
+                nn.LayerNorm(256),
+                nn.ReLU(),
+                nn.Dropout(dropout),
+                nn.Linear(256, 64),
+                nn.LayerNorm(64),
+                nn.ReLU(),
+                nn.Dropout(dropout),
+                nn.Linear(64, 1)
+            )
         
     def forward(self, input_ids, attention_mask, features):
         bert_output = self.bert(
@@ -316,15 +373,23 @@ def main():
     checkpoint = torch.load(model_checkpoint, map_location=device)
     bert_model_name = checkpoint.get('bert_model_name', 'distilbert-base-uncased')
     
+    # Detect model version from checkpoint or filename
+    is_v2 = 'v2' in model_checkpoint or model_version == 'v2'
+    arch_version = "v2" if is_v2 else "v1"
+    
     print(f"BERT model: {bert_model_name}")
+    print(f"Architecture: {arch_version}")
     print(f"Best val MAE from training: {checkpoint.get('best_val_mae', 'N/A'):.4f}")
     
     tokenizer = AutoTokenizer.from_pretrained(bert_model_name)
     
+    # Initialize model with correct architecture
     model = BERTIELTSScorer(
         bert_model_name=bert_model_name,
         num_features=10,
-        dropout=0.3
+        dropout=0.4 if is_v2 else 0.3,  # v2 uses higher dropout
+        use_batch_norm=is_v2,  # v2 uses BatchNorm
+        architecture_version=arch_version
     )
     model.load_state_dict(checkpoint['model_state_dict'])
     model.to(device)
