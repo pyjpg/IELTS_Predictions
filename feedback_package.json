@@ -1,0 +1,3071 @@
+{
+  "metadata": {
+    "model": "v3",
+    "num_essays": 10
+  },
+  "essays": [
+    {
+      "id": 0,
+      "essay": "In this contemporary world,where everyone wants to do things as quickly as they can in order to sustain  the fast-forwarding pace. The major reason behind it is the hectic schedule public is having. I personally feel it is the main factor but there are other explanations as well. In this ,essay I will explain all the causes concerning the event. In my opinion, I firmly believe that this phenomenon has more positive sides as compared to positive ones.\n\n Apparently, an increasing number of folks are preferring speedy actions and reactions. Although the introduction of new technology has accelerated our way of life. The unprecedented advancement of communication and automation technology has made communities' growth faster and more comfortable than ever before. Regardless of the distance between they can set up real-time audio-visual contact and get constant updates on different activities. Secondly, automation is another groundbreaking innovation which has made people's daily activities enjoyable that were once even beyond  imagination. For example, washing machines, Electronic Cookware, Re-refrigerator,air-conditioning systems and the list is endless. \n\n There are ,however, some pitfalls that can easily overwhelm the potential benefits of this trend. The primary one is fostering dreadful cybercrimes and promoting a sedentary lifestyle prone to chronic disease. Through digital platforms such as the internet or mobile phones, cybercriminals can attack individuals by sending hurtful text messages  and using unauthorised photos or videos. It has been proven in a recent survey that excessive dependency on machinery has led many people to become physically inactive,doubling the risk of obesity, diabetes, cardiovascular disease, depression and more. Therefore, the fast and automatic lifestyle has brought an incredible pace at the expense of health and safety.\n\nIn conclusion, although,  fast-paced behaviour has brought our daily lives a rhythm of speed and comfort.It has also been accused of inviting threats to life. Hence, considering all factors I firmly believe that this quick responsive behaviour is on balance a negative development.",
+      "true_score": 5.5,
+      "predicted_score": 6.969717979431152,
+      "feedback": {
+        "summary": {
+          "predicted_overall": 6.969717979431152,
+          "key_weaknesses": [
+            [
+              "grammar",
+              "top_errors",
+              {
+                "categories": [
+                  "TYPOGRAPHY",
+                  "PUNCTUATION",
+                  "MISC"
+                ]
+              }
+            ]
+          ]
+        },
+        "coherence_cohesion": {
+          "overall_score": 7.8,
+          "component_scores": {
+            "paragraph_structure": 7.2,
+            "linking_devices": 9,
+            "referential_cohesion": 9,
+            "logical_flow": 5.1
+          },
+          "detailed_analysis": {
+            "paragraph_structure": {
+              "paragraph_count": 4,
+              "paragraph_details": [
+                {
+                  "sentence_count": 5,
+                  "topic_sentence_quality": 1
+                },
+                {
+                  "sentence_count": 6,
+                  "topic_sentence_quality": 1
+                },
+                {
+                  "sentence_count": 5,
+                  "topic_sentence_quality": 1
+                },
+                {
+                  "sentence_count": 3,
+                  "topic_sentence_quality": 1
+                }
+              ],
+              "average_paragraph_length": 80.0
+            },
+            "linking_device_usage": {
+              "total_linking_devices": 14,
+              "device_distribution": {
+                "addition": 1,
+                "contrast": 3,
+                "cause_effect": 6,
+                "example": 2,
+                "sequence": 1,
+                "conclusion": 1
+              },
+              "linking_diversity_score": 1.0
+            },
+            "referential_cohesion": {
+              "noun_reference_count": 80,
+              "most_referenced_nouns": {
+                "pace": 2,
+                "factor": 2,
+                "one": 2
+              },
+              "pronoun_usage": 10
+            },
+            "logical_flow": {
+              "average_sentence_length": 20.210526315789473,
+              "sentence_length_variation": 26,
+              "complex_sentences_ratio": 0.7368421052631579
+            }
+          },
+          "feedback": {
+            "strengths": [
+              "Strong paragraph organization",
+              "Effective use of linking devices",
+              "Good use of references to maintain text coherence"
+            ],
+            "improvements": [
+              "Ensure claim → support → implication within each paragraph"
+            ],
+            "detailed_suggestions": {
+              "logical_flow": [
+                "Use sequencing (firstly, secondly, finally) to guide the reader",
+                "Connect evidence to conclusions with cause-effect markers (therefore, thus)",
+                "Close paragraphs with mini-conclusions that reinforce the main point"
+              ]
+            }
+          },
+          "examples": {
+            "sentence_rewrite": {
+              "original": "It has been proven in a recent survey that excessive dependency on machinery has led many people to become physically inactive,doubling the risk of obesity, diabetes, cardiovascular disease, depression and more.",
+              "rewrite": "It has been proven in a recent survey that excessive dependency on machinery has led many people to become physically inactive. doubling the risk of obesity diabetes cardiovascular disease depression and more."
+            },
+            "logical_flow_example": [
+              "Firstly, In this contemporary world,where everyone wants to do things as quickly as they can in order to sustain  the fast-forwarding pace.",
+              "For instance, Secondly, automation is another groundbreaking innovation which has made people's daily activities enjoyable that were once even beyond  imagination.",
+              "Therefore, Hence, considering all factors I firmly believe that this quick responsive behaviour is on balance a negative development."
+            ]
+          },
+          "paragraphs": [
+            "In this contemporary world,where everyone wants to do things as quickly as they can in order to sustain  the fast-forwarding pace. The major reason behind it is the hectic schedule public is having. I personally feel it is the main factor but there are other explanations as well. In this ,essay I will explain all the causes concerning the event. In my opinion, I firmly believe that this phenomenon has more positive sides as compared to positive ones.",
+            "Apparently, an increasing number of folks are preferring speedy actions and reactions. Although the introduction of new technology has accelerated our way of life. The unprecedented advancement of communication and automation technology has made communities' growth faster and more comfortable than ever before. Regardless of the distance between they can set up real-time audio-visual contact and get constant updates on different activities. Secondly, automation is another groundbreaking innovation which has made people's daily activities enjoyable that were once even beyond  imagination. For example, washing machines, Electronic Cookware, Re-refrigerator,air-conditioning systems and the list is endless.",
+            "There are ,however, some pitfalls that can easily overwhelm the potential benefits of this trend. The primary one is fostering dreadful cybercrimes and promoting a sedentary lifestyle prone to chronic disease. Through digital platforms such as the internet or mobile phones, cybercriminals can attack individuals by sending hurtful text messages  and using unauthorised photos or videos. It has been proven in a recent survey that excessive dependency on machinery has led many people to become physically inactive,doubling the risk of obesity, diabetes, cardiovascular disease, depression and more. Therefore, the fast and automatic lifestyle has brought an incredible pace at the expense of health and safety.",
+            "In conclusion, although,  fast-paced behaviour has brought our daily lives a rhythm of speed and comfort.It has also been accused of inviting threats to life. Hence, considering all factors I firmly believe that this quick responsive behaviour is on balance a negative development."
+          ]
+        },
+        "grammar": {
+          "feedback": "Very good grammar with minimal errors. Main areas for improvement: typography (10 errors), punctuation (1 errors), misc (1 errors).",
+          "top_errors": [
+            {
+              "message": "Put a space after the comma.",
+              "context": "In this contemporary world,where everyone wants to do things as quickly ",
+              "suggestion": ", where",
+              "category": "TYPOGRAPHY",
+              "rule_id": "COMMA_PARENTHESIS_WHITESPACE"
+            },
+            {
+              "message": "It seems like there are too many consecutive spaces here.",
+              "context": " quickly as they can in order to sustain  the fast-forwarding pace. The major reas",
+              "suggestion": " ",
+              "category": "TYPOGRAPHY",
+              "rule_id": "CONSECUTIVE_SPACES"
+            },
+            {
+              "message": "Use a comma before ‘but’ if it connects two independent clauses (unless they are closely connected and short).",
+              "context": " I personally feel it is the main factor but there are other explanations as well. I",
+              "suggestion": ", but",
+              "category": "PUNCTUATION",
+              "rule_id": "COMMA_COMPOUND_SENTENCE_2"
+            },
+            {
+              "message": "Put a space after the comma, but not before the comma.",
+              "context": " are other explanations as well. In this ,essay I will explain all the causes conc",
+              "suggestion": ", ",
+              "category": "TYPOGRAPHY",
+              "rule_id": "COMMA_PARENTHESIS_WHITESPACE"
+            },
+            {
+              "message": "This word is normally spelled as one.",
+              "context": "tance between they can set up real-time audio-visual contact and get constant updates on dif",
+              "suggestion": "audiovisual",
+              "category": "MISC",
+              "rule_id": "EN_COMPOUNDS_AUDIO_VISUAL"
+            },
+            {
+              "message": "It seems like there are too many consecutive spaces here.",
+              "context": "ies enjoyable that were once even beyond  imagination. For example, washing machin",
+              "suggestion": " ",
+              "category": "TYPOGRAPHY",
+              "rule_id": "CONSECUTIVE_SPACES"
+            },
+            {
+              "message": "Put a space after the comma.",
+              "context": "es, Electronic Cookware, Re-refrigerator,air-conditioning systems and the list is endless. \n\n The",
+              "suggestion": ", air-conditioning",
+              "category": "TYPOGRAPHY",
+              "rule_id": "COMMA_PARENTHESIS_WHITESPACE"
+            },
+            {
+              "message": "Put a space after the comma, but not before the comma.",
+              "context": "ms and the list is endless. \n\n There are ,however, some pitfalls that can easily o",
+              "suggestion": ", ",
+              "category": "TYPOGRAPHY",
+              "rule_id": "COMMA_PARENTHESIS_WHITESPACE"
+            },
+            {
+              "message": "It seems like there are too many consecutive spaces here.",
+              "context": "viduals by sending hurtful text messages  and using unauthorised photos or videos.",
+              "suggestion": " ",
+              "category": "TYPOGRAPHY",
+              "rule_id": "CONSECUTIVE_SPACES"
+            },
+            {
+              "message": "Would you like to use the Oxford spelling “unauthorized”? The spelling ‘unauthorised’ is also correct.",
+              "context": "ending hurtful text messages  and using unauthorised photos or videos. It has been proven in",
+              "suggestion": "unauthorized",
+              "category": "BRE_STYLE_OXFORD_SPELLING",
+              "rule_id": "OXFORD_SPELLING_Z_NOT_S"
+            }
+          ],
+          "error_categories": {
+            "TYPOGRAPHY": 10,
+            "PUNCTUATION": 1,
+            "MISC": 1,
+            "BRE_STYLE_OXFORD_SPELLING": 1
+          },
+          "targeted_corrections": [
+            {
+              "token": ",where",
+              "suggestion": ", where",
+              "reason": "Put a space after the comma."
+            },
+            {
+              "token": "but",
+              "suggestion": ", but",
+              "reason": "Use a comma before ‘but’ if it connects two independent clauses (unless they are closely connected and short)."
+            },
+            {
+              "token": ",",
+              "suggestion": ", ",
+              "reason": "Put a space after the comma, but not before the comma."
+            },
+            {
+              "token": "audio-visual",
+              "suggestion": "audiovisual",
+              "reason": "This word is normally spelled as one."
+            },
+            {
+              "token": ",air-conditioning",
+              "suggestion": ", air-conditioning",
+              "reason": "Put a space after the comma."
+            },
+            {
+              "token": "unauthorised",
+              "suggestion": "unauthorized",
+              "reason": "Would you like to use the Oxford spelling “unauthorized”? The spelling ‘unauthorised’ is also correct."
+            },
+            {
+              "token": ",doubling",
+              "suggestion": ", doubling",
+              "reason": "Put a space after the comma."
+            },
+            {
+              "token": "It",
+              "suggestion": " It",
+              "reason": "Add a space between sentences."
+            }
+          ],
+          "typo_map": {}
+        },
+        "lexical": {
+          "overall_score": 7.6,
+          "component_scores": {
+            "vocabulary_diversity": 9,
+            "word_sophistication": 9,
+            "academic_usage": 1,
+            "advanced_vocabulary": 2.4
+          },
+          "detailed_analysis": {
+            "lexical_diversity": {
+              "total_words": 330,
+              "unique_words": 217,
+              "diversity_ratio": 0.6575757575757576,
+              "yules_k": 72.72727272727273,
+              "repeated_words": [
+                "fast",
+                "pace",
+                "firmly",
+                "believe",
+                "positive"
+              ]
+            },
+            "word_sophistication": {
+              "avg_word_length": 5.421212121212121,
+              "long_words_ratio": 0.24545454545454545,
+              "medium_words_ratio": 0.19696969696969696,
+              "basic_words_ratio": 0.006060606060606061,
+              "sophisticated_words": [
+                "contemporary",
+                "everyone",
+                "forwarding",
+                "schedule",
+                "personally",
+                "explanations",
+                "concerning",
+                "phenomenon",
+                "positive",
+                "compared"
+              ],
+              "basic_words": [
+                "get",
+                "many"
+              ]
+            },
+            "sentence_structure": {
+              "avg_sentence_length": 17.36842105263158,
+              "sentence_count": 19,
+              "length_variability": 3.8614958448753463,
+              "complex_sentences": 12,
+              "short_sentences": []
+            },
+            "academic_language": {
+              "academic_words_count": 2,
+              "academic_ratio": 0.006060606060606061,
+              "academic_words_used": [
+                "factors",
+                "major"
+              ]
+            },
+            "advanced_vocabulary": {
+              "advanced_words_count": 1,
+              "advanced_ratio": 0.0030303030303030303,
+              "lexical_density": 0.5181818181818182,
+              "advanced_words_used": [
+                "unprecedented"
+              ]
+            }
+          },
+          "feedback": {
+            "general_feedback": [],
+            "strengths": [
+              "Excellent vocabulary diversity.",
+              "Your vocabulary richness is excellent.",
+              "Excellent use of sophisticated vocabulary."
+            ],
+            "improvements": [
+              "Try to incorporate more formal or academic vocabulary."
+            ],
+            "detailed_suggestions": {
+              "vocabulary_enhancement": {
+                "issue": "Limited formal vocabulary",
+                "academic_examples": [
+                  "factors",
+                  "major"
+                ],
+                "suggestions": {
+                  "linking_phrases": {
+                    "addition": [
+                      "furthermore",
+                      "moreover",
+                      "additionally",
+                      "in addition"
+                    ],
+                    "contrast": [
+                      "however",
+                      "nevertheless",
+                      "on the other hand",
+                      "conversely"
+                    ],
+                    "cause_effect": [
+                      "consequently",
+                      "therefore",
+                      "as a result",
+                      "thus"
+                    ],
+                    "example": [
+                      "for instance",
+                      "for example",
+                      "specifically",
+                      "in particular"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "task_achievement": null
+      }
+    },
+    {
+      "id": 1,
+      "essay": "It is a widespread belief that the optimum way to teach children about cooperation is by letting them engage in team sports at school. However, some critics state that team sports will negatively affect a child's life. In this essay, I will elaborate on how group activities act as a positive endorsement to develop a student's interpersonal skills.\r\n\r\nFirstly, a team consists of a mixture of society where racial identities, demographic locations and familial backgrounds are completely varied from one another. This provides an excellent opportunity for the children to get to know each other and bond amidst their differences. For instance, if the kids are exposed to different races at an early stage during their playtimes, they will be sensitized to neglect the racial disparities between their teammates and will build unity and friendships which would last for a long time. \r\n\r\nOn the other hand, because of the patriarchy towards their team, the opposite teams would be despised. Furthermore, this would cause friction between the two teams resulting in fights which further widen the disparity between them. For example, a series of fights were initiated after a youth rugby competition in the USA where most participants were enraged and aggressive towards their opponent team after losing the match by one point. However, this phenomenon could have been prevented if the students were taught how to respect each other and celebrate the victories of an opponent. \r\n\r\nIn conclusion, sports done in teams are an excellent way to teach kids about cooperation. However, teamwork could be creating friction between individuals which should not be neglected. Overall, despite the minor drawbacks, if team sports are encouraged at school, it will greatly benefit the child in the future.",
+      "true_score": 8.0,
+      "predicted_score": 7.302508771419525,
+      "feedback": {
+        "summary": {
+          "predicted_overall": 7.302508771419525,
+          "key_weaknesses": [
+            [
+              "length",
+              "short_paragraphs",
+              {
+                "avg_para_len": 57
+              }
+            ]
+          ]
+        },
+        "coherence_cohesion": {
+          "overall_score": 7.9,
+          "component_scores": {
+            "paragraph_structure": 9.0,
+            "linking_devices": 9,
+            "referential_cohesion": 9,
+            "logical_flow": 2.7
+          },
+          "detailed_analysis": {
+            "paragraph_structure": {
+              "paragraph_count": 5,
+              "paragraph_details": [
+                {
+                  "sentence_count": 3,
+                  "topic_sentence_quality": 1
+                },
+                {
+                  "sentence_count": 3,
+                  "topic_sentence_quality": 1
+                },
+                {
+                  "sentence_count": 3,
+                  "topic_sentence_quality": 1
+                },
+                {
+                  "sentence_count": 3,
+                  "topic_sentence_quality": 1
+                },
+                {
+                  "sentence_count": 1,
+                  "topic_sentence_quality": 1
+                }
+              ],
+              "average_paragraph_length": 57.0
+            },
+            "linking_device_usage": {
+              "total_linking_devices": 14,
+              "device_distribution": {
+                "addition": 1,
+                "contrast": 5,
+                "cause_effect": 3,
+                "example": 2,
+                "sequence": 1,
+                "conclusion": 2
+              },
+              "linking_diversity_score": 1.0
+            },
+            "referential_cohesion": {
+              "noun_reference_count": 53,
+              "most_referenced_nouns": {
+                "team": 9,
+                "child": 4,
+                "sport": 4
+              },
+              "pronoun_usage": 7
+            },
+            "logical_flow": {
+              "average_sentence_length": 24.615384615384617,
+              "sentence_length_variation": 30,
+              "complex_sentences_ratio": 1.0
+            }
+          },
+          "feedback": {
+            "strengths": [
+              "Strong paragraph organization",
+              "Effective use of linking devices",
+              "Good use of references to maintain text coherence"
+            ],
+            "improvements": [
+              "Ensure claim → support → implication within each paragraph"
+            ],
+            "detailed_suggestions": {
+              "logical_flow": [
+                "Use sequencing (firstly, secondly, finally) to guide the reader",
+                "Connect evidence to conclusions with cause-effect markers (therefore, thus)",
+                "Close paragraphs with mini-conclusions that reinforce the main point"
+              ]
+            }
+          },
+          "examples": {
+            "sentence_rewrite": {
+              "original": "For instance, if the kids are exposed to different races at an early stage during their playtimes, they will be sensitized to neglect the racial disparities between their teammates and will build unity and friendships which would last for a long time.",
+              "rewrite": "For instance. if the kids are exposed to different races at an early stage during their playtimes they will be sensitized to neglect the racial disparities between their teammates and will build unity and friendships which would last for a long time."
+            },
+            "logical_flow_example": [
+              "Firstly, It is a widespread belief that the optimum way to teach children about cooperation is by letting them engage in team sports at school.",
+              "For instance, On the other hand, because of the patriarchy towards their team, the opposite teams would be despised.",
+              "Therefore, Overall, despite the minor drawbacks, if team sports are encouraged at school, it will greatly benefit the child in the future."
+            ]
+          },
+          "paragraphs": [
+            "It is a widespread belief that the optimum way to teach children about cooperation is by letting them engage in team sports at school. However, some critics state that team sports will negatively affect a child's life. In this essay, I will elaborate on how group activities act as a positive endorsement to develop a student's interpersonal skills.",
+            "Firstly, a team consists of a mixture of society where racial identities, demographic locations and familial backgrounds are completely varied from one another. This provides an excellent opportunity for the children to get to know each other and bond amidst their differences. For instance, if the kids are exposed to different races at an early stage during their playtimes, they will be sensitized to neglect the racial disparities between their teammates and will build unity and friendships which would last for a long time.",
+            "On the other hand, because of the patriarchy towards their team, the opposite teams would be despised. Furthermore, this would cause friction between the two teams resulting in fights which further widen the disparity between them. For example, a series of fights were initiated after a youth rugby competition in the USA where most participants were enraged and aggressive towards their opponent team after losing the match by one point.",
+            "However, this phenomenon could have been prevented if the students were taught how to respect each other and celebrate the victories of an opponent. In conclusion, sports done in teams are an excellent way to teach kids about cooperation. However, teamwork could be creating friction between individuals which should not be neglected.",
+            "Overall, despite the minor drawbacks, if team sports are encouraged at school, it will greatly benefit the child in the future."
+          ]
+        },
+        "grammar": {
+          "feedback": "Excellent grammar with no detected errors.",
+          "top_errors": [],
+          "error_categories": {},
+          "targeted_corrections": [],
+          "typo_map": {}
+        },
+        "lexical": {
+          "overall_score": 7.1,
+          "component_scores": {
+            "vocabulary_diversity": 9,
+            "word_sophistication": 7.7,
+            "academic_usage": 1,
+            "advanced_vocabulary": 2.2
+          },
+          "detailed_analysis": {
+            "lexical_diversity": {
+              "total_words": 285,
+              "unique_words": 164,
+              "diversity_ratio": 0.5754385964912281,
+              "yules_k": 87.90397045244691,
+              "repeated_words": [
+                "team",
+                "sports",
+                "teams",
+                "way",
+                "teach"
+              ]
+            },
+            "word_sophistication": {
+              "avg_word_length": 5.136842105263158,
+              "long_words_ratio": 0.19649122807017544,
+              "medium_words_ratio": 0.17894736842105263,
+              "basic_words_ratio": 0.0035087719298245615,
+              "sophisticated_words": [
+                "widespread",
+                "children",
+                "cooperation",
+                "negatively",
+                "elaborate",
+                "activities",
+                "positive",
+                "endorsement",
+                "interpersonal",
+                "consists"
+              ],
+              "basic_words": [
+                "get"
+              ]
+            },
+            "sentence_structure": {
+              "avg_sentence_length": 21.923076923076923,
+              "sentence_count": 13,
+              "length_variability": 5.751479289940828,
+              "complex_sentences": 10,
+              "short_sentences": []
+            },
+            "academic_language": {
+              "academic_words_count": 1,
+              "academic_ratio": 0.0035087719298245615,
+              "academic_words_used": [
+                "benefit"
+              ]
+            },
+            "advanced_vocabulary": {
+              "advanced_words_count": 1,
+              "advanced_ratio": 0.0035087719298245615,
+              "lexical_density": 0.4666666666666667,
+              "advanced_words_used": [
+                "elaborate"
+              ]
+            }
+          },
+          "feedback": {
+            "general_feedback": [],
+            "strengths": [
+              "Excellent vocabulary diversity.",
+              "Your vocabulary richness is excellent.",
+              "Excellent use of sophisticated vocabulary.",
+              "Good variety in sentence structures and lengths."
+            ],
+            "improvements": [
+              "Try to incorporate more formal or academic vocabulary."
+            ],
+            "detailed_suggestions": {
+              "vocabulary_enhancement": {
+                "issue": "Limited formal vocabulary",
+                "academic_examples": [
+                  "benefit"
+                ],
+                "suggestions": {
+                  "linking_phrases": {
+                    "addition": [
+                      "furthermore",
+                      "moreover",
+                      "additionally",
+                      "in addition"
+                    ],
+                    "contrast": [
+                      "however",
+                      "nevertheless",
+                      "on the other hand",
+                      "conversely"
+                    ],
+                    "cause_effect": [
+                      "consequently",
+                      "therefore",
+                      "as a result",
+                      "thus"
+                    ],
+                    "example": [
+                      "for instance",
+                      "for example",
+                      "specifically",
+                      "in particular"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "task_achievement": null
+      }
+    },
+    {
+      "id": 2,
+      "essay": "A significant increase in traffic is seen with each passing year. No doubt, uncontrollable population rise is one of the main reason of a never ending traffic. In my opinion, this issue can be solved by limiting the vehicle manufacturing and few other measures will be dicussed in this essay.\r\n\r\nWith the ever increasing population,the public transportation availability is declining which is leading to high raise in traffic. People are now buying more vehicles as compared to past decade. For example, a recent study shows that a family owns more than 2 vehicles on an average in recent years, whereas owning a vehicle in past was a big achievement and it was not so common to have a vehicle.\r\n\r\nFacts show that theere is 65 percent hike in the sale of vehicles in last 50 years. To solve this issue, Government can impose restriction on manufacturing companies.\r\n\r\nWe as a society need to take effective measures so that our planet is saved from the adverse effects of  rise in vehicles conjestion on roads. One way which might be effective, is to impose a limit on number of motors are produced in an year. Another way can be to modify the transportation modes by creating diversions. Finally, humans should be encouraged to use public transport extensively by providing attractive travel plans by government.  All these actions, if put in place ,can definately help in reducing the amount of traffic we have now.\r\n\r\nRising birth rate on our planet is surely causing many issues, traffic is one of them. In my opinion this is an alarming time where we as a society needs to come forward and try to use more public transports as compared to our own cars. In the hope of a better future, we all can give our contribution.",
+      "true_score": 4.0,
+      "predicted_score": 6.384271144866943,
+      "feedback": {
+        "summary": {
+          "predicted_overall": 6.384271144866943,
+          "key_weaknesses": [
+            [
+              "grammar",
+              "top_errors",
+              {
+                "categories": [
+                  "TYPOS",
+                  "TYPOGRAPHY",
+                  "MISC"
+                ]
+              }
+            ]
+          ]
+        },
+        "coherence_cohesion": {
+          "overall_score": 7.9,
+          "component_scores": {
+            "paragraph_structure": 7.2,
+            "linking_devices": 9.0,
+            "referential_cohesion": 9,
+            "logical_flow": 5.5
+          },
+          "detailed_analysis": {
+            "paragraph_structure": {
+              "paragraph_count": 4,
+              "paragraph_details": [
+                {
+                  "sentence_count": 4,
+                  "topic_sentence_quality": 1
+                },
+                {
+                  "sentence_count": 4,
+                  "topic_sentence_quality": 1
+                },
+                {
+                  "sentence_count": 4,
+                  "topic_sentence_quality": 1
+                },
+                {
+                  "sentence_count": 4,
+                  "topic_sentence_quality": 1
+                }
+              ],
+              "average_paragraph_length": 75.0
+            },
+            "linking_device_usage": {
+              "total_linking_devices": 8,
+              "device_distribution": {
+                "addition": 0,
+                "contrast": 0,
+                "cause_effect": 6,
+                "example": 1,
+                "sequence": 1,
+                "conclusion": 0
+              },
+              "linking_diversity_score": 0.5
+            },
+            "referential_cohesion": {
+              "noun_reference_count": 55,
+              "most_referenced_nouns": {
+                "vehicle": 7,
+                "traffic": 5,
+                "year": 4
+              },
+              "pronoun_usage": 9
+            },
+            "logical_flow": {
+              "average_sentence_length": 20.8125,
+              "sentence_length_variation": 31,
+              "complex_sentences_ratio": 0.6875
+            }
+          },
+          "feedback": {
+            "strengths": [
+              "Strong paragraph organization",
+              "Effective use of linking devices",
+              "Good use of references to maintain text coherence"
+            ],
+            "improvements": [
+              "Ensure claim → support → implication within each paragraph"
+            ],
+            "detailed_suggestions": {
+              "logical_flow": [
+                "Use sequencing (firstly, secondly, finally) to guide the reader",
+                "Connect evidence to conclusions with cause-effect markers (therefore, thus)",
+                "Close paragraphs with mini-conclusions that reinforce the main point"
+              ]
+            }
+          },
+          "examples": {
+            "sentence_rewrite": {
+              "original": "For example, a recent study shows that a family owns more than 2 vehicles on an average in recent years, whereas owning a vehicle in past was a big achievement and it was not so common to have a vehicle.",
+              "rewrite": "For example. a recent study shows that a family owns more than 2 vehicles on an average in recent years whereas owning a vehicle in past was a big achievement and it was not so common to have a vehicle."
+            },
+            "logical_flow_example": [
+              "Firstly, A significant increase in traffic is seen with each passing year.",
+              "For instance, We as a society need to take effective measures so that our planet is saved from the adverse effects of  rise in vehicles conjestion on roads.",
+              "Therefore, In the hope of a better future, we all can give our contribution."
+            ]
+          },
+          "paragraphs": [
+            "A significant increase in traffic is seen with each passing year. No doubt, uncontrollable population rise is one of the main reason of a never ending traffic. In my opinion, this issue can be solved by limiting the vehicle manufacturing and few other measures will be dicussed in this essay. With the ever increasing population,the public transportation availability is declining which is leading to high raise in traffic.",
+            "People are now buying more vehicles as compared to past decade. For example, a recent study shows that a family owns more than 2 vehicles on an average in recent years, whereas owning a vehicle in past was a big achievement and it was not so common to have a vehicle. Facts show that theere is 65 percent hike in the sale of vehicles in last 50 years. To solve this issue, Government can impose restriction on manufacturing companies.",
+            "We as a society need to take effective measures so that our planet is saved from the adverse effects of  rise in vehicles conjestion on roads. One way which might be effective, is to impose a limit on number of motors are produced in an year. Another way can be to modify the transportation modes by creating diversions. Finally, humans should be encouraged to use public transport extensively by providing attractive travel plans by government.",
+            "All these actions, if put in place ,can definately help in reducing the amount of traffic we have now. Rising birth rate on our planet is surely causing many issues, traffic is one of them. In my opinion this is an alarming time where we as a society needs to come forward and try to use more public transports as compared to our own cars. In the hope of a better future, we all can give our contribution."
+          ]
+        },
+        "grammar": {
+          "feedback": "Very good grammar with minimal errors. Main areas for improvement: spelling (4 errors), typography (3 errors), misc (2 errors).",
+          "top_errors": [
+            {
+              "message": "Possible spelling mistake found.",
+              "context": "acturing and few other measures will be dicussed in this essay.\r\n\r\nWith the ever increas",
+              "suggestion": "discussed",
+              "category": "TYPOS",
+              "rule_id": "MORFOLOGIK_RULE_EN_GB"
+            },
+            {
+              "message": "This word is normally spelled with a hyphen.",
+              "context": " be dicussed in this essay.\r\n\r\nWith the ever increasing population,the public transportation av",
+              "suggestion": "ever-increasing",
+              "category": "MISC",
+              "rule_id": "EN_COMPOUNDS_EVER_INCREASING"
+            },
+            {
+              "message": "Put a space after the comma.",
+              "context": ".\r\n\r\nWith the ever increasing population,the public transportation availability is d",
+              "suggestion": ", the",
+              "category": "TYPOGRAPHY",
+              "rule_id": "COMMA_PARENTHESIS_WHITESPACE"
+            },
+            {
+              "message": "Use a comma before ‘and’ if it connects two independent clauses (unless they are closely connected and short).",
+              "context": " a vehicle in past was a big achievement and it was not so common to have a vehicle.",
+              "suggestion": ", and",
+              "category": "PUNCTUATION",
+              "rule_id": "COMMA_COMPOUND_SENTENCE"
+            },
+            {
+              "message": "Possible spelling mistake found.",
+              "context": "n to have a vehicle.\r\n\r\nFacts show that theere is 65 percent hike in the sale of vehic",
+              "suggestion": "there",
+              "category": "TYPOS",
+              "rule_id": "MORFOLOGIK_RULE_EN_GB"
+            },
+            {
+              "message": "It seems like there are too many consecutive spaces here.",
+              "context": "net is saved from the adverse effects of  rise in vehicles conjestion on roads. On",
+              "suggestion": " ",
+              "category": "TYPOGRAPHY",
+              "rule_id": "CONSECUTIVE_SPACES"
+            },
+            {
+              "message": "Possible spelling mistake found.",
+              "context": "he adverse effects of  rise in vehicles conjestion on roads. One way which might be effect",
+              "suggestion": "congestion",
+              "category": "TYPOS",
+              "rule_id": "MORFOLOGIK_RULE_EN_GB"
+            },
+            {
+              "message": "Use “a” instead of ‘an’ if the following word doesn’t start with a vowel sound, e.g. ‘a sentence’, ‘a university’.",
+              "context": "mit on number of motors are produced in an year. Another way can be to modify the ",
+              "suggestion": "a",
+              "category": "MISC",
+              "rule_id": "EN_A_VS_AN"
+            },
+            {
+              "message": "Put a space after the comma, but not before the comma.",
+              "context": "ent.  All these actions, if put in place ,can definately help in reducing the amou",
+              "suggestion": ", ",
+              "category": "TYPOGRAPHY",
+              "rule_id": "COMMA_PARENTHESIS_WHITESPACE"
+            },
+            {
+              "message": "Possible spelling mistake found.",
+              "context": "All these actions, if put in place ,can definately help in reducing the amount of traffic ",
+              "suggestion": "definitely",
+              "category": "TYPOS",
+              "rule_id": "MORFOLOGIK_RULE_EN_GB"
+            }
+          ],
+          "error_categories": {
+            "TYPOS": 4,
+            "MISC": 2,
+            "TYPOGRAPHY": 3,
+            "PUNCTUATION": 1,
+            "STYLE": 1
+          },
+          "targeted_corrections": [
+            {
+              "token": "dicussed",
+              "suggestion": "discussed",
+              "reason": "Possible spelling mistake found."
+            },
+            {
+              "token": "ever increasing",
+              "suggestion": "ever-increasing",
+              "reason": "This word is normally spelled with a hyphen."
+            },
+            {
+              "token": ",the",
+              "suggestion": ", the",
+              "reason": "Put a space after the comma."
+            },
+            {
+              "token": "and",
+              "suggestion": ", and",
+              "reason": "Use a comma before ‘and’ if it connects two independent clauses (unless they are closely connected and short)."
+            },
+            {
+              "token": "theere",
+              "suggestion": "there",
+              "reason": "Possible spelling mistake found."
+            },
+            {
+              "token": "conjestion",
+              "suggestion": "congestion",
+              "reason": "Possible spelling mistake found."
+            },
+            {
+              "token": "an",
+              "suggestion": "a",
+              "reason": "Use “a” instead of ‘an’ if the following word doesn’t start with a vowel sound, e.g. ‘a sentence’, ‘a university’."
+            },
+            {
+              "token": ",",
+              "suggestion": ", ",
+              "reason": "Put a space after the comma, but not before the comma."
+            },
+            {
+              "token": "definately",
+              "suggestion": "definitely",
+              "reason": "Possible spelling mistake found."
+            },
+            {
+              "token": "time where",
+              "suggestion": "time when",
+              "reason": "It might be better to use ‘time’ with the time-relative pronoun ‘when’. (Alternatively, use ‘in/on which’.)"
+            }
+          ],
+          "typo_map": {
+            "dicussed": "discussed",
+            "theere": "there",
+            "conjestion": "congestion",
+            "definately": "definitely"
+          }
+        },
+        "lexical": {
+          "overall_score": 6.6,
+          "component_scores": {
+            "vocabulary_diversity": 9.0,
+            "word_sophistication": 6.4,
+            "academic_usage": 1,
+            "advanced_vocabulary": 2.1
+          },
+          "detailed_analysis": {
+            "lexical_diversity": {
+              "total_words": 298,
+              "unique_words": 165,
+              "diversity_ratio": 0.5536912751677853,
+              "yules_k": 97.96855997477591,
+              "repeated_words": [
+                "traffic",
+                "vehicles",
+                "vehicle",
+                "public",
+                "year"
+              ]
+            },
+            "word_sophistication": {
+              "avg_word_length": 4.620805369127517,
+              "long_words_ratio": 0.14429530201342283,
+              "medium_words_ratio": 0.18791946308724833,
+              "basic_words_ratio": 0.016778523489932886,
+              "sophisticated_words": [
+                "significant",
+                "increase",
+                "uncontrollable",
+                "population",
+                "limiting",
+                "manufacturing",
+                "measures",
+                "dicussed",
+                "increasing",
+                "population"
+              ],
+              "basic_words": [
+                "big",
+                "need",
+                "use",
+                "many",
+                "use"
+              ]
+            },
+            "sentence_structure": {
+              "avg_sentence_length": 18.625,
+              "sentence_count": 16,
+              "length_variability": 5.703125,
+              "complex_sentences": 10,
+              "short_sentences": []
+            },
+            "academic_language": {
+              "academic_words_count": 3,
+              "academic_ratio": 0.010067114093959731,
+              "academic_words_used": [
+                "percent",
+                "significant",
+                "issues"
+              ]
+            },
+            "advanced_vocabulary": {
+              "advanced_words_count": 0,
+              "advanced_ratio": 0.0,
+              "lexical_density": 0.4664429530201342,
+              "advanced_words_used": []
+            }
+          },
+          "feedback": {
+            "general_feedback": [],
+            "strengths": [
+              "Excellent vocabulary diversity.",
+              "Your vocabulary richness is excellent.",
+              "Excellent use of sophisticated vocabulary.",
+              "Good variety in sentence structures and lengths."
+            ],
+            "improvements": [
+              "Try to incorporate more formal or academic vocabulary."
+            ],
+            "detailed_suggestions": {
+              "vocabulary_enhancement": {
+                "issue": "Limited formal vocabulary",
+                "academic_examples": [
+                  "percent",
+                  "significant",
+                  "issues"
+                ],
+                "suggestions": {
+                  "linking_phrases": {
+                    "addition": [
+                      "furthermore",
+                      "moreover",
+                      "additionally",
+                      "in addition"
+                    ],
+                    "contrast": [
+                      "however",
+                      "nevertheless",
+                      "on the other hand",
+                      "conversely"
+                    ],
+                    "cause_effect": [
+                      "consequently",
+                      "therefore",
+                      "as a result",
+                      "thus"
+                    ],
+                    "example": [
+                      "for instance",
+                      "for example",
+                      "specifically",
+                      "in particular"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "task_achievement": null
+      }
+    },
+    {
+      "id": 3,
+      "essay": "SULT\n\nTAKE TEST AGAIN\n\nQuestion 1 / 1\n\nNowadays celebrities are more famous for their glamour and wealth rather than for their achievements, and this sets a bad example to young people.\n\nTo What extent do you agree or disagree?\n\nIn modern era, prominent personalties are well-known for their materialistic possession and style more than their accomplishment, mijority of masses apperhend that this influences the socitey and youth negatively.I strongly agree with the statament as the young generation of our conutry get distracted and try to amuliate their behivour in real life. \n\nTo commence with, youngesters deviated from their path as they follow the emient people and see them as their role model since most of the famous persons are not well-educated that result,student to think education is not important to be successful. No wonder this trend has devastating impact on their career as education is powerful weapon to change the world. for instance, karshima kapoor is one of the recognised actrees of bollywood with 10th passed qualification.Mostly she is notable for her personal life and fashion rather than, her talent this may change the perception to become populor. \n\nSecondly the youth are not enough mature to understand it required a lot of hard work and dedication to move ahead towords glory which can not be attainable over a night. Moreover, they admire celeb fasinating lifestyle, bank balance and fame. Therefore they get distracted easily specially in the world of internet where infromation spread like a flash. To exemplify mostly teenage wish to have physique like hero,heroiens or say sportperson but they dont realize it need regular exercise and discipline to look fit everyday. \n\nOverall the future of the country is moving in a path of negligence now its high time to make them more aware what actual victory is and innovate moral example.",
+      "true_score": 4.0,
+      "predicted_score": 5.435891389846802,
+      "feedback": {
+        "summary": {
+          "predicted_overall": 5.435891389846802,
+          "key_weaknesses": [
+            [
+              "structure",
+              "poor_paragraphing",
+              {
+                "num_paras": 9
+              }
+            ],
+            [
+              "length",
+              "short_paragraphs",
+              {
+                "avg_para_len": 33
+              }
+            ],
+            [
+              "grammar",
+              "top_errors",
+              {
+                "categories": [
+                  "TYPOS",
+                  "TYPOGRAPHY",
+                  "PUNCTUATION"
+                ]
+              }
+            ]
+          ]
+        },
+        "coherence_cohesion": {
+          "overall_score": 8.1,
+          "component_scores": {
+            "paragraph_structure": 9,
+            "linking_devices": 9,
+            "referential_cohesion": 9,
+            "logical_flow": 4.1
+          },
+          "detailed_analysis": {
+            "paragraph_structure": {
+              "paragraph_count": 9,
+              "paragraph_details": [
+                {
+                  "sentence_count": 1,
+                  "topic_sentence_quality": 0.1
+                },
+                {
+                  "sentence_count": 1,
+                  "topic_sentence_quality": 0.9666666666666666
+                },
+                {
+                  "sentence_count": 1,
+                  "topic_sentence_quality": 0.7333333333333334
+                },
+                {
+                  "sentence_count": 1,
+                  "topic_sentence_quality": 1
+                },
+                {
+                  "sentence_count": 1,
+                  "topic_sentence_quality": 1
+                },
+                {
+                  "sentence_count": 2,
+                  "topic_sentence_quality": 1
+                },
+                {
+                  "sentence_count": 4,
+                  "topic_sentence_quality": 1
+                },
+                {
+                  "sentence_count": 4,
+                  "topic_sentence_quality": 1
+                },
+                {
+                  "sentence_count": 1,
+                  "topic_sentence_quality": 1
+                }
+              ],
+              "average_paragraph_length": 33.77777777777778
+            },
+            "linking_device_usage": {
+              "total_linking_devices": 9,
+              "device_distribution": {
+                "addition": 1,
+                "contrast": 0,
+                "cause_effect": 5,
+                "example": 1,
+                "sequence": 1,
+                "conclusion": 1
+              },
+              "linking_diversity_score": 0.8333333333333334
+            },
+            "referential_cohesion": {
+              "noun_reference_count": 69,
+              "most_referenced_nouns": {
+                "example": 2,
+                "people": 2,
+                "youth": 2
+              },
+              "pronoun_usage": 13
+            },
+            "logical_flow": {
+              "average_sentence_length": 26.46153846153846,
+              "sentence_length_variation": 37,
+              "complex_sentences_ratio": 0.8461538461538461
+            }
+          },
+          "feedback": {
+            "strengths": [
+              "Strong paragraph organization",
+              "Effective use of linking devices",
+              "Good use of references to maintain text coherence"
+            ],
+            "improvements": [
+              "Ensure claim → support → implication within each paragraph"
+            ],
+            "detailed_suggestions": {
+              "logical_flow": [
+                "Use sequencing (firstly, secondly, finally) to guide the reader",
+                "Connect evidence to conclusions with cause-effect markers (therefore, thus)",
+                "Close paragraphs with mini-conclusions that reinforce the main point"
+              ]
+            }
+          },
+          "examples": {
+            "sentence_rewrite": {
+              "original": "To commence with, youngesters deviated from their path as they follow the emient people and see them as their role model since most of the famous persons are not well-educated that result,student to think education is not important to be successful.",
+              "rewrite": "To commence with. youngesters deviated from their path as they follow the emient people and see them as their role model since most of the famous persons are not well-educated that result student to think education is not important to be successful."
+            },
+            "logical_flow_example": [
+              "Firstly, SULT\n\nTAKE TEST AGAIN\n\nQuestion 1 / 1\n\nNowadays celebrities are more famous for their glamour and wealth rather than for their achievements, and this sets a bad example to young people.",
+              "For instance, for instance, karshima kapoor is one of the recognised actrees of bollywood with 10th passed qualification.",
+              "Therefore, Overall the future of the country is moving in a path of negligence now its high time to make them more aware what actual victory is and innovate moral example."
+            ]
+          },
+          "paragraphs": [
+            "SULT",
+            "TAKE TEST AGAIN",
+            "Question 1 / 1",
+            "Nowadays celebrities are more famous for their glamour and wealth rather than for their achievements, and this sets a bad example to young people.",
+            "To What extent do you agree or disagree?",
+            "In modern era, prominent personalties are well-known for their materialistic possession and style more than their accomplishment, mijority of masses apperhend that this influences the socitey and youth negatively.I strongly agree with the statament as the young generation of our conutry get distracted and try to amuliate their behivour in real life.",
+            "To commence with, youngesters deviated from their path as they follow the emient people and see them as their role model since most of the famous persons are not well-educated that result,student to think education is not important to be successful. No wonder this trend has devastating impact on their career as education is powerful weapon to change the world. for instance, karshima kapoor is one of the recognised actrees of bollywood with 10th passed qualification.Mostly she is notable for her personal life and fashion rather than, her talent this may change the perception to become populor.",
+            "Secondly the youth are not enough mature to understand it required a lot of hard work and dedication to move ahead towords glory which can not be attainable over a night. Moreover, they admire celeb fasinating lifestyle, bank balance and fame. Therefore they get distracted easily specially in the world of internet where infromation spread like a flash. To exemplify mostly teenage wish to have physique like hero,heroiens or say sportperson but they dont realize it need regular exercise and discipline to look fit everyday.",
+            "Overall the future of the country is moving in a path of negligence now its high time to make them more aware what actual victory is and innovate moral example."
+          ]
+        },
+        "grammar": {
+          "feedback": "Very good grammar with minimal errors. Main areas for improvement: spelling (20 errors), typography (4 errors), punctuation (2 errors).",
+          "top_errors": [
+            {
+              "message": "Possible spelling mistake found.",
+              "context": "SULT\n\nTAKE TEST AGAIN\n\nQuestion 1 / 1\n\nNowad",
+              "suggestion": "SUIT",
+              "category": "TYPOS",
+              "rule_id": "MORFOLOGIK_RULE_EN_GB"
+            },
+            {
+              "message": "Consider adding a comma after this introductory expression.",
+              "context": "SULT\n\nTAKE TEST AGAIN\n\nQuestion 1 / 1\n\nNowadays celebrities are more famous for their g",
+              "suggestion": "Nowadays,",
+              "category": "PUNCTUATION",
+              "rule_id": "NOWADAYS_COMMA"
+            },
+            {
+              "message": "Possible spelling mistake found.",
+              "context": "d style more than their accomplishment, mijority of masses apperhend that this influence",
+              "suggestion": "majority",
+              "category": "TYPOS",
+              "rule_id": "MORFOLOGIK_RULE_EN_GB"
+            },
+            {
+              "message": "Possible spelling mistake found.",
+              "context": "heir accomplishment, mijority of masses apperhend that this influences the socitey and yo",
+              "suggestion": "apprehend",
+              "category": "TYPOS",
+              "rule_id": "MORFOLOGIK_RULE_EN_GB"
+            },
+            {
+              "message": "Possible spelling mistake found.",
+              "context": "sses apperhend that this influences the socitey and youth negatively.I strongly agree w",
+              "suggestion": "society",
+              "category": "TYPOS",
+              "rule_id": "MORFOLOGIK_RULE_EN_GB"
+            },
+            {
+              "message": "Add a space between sentences.",
+              "context": "uences the socitey and youth negatively.I strongly agree with the statament as th",
+              "suggestion": " I",
+              "category": "TYPOGRAPHY",
+              "rule_id": "SENTENCE_WHITESPACE"
+            },
+            {
+              "message": "Possible spelling mistake found.",
+              "context": "th negatively.I strongly agree with the statament as the young generation of our conutry ",
+              "suggestion": "statement",
+              "category": "TYPOS",
+              "rule_id": "MORFOLOGIK_RULE_EN_GB"
+            },
+            {
+              "message": "Possible spelling mistake found.",
+              "context": "tatament as the young generation of our conutry get distracted and try to amuliate thei",
+              "suggestion": "country",
+              "category": "TYPOS",
+              "rule_id": "MORFOLOGIK_RULE_EN_GB"
+            },
+            {
+              "message": "Possible spelling mistake found.",
+              "context": "f our conutry get distracted and try to amuliate their behivour in real life. \n\nTo comme",
+              "suggestion": "ampliate",
+              "category": "TYPOS",
+              "rule_id": "MORFOLOGIK_RULE_EN_GB"
+            },
+            {
+              "message": "Possible spelling mistake found.",
+              "context": "et distracted and try to amuliate their behivour in real life. \n\nTo commence with, young",
+              "suggestion": "behaviour",
+              "category": "TYPOS",
+              "rule_id": "MORFOLOGIK_RULE_EN_GB"
+            }
+          ],
+          "error_categories": {
+            "TYPOS": 20,
+            "PUNCTUATION": 2,
+            "TYPOGRAPHY": 4,
+            "CASING": 1,
+            "BRE_STYLE_OXFORD_SPELLING": 1,
+            "CONFUSED_WORDS": 1
+          },
+          "targeted_corrections": [
+            {
+              "token": "SULT",
+              "suggestion": "SUIT",
+              "reason": "Possible spelling mistake found."
+            },
+            {
+              "token": "Nowadays",
+              "suggestion": "Nowadays,",
+              "reason": "Consider adding a comma after this introductory expression."
+            },
+            {
+              "token": "mijority",
+              "suggestion": "majority",
+              "reason": "Possible spelling mistake found."
+            },
+            {
+              "token": "apperhend",
+              "suggestion": "apprehend",
+              "reason": "Possible spelling mistake found."
+            },
+            {
+              "token": "socitey",
+              "suggestion": "society",
+              "reason": "Possible spelling mistake found."
+            },
+            {
+              "token": "I",
+              "suggestion": " I",
+              "reason": "Add a space between sentences."
+            },
+            {
+              "token": "statament",
+              "suggestion": "statement",
+              "reason": "Possible spelling mistake found."
+            },
+            {
+              "token": "conutry",
+              "suggestion": "country",
+              "reason": "Possible spelling mistake found."
+            },
+            {
+              "token": "amuliate",
+              "suggestion": "ampliate",
+              "reason": "Possible spelling mistake found."
+            },
+            {
+              "token": "behivour",
+              "suggestion": "behaviour",
+              "reason": "Possible spelling mistake found."
+            }
+          ],
+          "typo_map": {
+            "SULT": "SUIT",
+            "mijority": "majority",
+            "apperhend": "apprehend",
+            "socitey": "society",
+            "statament": "statement",
+            "conutry": "country",
+            "amuliate": "ampliate",
+            "behivour": "behaviour",
+            "youngesters": "youngsters",
+            "emient": "eminent",
+            "karshima": "Kagoshima",
+            "kapoor": "ka poor",
+            "actrees": "actress",
+            "bollywood": "Bollywood",
+            "populor": "popular",
+            "towords": "towards",
+            "fasinating": "fascinating",
+            "infromation": "information",
+            "sportperson": "sportsperson",
+            "dont": "don't"
+          }
+        },
+        "lexical": {
+          "overall_score": 7.0,
+          "component_scores": {
+            "vocabulary_diversity": 9,
+            "word_sophistication": 7.5,
+            "academic_usage": 1,
+            "advanced_vocabulary": 2.2
+          },
+          "detailed_analysis": {
+            "lexical_diversity": {
+              "total_words": 307,
+              "unique_words": 196,
+              "diversity_ratio": 0.6384364820846905,
+              "yules_k": 80.84966418741844,
+              "repeated_words": [
+                "famous",
+                "example",
+                "young",
+                "people",
+                "agree"
+              ]
+            },
+            "word_sophistication": {
+              "avg_word_length": 4.977198697068404,
+              "long_words_ratio": 0.19218241042345277,
+              "medium_words_ratio": 0.16938110749185667,
+              "basic_words_ratio": 0.019543973941368076,
+              "sophisticated_words": [
+                "question",
+                "nowadays",
+                "celebrities",
+                "achievements",
+                "disagree",
+                "prominent",
+                "personalties",
+                "materialistic",
+                "possession",
+                "accomplishment"
+              ],
+              "basic_words": [
+                "bad",
+                "get",
+                "lot",
+                "get",
+                "need",
+                "make"
+              ]
+            },
+            "sentence_structure": {
+              "avg_sentence_length": 23.615384615384617,
+              "sentence_count": 13,
+              "length_variability": 7.798816568047337,
+              "complex_sentences": 10,
+              "short_sentences": [
+                "To What extent do you agree or disagree?\n\n"
+              ]
+            },
+            "academic_language": {
+              "academic_words_count": 2,
+              "academic_ratio": 0.006514657980456026,
+              "academic_words_used": [
+                "role",
+                "required"
+              ]
+            },
+            "advanced_vocabulary": {
+              "advanced_words_count": 0,
+              "advanced_ratio": 0.0,
+              "lexical_density": 0.48859934853420195,
+              "advanced_words_used": []
+            }
+          },
+          "feedback": {
+            "general_feedback": [],
+            "strengths": [
+              "Excellent vocabulary diversity.",
+              "Your vocabulary richness is excellent.",
+              "Excellent use of sophisticated vocabulary.",
+              "Good variety in sentence structures and lengths."
+            ],
+            "improvements": [
+              "Try to incorporate more formal or academic vocabulary."
+            ],
+            "detailed_suggestions": {
+              "vocabulary_enhancement": {
+                "issue": "Limited formal vocabulary",
+                "academic_examples": [
+                  "role",
+                  "required"
+                ],
+                "suggestions": {
+                  "linking_phrases": {
+                    "addition": [
+                      "furthermore",
+                      "moreover",
+                      "additionally",
+                      "in addition"
+                    ],
+                    "contrast": [
+                      "however",
+                      "nevertheless",
+                      "on the other hand",
+                      "conversely"
+                    ],
+                    "cause_effect": [
+                      "consequently",
+                      "therefore",
+                      "as a result",
+                      "thus"
+                    ],
+                    "example": [
+                      "for instance",
+                      "for example",
+                      "specifically",
+                      "in particular"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "task_achievement": null
+      }
+    },
+    {
+      "id": 4,
+      "essay": "In recent times, several people have had conflicts about whether employers have to obey the dress principles in office or the productivity of work is their priority. I strongly believe that people should concentrate on the quality of their work completely instead of their dress, and this essay serves to elaborate on my opinion.\r\n\r\nA majority of people argue that the employers prioritize the quality of their work. When people pay all their attention on working, their production and performance in a company will be better and bring several benefits for both themselves and this company instead of spending time on resolving the problem related to fashion. Specifically, their company receives more reputation, hence employment's career and position may have a chance to be promoted. For instance, a prestigious company like Apple, there are not any requirements about the employment's dress, Apple's employments spend most time on design, fixing errors, and enhancing their products. These criterias made Apple become a famous and successful brand and community with several electronic devices existing anywhere.\r\n\r\nMoreover, the dress restrictions may expand the gap between employment in their working environment. Several companies force their workers to wear impolite clothes with many costume accessories, some staff want to show their wealth to the others by their fashion style and only interact with people who have brand clothes like them and avoid to work with people wearing simple clothes. Hence, after a long time these kind of working environment may become a fashion competition, instead people have to create ideas, products to promote and increase company's profit. Many companies has collapsed with a similar reason that the directors create complicated and unnecessary principles that lead to low quality of working environment, so many employees quit their jobs and these companies lose their customers.\r\n\r\nIn conclusion, i firmly believe that the bosses should not impose dressing rules to their staff based on the effect to the productivity and workplace.",
+      "true_score": 4.0,
+      "predicted_score": 6.796233773231506,
+      "feedback": {
+        "summary": {
+          "predicted_overall": 6.796233773231506,
+          "key_weaknesses": [
+            [
+              "grammar",
+              "top_errors",
+              {
+                "categories": [
+                  "GRAMMAR",
+                  "TYPOS"
+                ]
+              }
+            ]
+          ]
+        },
+        "coherence_cohesion": {
+          "overall_score": 7.4,
+          "component_scores": {
+            "paragraph_structure": 7.2,
+            "linking_devices": 9,
+            "referential_cohesion": 9,
+            "logical_flow": 2.7
+          },
+          "detailed_analysis": {
+            "paragraph_structure": {
+              "paragraph_count": 4,
+              "paragraph_details": [
+                {
+                  "sentence_count": 3,
+                  "topic_sentence_quality": 1
+                },
+                {
+                  "sentence_count": 3,
+                  "topic_sentence_quality": 1
+                },
+                {
+                  "sentence_count": 3,
+                  "topic_sentence_quality": 1
+                },
+                {
+                  "sentence_count": 3,
+                  "topic_sentence_quality": 1
+                }
+              ],
+              "average_paragraph_length": 80.5
+            },
+            "linking_device_usage": {
+              "total_linking_devices": 9,
+              "device_distribution": {
+                "addition": 1,
+                "contrast": 0,
+                "cause_effect": 5,
+                "example": 2,
+                "sequence": 0,
+                "conclusion": 1
+              },
+              "linking_diversity_score": 0.6666666666666666
+            },
+            "referential_cohesion": {
+              "noun_reference_count": 62,
+              "most_referenced_nouns": {
+                "company": 8,
+                "people": 7,
+                "time": 4
+              },
+              "pronoun_usage": 8
+            },
+            "logical_flow": {
+              "average_sentence_length": 29.833333333333332,
+              "sentence_length_variation": 34,
+              "complex_sentences_ratio": 1.0
+            }
+          },
+          "feedback": {
+            "strengths": [
+              "Strong paragraph organization",
+              "Effective use of linking devices",
+              "Good use of references to maintain text coherence"
+            ],
+            "improvements": [
+              "Ensure claim → support → implication within each paragraph"
+            ],
+            "detailed_suggestions": {
+              "logical_flow": [
+                "Use sequencing (firstly, secondly, finally) to guide the reader",
+                "Connect evidence to conclusions with cause-effect markers (therefore, thus)",
+                "Close paragraphs with mini-conclusions that reinforce the main point"
+              ]
+            }
+          },
+          "examples": {
+            "sentence_rewrite": {
+              "original": "Several companies force their workers to wear impolite clothes with many costume accessories, some staff want to show their wealth to the others by their fashion style and only interact with people who have brand clothes like them and avoid to work with people wearing simple clothes.",
+              "rewrite": "Several companies force their workers to wear impolite clothes with many costume accessories. some staff want to show their wealth to the others by their fashion style and only interact with people who have brand clothes like them and avoid to work with people wearing simple clothes."
+            },
+            "logical_flow_example": [
+              "Firstly, In recent times, several people have had conflicts about whether employers have to obey the dress principles in office or the productivity of work is their priority.",
+              "For instance, These criterias made Apple become a famous and successful brand and community with several electronic devices existing anywhere.",
+              "Therefore, In conclusion, i firmly believe that the bosses should not impose dressing rules to their staff based on the effect to the productivity and workplace."
+            ]
+          },
+          "paragraphs": [
+            "In recent times, several people have had conflicts about whether employers have to obey the dress principles in office or the productivity of work is their priority. I strongly believe that people should concentrate on the quality of their work completely instead of their dress, and this essay serves to elaborate on my opinion. A majority of people argue that the employers prioritize the quality of their work.",
+            "When people pay all their attention on working, their production and performance in a company will be better and bring several benefits for both themselves and this company instead of spending time on resolving the problem related to fashion. Specifically, their company receives more reputation, hence employment's career and position may have a chance to be promoted. For instance, a prestigious company like Apple, there are not any requirements about the employment's dress, Apple's employments spend most time on design, fixing errors, and enhancing their products.",
+            "These criterias made Apple become a famous and successful brand and community with several electronic devices existing anywhere. Moreover, the dress restrictions may expand the gap between employment in their working environment. Several companies force their workers to wear impolite clothes with many costume accessories, some staff want to show their wealth to the others by their fashion style and only interact with people who have brand clothes like them and avoid to work with people wearing simple clothes.",
+            "Hence, after a long time these kind of working environment may become a fashion competition, instead people have to create ideas, products to promote and increase company's profit. Many companies has collapsed with a similar reason that the directors create complicated and unnecessary principles that lead to low quality of working environment, so many employees quit their jobs and these companies lose their customers. In conclusion, i firmly believe that the bosses should not impose dressing rules to their staff based on the effect to the productivity and workplace."
+          ]
+        },
+        "grammar": {
+          "feedback": "Very good grammar with minimal errors. Main areas for improvement: grammatical structures (3 errors), spelling (2 errors).",
+          "top_errors": [
+            {
+              "message": "Possible spelling mistake. Did you mean “criteria”, the plural form of the noun ‘criteria’?",
+              "context": "rs, and enhancing their products. These criterias made Apple become a famous and successf",
+              "suggestion": "criteria",
+              "category": "TYPOS",
+              "rule_id": "MORFOLOGIK_RULE_EN_GB"
+            },
+            {
+              "message": "Use a plural noun after ‘some’ or use “staff members”.",
+              "context": "hes with many costume accessories, some staff want to show their wealth to the others",
+              "suggestion": "staff members",
+              "category": "GRAMMAR",
+              "rule_id": "SOME_FACULTY"
+            },
+            {
+              "message": "The plural determiner ‘these’ does not agree with the singular noun ‘kind’.",
+              "context": "imple clothes. Hence, after a long time these kind of working environment may become a fas",
+              "suggestion": "this kind",
+              "category": "GRAMMAR",
+              "rule_id": "THIS_NNS"
+            },
+            {
+              "message": "You should probably use “have”.",
+              "context": "crease company's profit. Many companies has collapsed with a similar reason that th",
+              "suggestion": "have",
+              "category": "GRAMMAR",
+              "rule_id": "AGREEMENT_SENT_START"
+            },
+            {
+              "message": "The personal pronoun “I” should be uppercase.",
+              "context": "lose their customers.\r\n\r\nIn conclusion, i firmly believe that the bosses should n",
+              "suggestion": "I",
+              "category": "TYPOS",
+              "rule_id": "I_LOWERCASE"
+            }
+          ],
+          "error_categories": {
+            "TYPOS": 2,
+            "GRAMMAR": 3
+          },
+          "targeted_corrections": [
+            {
+              "token": "criterias",
+              "suggestion": "criteria",
+              "reason": "Possible spelling mistake. Did you mean “criteria”, the plural form of the noun ‘criteria’?"
+            },
+            {
+              "token": "staff",
+              "suggestion": "staff members",
+              "reason": "Use a plural noun after ‘some’ or use “staff members”."
+            },
+            {
+              "token": "these kind",
+              "suggestion": "this kind",
+              "reason": "The plural determiner ‘these’ does not agree with the singular noun ‘kind’."
+            },
+            {
+              "token": "has",
+              "suggestion": "have",
+              "reason": "You should probably use “have”."
+            },
+            {
+              "token": "i",
+              "suggestion": "I",
+              "reason": "The personal pronoun “I” should be uppercase."
+            }
+          ],
+          "typo_map": {
+            "criterias": "criteria",
+            "i": "I"
+          }
+        },
+        "lexical": {
+          "overall_score": 7.2,
+          "component_scores": {
+            "vocabulary_diversity": 8.6,
+            "word_sophistication": 8.3,
+            "academic_usage": 1,
+            "advanced_vocabulary": 2.4
+          },
+          "detailed_analysis": {
+            "lexical_diversity": {
+              "total_words": 322,
+              "unique_words": 171,
+              "diversity_ratio": 0.531055900621118,
+              "yules_k": 112.8428687164847,
+              "repeated_words": [
+                "people",
+                "company",
+                "dress",
+                "work",
+                "working"
+              ]
+            },
+            "word_sophistication": {
+              "avg_word_length": 5.3229813664596275,
+              "long_words_ratio": 0.19875776397515527,
+              "medium_words_ratio": 0.2204968944099379,
+              "basic_words_ratio": 0.012422360248447204,
+              "sophisticated_words": [
+                "conflicts",
+                "employers",
+                "principles",
+                "productivity",
+                "priority",
+                "strongly",
+                "concentrate",
+                "completely",
+                "elaborate",
+                "majority"
+              ],
+              "basic_words": [
+                "many",
+                "want",
+                "many",
+                "many"
+              ]
+            },
+            "sentence_structure": {
+              "avg_sentence_length": 26.833333333333332,
+              "sentence_count": 12,
+              "length_variability": 7.527777777777779,
+              "complex_sentences": 10,
+              "short_sentences": []
+            },
+            "academic_language": {
+              "academic_words_count": 6,
+              "academic_ratio": 0.018633540372670808,
+              "academic_words_used": [
+                "similar",
+                "environment",
+                "create"
+              ]
+            },
+            "advanced_vocabulary": {
+              "advanced_words_count": 1,
+              "advanced_ratio": 0.003105590062111801,
+              "lexical_density": 0.5093167701863354,
+              "advanced_words_used": [
+                "elaborate"
+              ]
+            }
+          },
+          "feedback": {
+            "general_feedback": [],
+            "strengths": [
+              "Excellent vocabulary diversity.",
+              "You demonstrate good vocabulary richness.",
+              "Excellent use of sophisticated vocabulary.",
+              "Good variety in sentence structures and lengths."
+            ],
+            "improvements": [
+              "Try to incorporate more formal or academic vocabulary."
+            ],
+            "detailed_suggestions": {
+              "vocabulary_enhancement": {
+                "issue": "Limited formal vocabulary",
+                "academic_examples": [
+                  "similar",
+                  "environment",
+                  "create"
+                ],
+                "suggestions": {
+                  "linking_phrases": {
+                    "addition": [
+                      "furthermore",
+                      "moreover",
+                      "additionally",
+                      "in addition"
+                    ],
+                    "contrast": [
+                      "however",
+                      "nevertheless",
+                      "on the other hand",
+                      "conversely"
+                    ],
+                    "cause_effect": [
+                      "consequently",
+                      "therefore",
+                      "as a result",
+                      "thus"
+                    ],
+                    "example": [
+                      "for instance",
+                      "for example",
+                      "specifically",
+                      "in particular"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "task_achievement": null
+      }
+    },
+    {
+      "id": 5,
+      "essay": "It is seemingly common for young generations to look up to their favourable celebrities as role models in several aspects. Some people believe that the appearance of nowadays influencers often come along with showing off their assets or money, which could create an unhealthy perception of followers. I partly agree with this statement as while adolescents adopt damaging effects from the stars, there are still famous people who do the right things.\n\nGranted, it is admitted that there are a group of celebrities who are famous for showcasing how rich they are instead of their truthful talents, which creates an alarming trend for their audiences. Consequently, their audiences will blindly do the same as their influencers in buying the same products or wearing the same brand in order to be admired by other fellows, even if their financial situations can not afford such items. For instance, audiences watch the Kardashians’ show to see how wealthy they are, from hosting parties to purchasing clothes from recognizable brands. The younger generation therefore effortlessly tries to mirror their influencers by trying to have the same appearance, even when they barely make ends meet. \n\nHowever, one can not argue that all of the celebrities are the same. There are famous individuals who are renowned for their real talents and achievements, and have set good examples for their followers. For instance, Cristiano Ronaldo is not only famous worldwide for his remarkable football skills, but also for his generosity. Every year he spends millions on charitable events and even personally visits children who are severely ill, in order to motivate and support them financially and psychologically. This goodwill of Ronaldo has resulted in fostering determination and boosting the spirits of other admirers, to inherit his legacies.\n\nIn conclusion, despite the fact that there are celebrities who have negatively influenced people by only focusing on their glamorous appearances, other famous people who have a reputation for doing good things still exist.",
+      "true_score": 7.5,
+      "predicted_score": 6.739471793174744,
+      "feedback": {
+        "summary": {
+          "predicted_overall": 6.739471793174744,
+          "key_weaknesses": [
+            [
+              "grammar",
+              "top_errors",
+              {
+                "categories": [
+                  "REDUNDANCY"
+                ]
+              }
+            ]
+          ]
+        },
+        "coherence_cohesion": {
+          "overall_score": 7.5,
+          "component_scores": {
+            "paragraph_structure": 7.2,
+            "linking_devices": 9,
+            "referential_cohesion": 9,
+            "logical_flow": 3.4
+          },
+          "detailed_analysis": {
+            "paragraph_structure": {
+              "paragraph_count": 4,
+              "paragraph_details": [
+                {
+                  "sentence_count": 3,
+                  "topic_sentence_quality": 1
+                },
+                {
+                  "sentence_count": 4,
+                  "topic_sentence_quality": 1
+                },
+                {
+                  "sentence_count": 5,
+                  "topic_sentence_quality": 1
+                },
+                {
+                  "sentence_count": 1,
+                  "topic_sentence_quality": 1
+                }
+              ],
+              "average_paragraph_length": 81.0
+            },
+            "linking_device_usage": {
+              "total_linking_devices": 11,
+              "device_distribution": {
+                "addition": 1,
+                "contrast": 2,
+                "cause_effect": 5,
+                "example": 2,
+                "sequence": 0,
+                "conclusion": 1
+              },
+              "linking_diversity_score": 0.8333333333333334
+            },
+            "referential_cohesion": {
+              "noun_reference_count": 50,
+              "most_referenced_nouns": {
+                "celebrity": 4,
+                "people": 4,
+                "appearance": 3
+              },
+              "pronoun_usage": 12
+            },
+            "logical_flow": {
+              "average_sentence_length": 27.53846153846154,
+              "sentence_length_variation": 27,
+              "complex_sentences_ratio": 0.9230769230769231
+            }
+          },
+          "feedback": {
+            "strengths": [
+              "Strong paragraph organization",
+              "Effective use of linking devices",
+              "Good use of references to maintain text coherence"
+            ],
+            "improvements": [
+              "Ensure claim → support → implication within each paragraph"
+            ],
+            "detailed_suggestions": {
+              "logical_flow": [
+                "Use sequencing (firstly, secondly, finally) to guide the reader",
+                "Connect evidence to conclusions with cause-effect markers (therefore, thus)",
+                "Close paragraphs with mini-conclusions that reinforce the main point"
+              ]
+            }
+          },
+          "examples": {
+            "sentence_rewrite": {
+              "original": "Consequently, their audiences will blindly do the same as their influencers in buying the same products or wearing the same brand in order to be admired by other fellows, even if their financial situations can not afford such items.",
+              "rewrite": "Consequently. their audiences will blindly do the same as their influencers in buying the same products or wearing the same brand in order to be admired by other fellows even if their financial situations can not afford such items."
+            },
+            "logical_flow_example": [
+              "Firstly, It is seemingly common for young generations to look up to their favourable celebrities as role models in several aspects.",
+              "For instance, The younger generation therefore effortlessly tries to mirror their influencers by trying to have the same appearance, even when they barely make ends meet.",
+              "Therefore, In conclusion, despite the fact that there are celebrities who have negatively influenced people by only focusing on their glamorous appearances, other famous people who have a reputation for doing good things still exist."
+            ]
+          },
+          "paragraphs": [
+            "It is seemingly common for young generations to look up to their favourable celebrities as role models in several aspects. Some people believe that the appearance of nowadays influencers often come along with showing off their assets or money, which could create an unhealthy perception of followers. I partly agree with this statement as while adolescents adopt damaging effects from the stars, there are still famous people who do the right things.",
+            "Granted, it is admitted that there are a group of celebrities who are famous for showcasing how rich they are instead of their truthful talents, which creates an alarming trend for their audiences. Consequently, their audiences will blindly do the same as their influencers in buying the same products or wearing the same brand in order to be admired by other fellows, even if their financial situations can not afford such items. For instance, audiences watch the Kardashians’ show to see how wealthy they are, from hosting parties to purchasing clothes from recognizable brands. The younger generation therefore effortlessly tries to mirror their influencers by trying to have the same appearance, even when they barely make ends meet.",
+            "However, one can not argue that all of the celebrities are the same. There are famous individuals who are renowned for their real talents and achievements, and have set good examples for their followers. For instance, Cristiano Ronaldo is not only famous worldwide for his remarkable football skills, but also for his generosity. Every year he spends millions on charitable events and even personally visits children who are severely ill, in order to motivate and support them financially and psychologically. This goodwill of Ronaldo has resulted in fostering determination and boosting the spirits of other admirers, to inherit his legacies.",
+            "In conclusion, despite the fact that there are celebrities who have negatively influenced people by only focusing on their glamorous appearances, other famous people who have a reputation for doing good things still exist."
+          ]
+        },
+        "grammar": {
+          "feedback": "Very good grammar with minimal errors. Main areas for improvement: redundancy (1 errors).",
+          "top_errors": [
+            {
+              "message": "Consider removing “of” to be more concise",
+              "context": "meet. \n\nHowever, one can not argue that all of the celebrities are the same. There are fam",
+              "suggestion": "all the",
+              "category": "REDUNDANCY",
+              "rule_id": "ALL_OF_THE"
+            }
+          ],
+          "error_categories": {
+            "REDUNDANCY": 1
+          },
+          "targeted_corrections": [
+            {
+              "token": "all of the",
+              "suggestion": "all the",
+              "reason": "Consider removing “of” to be more concise"
+            }
+          ],
+          "typo_map": {}
+        },
+        "lexical": {
+          "overall_score": 7.2,
+          "component_scores": {
+            "vocabulary_diversity": 9,
+            "word_sophistication": 8.0,
+            "academic_usage": 1,
+            "advanced_vocabulary": 2.1
+          },
+          "detailed_analysis": {
+            "lexical_diversity": {
+              "total_words": 324,
+              "unique_words": 189,
+              "diversity_ratio": 0.5833333333333334,
+              "yules_k": 81.73296753543667,
+              "repeated_words": [
+                "famous",
+                "celebrities",
+                "people",
+                "influencers",
+                "audiences"
+              ]
+            },
+            "word_sophistication": {
+              "avg_word_length": 5.25,
+              "long_words_ratio": 0.21604938271604937,
+              "medium_words_ratio": 0.16049382716049382,
+              "basic_words_ratio": 0.009259259259259259,
+              "sophisticated_words": [
+                "seemingly",
+                "generations",
+                "favourable",
+                "celebrities",
+                "appearance",
+                "nowadays",
+                "influencers",
+                "unhealthy",
+                "perception",
+                "followers"
+              ],
+              "basic_words": [
+                "make",
+                "good",
+                "good"
+              ]
+            },
+            "sentence_structure": {
+              "avg_sentence_length": 24.923076923076923,
+              "sentence_count": 13,
+              "length_variability": 5.455621301775148,
+              "complex_sentences": 12,
+              "short_sentences": []
+            },
+            "academic_language": {
+              "academic_words_count": 3,
+              "academic_ratio": 0.009259259259259259,
+              "academic_words_used": [
+                "role",
+                "financial",
+                "create"
+              ]
+            },
+            "advanced_vocabulary": {
+              "advanced_words_count": 0,
+              "advanced_ratio": 0.0,
+              "lexical_density": 0.4567901234567901,
+              "advanced_words_used": []
+            }
+          },
+          "feedback": {
+            "general_feedback": [],
+            "strengths": [
+              "Excellent vocabulary diversity.",
+              "Your vocabulary richness is excellent.",
+              "Excellent use of sophisticated vocabulary.",
+              "Good variety in sentence structures and lengths."
+            ],
+            "improvements": [
+              "Try to incorporate more formal or academic vocabulary."
+            ],
+            "detailed_suggestions": {
+              "vocabulary_enhancement": {
+                "issue": "Limited formal vocabulary",
+                "academic_examples": [
+                  "role",
+                  "financial",
+                  "create"
+                ],
+                "suggestions": {
+                  "linking_phrases": {
+                    "addition": [
+                      "furthermore",
+                      "moreover",
+                      "additionally",
+                      "in addition"
+                    ],
+                    "contrast": [
+                      "however",
+                      "nevertheless",
+                      "on the other hand",
+                      "conversely"
+                    ],
+                    "cause_effect": [
+                      "consequently",
+                      "therefore",
+                      "as a result",
+                      "thus"
+                    ],
+                    "example": [
+                      "for instance",
+                      "for example",
+                      "specifically",
+                      "in particular"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "task_achievement": null
+      }
+    },
+    {
+      "id": 6,
+      "essay": "There is no doubt that we need to stick to a healthy lifestyle, which helps us stay mentally and physically strong. And the question of whether to establish laws that balance our diet or to leave this decision to society is extremely topical today. I tend to feel that law is  one of the strongest ways of making public control their ratio. \r\n\r\nFirstly, I do accept that giving freedom can help the population to acquire healthier eating habits by themselves, moreover, they would probably follow them willingly without severity. As it is said “the Forbidden fruit is always sweet”. But on the other hand, the poorness of diversity and availability could be seen as well. Having a lack of expensive nutritious food society will rather choose fast semi-finished products. Besides, there is a possibility of having strong allergies for some individuals, as a result nut or citrus allergic will not get enough vitamins and healthy fats for their body.\r\n\r\nTurning to another viewpoint, most people are law-abiding and it could be a great possibility for the government to improve that sphere among their inhabitants. A good illustration of this is Norway, where junk food in both public and state schools is forbidden. That law helps parents not to worry about their children’s ratios during the day. Above all, the aforementioned availability will probably raise and in contrast obesity in society will instantly decline.  \r\n\r\nTo conclude, I do understand the opposing view, which is that health is a matter of personal choice. Nevertheless, I suggest that the pushy method is the quickest and easiest way to achieve public health within a country. Notably, though, I think that needs to be a gradual process, based on careful support rather than sudden demanding law.",
+      "true_score": 5.0,
+      "predicted_score": 6.743173241615295,
+      "feedback": {
+        "summary": {
+          "predicted_overall": 6.743173241615295,
+          "key_weaknesses": [
+            [
+              "length",
+              "short_paragraphs",
+              {
+                "avg_para_len": 58
+              }
+            ],
+            [
+              "grammar",
+              "top_errors",
+              {
+                "categories": [
+                  "REDUNDANCY",
+                  "TYPOGRAPHY",
+                  "MISC"
+                ]
+              }
+            ]
+          ]
+        },
+        "coherence_cohesion": {
+          "overall_score": 8.0,
+          "component_scores": {
+            "paragraph_structure": 9.0,
+            "linking_devices": 9,
+            "referential_cohesion": 9,
+            "logical_flow": 3.3
+          },
+          "detailed_analysis": {
+            "paragraph_structure": {
+              "paragraph_count": 5,
+              "paragraph_details": [
+                {
+                  "sentence_count": 3,
+                  "topic_sentence_quality": 1
+                },
+                {
+                  "sentence_count": 3,
+                  "topic_sentence_quality": 1
+                },
+                {
+                  "sentence_count": 3,
+                  "topic_sentence_quality": 1
+                },
+                {
+                  "sentence_count": 3,
+                  "topic_sentence_quality": 1
+                },
+                {
+                  "sentence_count": 3,
+                  "topic_sentence_quality": 1
+                }
+              ],
+              "average_paragraph_length": 58.2
+            },
+            "linking_device_usage": {
+              "total_linking_devices": 11,
+              "device_distribution": {
+                "addition": 2,
+                "contrast": 2,
+                "cause_effect": 6,
+                "example": 0,
+                "sequence": 1,
+                "conclusion": 0
+              },
+              "linking_diversity_score": 0.6666666666666666
+            },
+            "referential_cohesion": {
+              "noun_reference_count": 54,
+              "most_referenced_nouns": {
+                "law": 5,
+                "society": 3,
+                "way": 2
+              },
+              "pronoun_usage": 14
+            },
+            "logical_flow": {
+              "average_sentence_length": 22.266666666666666,
+              "sentence_length_variation": 20,
+              "complex_sentences_ratio": 0.9333333333333333
+            }
+          },
+          "feedback": {
+            "strengths": [
+              "Strong paragraph organization",
+              "Effective use of linking devices",
+              "Good use of references to maintain text coherence"
+            ],
+            "improvements": [
+              "Ensure claim → support → implication within each paragraph"
+            ],
+            "detailed_suggestions": {
+              "logical_flow": [
+                "Use sequencing (firstly, secondly, finally) to guide the reader",
+                "Connect evidence to conclusions with cause-effect markers (therefore, thus)",
+                "Close paragraphs with mini-conclusions that reinforce the main point"
+              ]
+            }
+          },
+          "examples": {
+            "sentence_rewrite": {
+              "original": "Besides, there is a possibility of having strong allergies for some individuals, as a result nut or citrus allergic will not get enough vitamins and healthy fats for their body.",
+              "rewrite": "Besides. there is a possibility of having strong allergies for some individuals as a result nut or citrus allergic will not get enough vitamins and healthy fats for their body."
+            },
+            "logical_flow_example": [
+              "Firstly, There is no doubt that we need to stick to a healthy lifestyle, which helps us stay mentally and physically strong.",
+              "For instance, Besides, there is a possibility of having strong allergies for some individuals, as a result nut or citrus allergic will not get enough vitamins and healthy fats for their body.",
+              "Therefore, Notably, though, I think that needs to be a gradual process, based on careful support rather than sudden demanding law."
+            ]
+          },
+          "paragraphs": [
+            "There is no doubt that we need to stick to a healthy lifestyle, which helps us stay mentally and physically strong. And the question of whether to establish laws that balance our diet or to leave this decision to society is extremely topical today. I tend to feel that law is  one of the strongest ways of making public control their ratio.",
+            "Firstly, I do accept that giving freedom can help the population to acquire healthier eating habits by themselves, moreover, they would probably follow them willingly without severity. As it is said “the Forbidden fruit is always sweet”. But on the other hand, the poorness of diversity and availability could be seen as well.",
+            "Having a lack of expensive nutritious food society will rather choose fast semi-finished products. Besides, there is a possibility of having strong allergies for some individuals, as a result nut or citrus allergic will not get enough vitamins and healthy fats for their body. Turning to another viewpoint, most people are law-abiding and it could be a great possibility for the government to improve that sphere among their inhabitants.",
+            "A good illustration of this is Norway, where junk food in both public and state schools is forbidden. That law helps parents not to worry about their children’s ratios during the day. Above all, the aforementioned availability will probably raise and in contrast obesity in society will instantly decline.",
+            "To conclude, I do understand the opposing view, which is that health is a matter of personal choice. Nevertheless, I suggest that the pushy method is the quickest and easiest way to achieve public health within a country. Notably, though, I think that needs to be a gradual process, based on careful support rather than sudden demanding law."
+          ]
+        },
+        "grammar": {
+          "feedback": "Very good grammar with minimal errors. Main areas for improvement: redundancy (1 errors), typography (1 errors), misc (1 errors).",
+          "top_errors": [
+            {
+              "message": "Wordiness: Consider shortening this phrase.",
+              "context": "tay mentally and physically strong. And the question of whether to establish laws that balance our diet",
+              "suggestion": "whether",
+              "category": "REDUNDANCY",
+              "rule_id": "WHETHER"
+            },
+            {
+              "message": "It seems like there are too many consecutive spaces here.",
+              "context": "opical today. I tend to feel that law is  one of the strongest ways of making publ",
+              "suggestion": " ",
+              "category": "TYPOGRAPHY",
+              "rule_id": "CONSECUTIVE_SPACES"
+            },
+            {
+              "message": "This word is normally spelled as one.",
+              "context": "us food society will rather choose fast semi-finished products. Besides, there is a possibili",
+              "suggestion": "semifinished",
+              "category": "MISC",
+              "rule_id": "EN_COMPOUNDS_SEMI_FINISHED"
+            },
+            {
+              "message": "Use a comma before ‘and’ if it connects two independent clauses (unless they are closely connected and short).",
+              "context": "r viewpoint, most people are law-abiding and it could be a great possibility for the",
+              "suggestion": ", and",
+              "category": "PUNCTUATION",
+              "rule_id": "COMMA_COMPOUND_SENTENCE"
+            }
+          ],
+          "error_categories": {
+            "REDUNDANCY": 1,
+            "TYPOGRAPHY": 1,
+            "MISC": 1,
+            "PUNCTUATION": 1
+          },
+          "targeted_corrections": [
+            {
+              "token": "the question of whether",
+              "suggestion": "whether",
+              "reason": "Wordiness: Consider shortening this phrase."
+            },
+            {
+              "token": "semi-finished",
+              "suggestion": "semifinished",
+              "reason": "This word is normally spelled as one."
+            },
+            {
+              "token": "and",
+              "suggestion": ", and",
+              "reason": "Use a comma before ‘and’ if it connects two independent clauses (unless they are closely connected and short)."
+            }
+          ],
+          "typo_map": {}
+        },
+        "lexical": {
+          "overall_score": 6.9,
+          "component_scores": {
+            "vocabulary_diversity": 9,
+            "word_sophistication": 7.3,
+            "academic_usage": 1,
+            "advanced_vocabulary": 2.2
+          },
+          "detailed_analysis": {
+            "lexical_diversity": {
+              "total_words": 293,
+              "unique_words": 185,
+              "diversity_ratio": 0.6313993174061433,
+              "yules_k": 91.55610432270615,
+              "repeated_words": [
+                "law",
+                "society",
+                "public",
+                "healthy",
+                "helps"
+              ]
+            },
+            "word_sophistication": {
+              "avg_word_length": 4.863481228668942,
+              "long_words_ratio": 0.16040955631399317,
+              "medium_words_ratio": 0.21843003412969283,
+              "basic_words_ratio": 0.010238907849829351,
+              "sophisticated_words": [
+                "lifestyle",
+                "mentally",
+                "physically",
+                "question",
+                "establish",
+                "decision",
+                "extremely",
+                "strongest",
+                "population",
+                "healthier"
+              ],
+              "basic_words": [
+                "need",
+                "get",
+                "good"
+              ]
+            },
+            "sentence_structure": {
+              "avg_sentence_length": 19.533333333333335,
+              "sentence_count": 15,
+              "length_variability": 4.035555555555556,
+              "complex_sentences": 12,
+              "short_sentences": []
+            },
+            "academic_language": {
+              "academic_words_count": 2,
+              "academic_ratio": 0.006825938566552901,
+              "academic_words_used": [
+                "method",
+                "process"
+              ]
+            },
+            "advanced_vocabulary": {
+              "advanced_words_count": 0,
+              "advanced_ratio": 0.0,
+              "lexical_density": 0.48464163822525597,
+              "advanced_words_used": []
+            }
+          },
+          "feedback": {
+            "general_feedback": [],
+            "strengths": [
+              "Excellent vocabulary diversity.",
+              "Your vocabulary richness is excellent.",
+              "Excellent use of sophisticated vocabulary."
+            ],
+            "improvements": [
+              "Try to incorporate more formal or academic vocabulary."
+            ],
+            "detailed_suggestions": {
+              "vocabulary_enhancement": {
+                "issue": "Limited formal vocabulary",
+                "academic_examples": [
+                  "method",
+                  "process"
+                ],
+                "suggestions": {
+                  "linking_phrases": {
+                    "addition": [
+                      "furthermore",
+                      "moreover",
+                      "additionally",
+                      "in addition"
+                    ],
+                    "contrast": [
+                      "however",
+                      "nevertheless",
+                      "on the other hand",
+                      "conversely"
+                    ],
+                    "cause_effect": [
+                      "consequently",
+                      "therefore",
+                      "as a result",
+                      "thus"
+                    ],
+                    "example": [
+                      "for instance",
+                      "for example",
+                      "specifically",
+                      "in particular"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "task_achievement": null
+      }
+    },
+    {
+      "id": 7,
+      "essay": "There is a controversial perspective heating up a debate whether the news is irrelevant to human life and therefore, it is not worth spending time reading paper-based news and viewing news programs on TV. I consider myself an opponent of this thinking.\r\n\r\nOn the one hand, it is undeniable that there are some people who think that media articles are useless and time-consuming. Evidently, they can read up to thousands of articles on a daily basis, nonetheless, very few of the news helps them make better decisions for their life, line of work or careers. Weather forecasts and political news can be cited as striking examples because both of them do not greatly affect people who are fully concentrated in business. Thus, receiving news might have no irrelation to some people.\r\n\r\nOn the other hand, news feeds are tremendously beneficial to humans in daily life and reading news is not a time-wasting activity. Since news is often categorized into a wide range of topics, each of which will draw the attention of a certain group of audience. For instance, while fans will be concerned with their celebrities' and idols' news, residents would like to stay well-informed about the outbreak of Covid-19 in a particular country and in the world. Therefore, human’s distinct interests in diverse fields are always the glue that links news with people’s lives.\r\n\r\nTo conclude, I am a proponent of the statement that news is not related to people's lives and I would contend that reading newspapers and watching television programs play a paramount significant role in helping people stay up-to-date.",
+      "true_score": 7.5,
+      "predicted_score": 7.086298584938049,
+      "feedback": {
+        "summary": {
+          "predicted_overall": 7.086298584938049,
+          "key_weaknesses": [
+            [
+              "grammar",
+              "top_errors",
+              {
+                "categories": [
+                  "TYPOS",
+                  "PROPER_NOUNS"
+                ]
+              }
+            ]
+          ]
+        },
+        "coherence_cohesion": {
+          "overall_score": 7.7,
+          "component_scores": {
+            "paragraph_structure": 7.2,
+            "linking_devices": 9.0,
+            "referential_cohesion": 9,
+            "logical_flow": 4.3
+          },
+          "detailed_analysis": {
+            "paragraph_structure": {
+              "paragraph_count": 4,
+              "paragraph_details": [
+                {
+                  "sentence_count": 3,
+                  "topic_sentence_quality": 1
+                },
+                {
+                  "sentence_count": 3,
+                  "topic_sentence_quality": 1
+                },
+                {
+                  "sentence_count": 3,
+                  "topic_sentence_quality": 1
+                },
+                {
+                  "sentence_count": 2,
+                  "topic_sentence_quality": 1
+                }
+              ],
+              "average_paragraph_length": 66.0
+            },
+            "linking_device_usage": {
+              "total_linking_devices": 7,
+              "device_distribution": {
+                "addition": 0,
+                "contrast": 1,
+                "cause_effect": 5,
+                "example": 1,
+                "sequence": 0,
+                "conclusion": 0
+              },
+              "linking_diversity_score": 0.5
+            },
+            "referential_cohesion": {
+              "noun_reference_count": 51,
+              "most_referenced_nouns": {
+                "news": 12,
+                "people": 6,
+                "life": 5
+              },
+              "pronoun_usage": 12
+            },
+            "logical_flow": {
+              "average_sentence_length": 28.0,
+              "sentence_length_variation": 36,
+              "complex_sentences_ratio": 0.8181818181818182
+            }
+          },
+          "feedback": {
+            "strengths": [
+              "Strong paragraph organization",
+              "Effective use of linking devices",
+              "Good use of references to maintain text coherence"
+            ],
+            "improvements": [
+              "Ensure claim → support → implication within each paragraph"
+            ],
+            "detailed_suggestions": {
+              "logical_flow": [
+                "Use sequencing (firstly, secondly, finally) to guide the reader",
+                "Connect evidence to conclusions with cause-effect markers (therefore, thus)",
+                "Close paragraphs with mini-conclusions that reinforce the main point"
+              ]
+            }
+          },
+          "examples": {
+            "sentence_rewrite": {
+              "original": "To conclude, I am a proponent of the statement that news is not related to people's lives and I would contend that reading newspapers and watching television programs play a paramount significant role in helping people stay up-to-date.",
+              "rewrite": "To conclude. I am a proponent of the statement that news is not related to people's lives and I would contend that reading newspapers and watching television programs play a paramount significant role in helping people stay up-to-date."
+            },
+            "logical_flow_example": [
+              "Firstly, There is a controversial perspective heating up a debate whether the news is irrelevant to human life and therefore, it is not worth spending time reading paper-based news and viewing news programs on TV.",
+              "For instance, Thus, receiving news might have no irrelation to some people.",
+              "Therefore, To conclude, I am a proponent of the statement that news is not related to people's lives and I would contend that reading newspapers and watching television programs play a paramount significant role in helping people stay up-to-date."
+            ]
+          },
+          "paragraphs": [
+            "There is a controversial perspective heating up a debate whether the news is irrelevant to human life and therefore, it is not worth spending time reading paper-based news and viewing news programs on TV. I consider myself an opponent of this thinking. On the one hand, it is undeniable that there are some people who think that media articles are useless and time-consuming.",
+            "Evidently, they can read up to thousands of articles on a daily basis, nonetheless, very few of the news helps them make better decisions for their life, line of work or careers. Weather forecasts and political news can be cited as striking examples because both of them do not greatly affect people who are fully concentrated in business. Thus, receiving news might have no irrelation to some people.",
+            "On the other hand, news feeds are tremendously beneficial to humans in daily life and reading news is not a time-wasting activity. Since news is often categorized into a wide range of topics, each of which will draw the attention of a certain group of audience. For instance, while fans will be concerned with their celebrities' and idols' news, residents would like to stay well-informed about the outbreak of Covid-19 in a particular country and in the world.",
+            "Therefore, human’s distinct interests in diverse fields are always the glue that links news with people’s lives. To conclude, I am a proponent of the statement that news is not related to people's lives and I would contend that reading newspapers and watching television programs play a paramount significant role in helping people stay up-to-date."
+          ]
+        },
+        "grammar": {
+          "feedback": "Very good grammar with minimal errors. Main areas for improvement: spelling (1 errors), proper_nouns (1 errors).",
+          "top_errors": [
+            {
+              "message": "Possible spelling mistake found.",
+              "context": "ess. Thus, receiving news might have no irrelation to some people.\r\n\r\nOn the other hand, n",
+              "suggestion": "relation",
+              "category": "TYPOS",
+              "rule_id": "MORFOLOGIK_RULE_EN_GB"
+            },
+            {
+              "message": "Did you mean “COVID-19” (= coronavirus)?",
+              "context": "tay well-informed about the outbreak of Covid-19 in a particular country and in the worl",
+              "suggestion": "COVID-19",
+              "category": "PROPER_NOUNS",
+              "rule_id": "COVID_19"
+            }
+          ],
+          "error_categories": {
+            "TYPOS": 1,
+            "PROPER_NOUNS": 1
+          },
+          "targeted_corrections": [
+            {
+              "token": "irrelation",
+              "suggestion": "relation",
+              "reason": "Possible spelling mistake found."
+            },
+            {
+              "token": "Covid-19",
+              "suggestion": "COVID-19",
+              "reason": "Did you mean “COVID-19” (= coronavirus)?"
+            }
+          ],
+          "typo_map": {
+            "irrelation": "relation"
+          }
+        },
+        "lexical": {
+          "overall_score": 6.7,
+          "component_scores": {
+            "vocabulary_diversity": 9,
+            "word_sophistication": 6.6,
+            "academic_usage": 1,
+            "advanced_vocabulary": 2.3
+          },
+          "detailed_analysis": {
+            "lexical_diversity": {
+              "total_words": 269,
+              "unique_words": 157,
+              "diversity_ratio": 0.5836431226765799,
+              "yules_k": 103.6469921642874,
+              "repeated_words": [
+                "news",
+                "people",
+                "life",
+                "time",
+                "reading"
+              ]
+            },
+            "word_sophistication": {
+              "avg_word_length": 4.754646840148699,
+              "long_words_ratio": 0.18587360594795538,
+              "medium_words_ratio": 0.11895910780669144,
+              "basic_words_ratio": 0.007434944237918215,
+              "sophisticated_words": [
+                "controversial",
+                "perspective",
+                "irrelevant",
+                "therefore",
+                "spending",
+                "programs",
+                "consider",
+                "opponent",
+                "thinking",
+                "undeniable"
+              ],
+              "basic_words": [
+                "very",
+                "make"
+              ]
+            },
+            "sentence_structure": {
+              "avg_sentence_length": 24.454545454545453,
+              "sentence_count": 11,
+              "length_variability": 7.768595041322314,
+              "complex_sentences": 9,
+              "short_sentences": [
+                "I consider myself an opponent of this thinking.\r\n\r\n"
+              ]
+            },
+            "academic_language": {
+              "academic_words_count": 2,
+              "academic_ratio": 0.007434944237918215,
+              "academic_words_used": [
+                "role",
+                "significant"
+              ]
+            },
+            "advanced_vocabulary": {
+              "advanced_words_count": 1,
+              "advanced_ratio": 0.0037174721189591076,
+              "lexical_density": 0.48698884758364314,
+              "advanced_words_used": [
+                "paramount"
+              ]
+            }
+          },
+          "feedback": {
+            "general_feedback": [],
+            "strengths": [
+              "Excellent vocabulary diversity.",
+              "You demonstrate good vocabulary richness.",
+              "Excellent use of sophisticated vocabulary.",
+              "Good variety in sentence structures and lengths."
+            ],
+            "improvements": [
+              "Try to incorporate more formal or academic vocabulary."
+            ],
+            "detailed_suggestions": {
+              "vocabulary_enhancement": {
+                "issue": "Limited formal vocabulary",
+                "academic_examples": [
+                  "role",
+                  "significant"
+                ],
+                "suggestions": {
+                  "linking_phrases": {
+                    "addition": [
+                      "furthermore",
+                      "moreover",
+                      "additionally",
+                      "in addition"
+                    ],
+                    "contrast": [
+                      "however",
+                      "nevertheless",
+                      "on the other hand",
+                      "conversely"
+                    ],
+                    "cause_effect": [
+                      "consequently",
+                      "therefore",
+                      "as a result",
+                      "thus"
+                    ],
+                    "example": [
+                      "for instance",
+                      "for example",
+                      "specifically",
+                      "in particular"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "task_achievement": null
+      }
+    },
+    {
+      "id": 8,
+      "essay": "We know that every year, one of the world organizations will publish a report about the country's Gross domestic product and a category of economic wealth levels. According to several scholars, they believe that when a country is already wealthy, every extra increase in economic riches does not make its residents any more satisfied because there are a lot of different types of people. However, we also should consider a country's development, which will be beneficial with additional growth in economic wealth. Regarding those issues, I will discuss them in this essay.\n\nOn the one hand, a country has various types of groups of people who live there. When a country makes additional gains regarding economic wealth, it will affect some groups of people. For example, students, single parents, and elder people will feel these effects when a country rises in economic wealth. It is because they do not have much money to support their lives when all of their physiological needs, such as food, clothes, and other costs, increase.\n\nOn the other hand, any extra increase in economic riches in a country will be invested in country development. It can be advantageous and also support their citizens in the future and make them more satisfied; as a result, a country will be growing rapidly. For example, currently, South Korea is increasing their economic wealth through investments in the technology field, such as artificial intelligence, to support their citizens healthier and happier lives by developing new technologies.\n\nIn conclusion, some experts argue that when a country is already wealthy, any growth in economic riches does not make its residents happier. However, personally, I believe that any additional increase in economic wealth in a country can be an investment for future generations and will make them more satisfied with their lives.",
+      "true_score": 6.0,
+      "predicted_score": 6.832153379917145,
+      "feedback": {
+        "summary": {
+          "predicted_overall": 6.832153379917145,
+          "key_weaknesses": []
+        },
+        "coherence_cohesion": {
+          "overall_score": 7.5,
+          "component_scores": {
+            "paragraph_structure": 7.2,
+            "linking_devices": 9,
+            "referential_cohesion": 9,
+            "logical_flow": 3.4
+          },
+          "detailed_analysis": {
+            "paragraph_structure": {
+              "paragraph_count": 4,
+              "paragraph_details": [
+                {
+                  "sentence_count": 4,
+                  "topic_sentence_quality": 1
+                },
+                {
+                  "sentence_count": 4,
+                  "topic_sentence_quality": 1
+                },
+                {
+                  "sentence_count": 3,
+                  "topic_sentence_quality": 1
+                },
+                {
+                  "sentence_count": 2,
+                  "topic_sentence_quality": 1
+                }
+              ],
+              "average_paragraph_length": 75.0
+            },
+            "linking_device_usage": {
+              "total_linking_devices": 17,
+              "device_distribution": {
+                "addition": 2,
+                "contrast": 3,
+                "cause_effect": 7,
+                "example": 4,
+                "sequence": 0,
+                "conclusion": 1
+              },
+              "linking_diversity_score": 0.8333333333333334
+            },
+            "referential_cohesion": {
+              "noun_reference_count": 43,
+              "most_referenced_nouns": {
+                "country": 11,
+                "wealth": 6,
+                "increase": 4
+              },
+              "pronoun_usage": 12
+            },
+            "logical_flow": {
+              "average_sentence_length": 26.46153846153846,
+              "sentence_length_variation": 27,
+              "complex_sentences_ratio": 0.9230769230769231
+            }
+          },
+          "feedback": {
+            "strengths": [
+              "Strong paragraph organization",
+              "Effective use of linking devices",
+              "Good use of references to maintain text coherence"
+            ],
+            "improvements": [
+              "Ensure claim → support → implication within each paragraph"
+            ],
+            "detailed_suggestions": {
+              "logical_flow": [
+                "Use sequencing (firstly, secondly, finally) to guide the reader",
+                "Connect evidence to conclusions with cause-effect markers (therefore, thus)",
+                "Close paragraphs with mini-conclusions that reinforce the main point"
+              ]
+            }
+          },
+          "examples": {
+            "sentence_rewrite": {
+              "original": "According to several scholars, they believe that when a country is already wealthy, every extra increase in economic riches does not make its residents any more satisfied because there are a lot of different types of people.",
+              "rewrite": "According to several scholars. they believe that when a country is already wealthy every extra increase in economic riches does not make its residents any more satisfied because there are a lot of different types of people."
+            },
+            "logical_flow_example": [
+              "Firstly, We know that every year, one of the world organizations will publish a report about the country's Gross domestic product and a category of economic wealth levels.",
+              "For instance, For example, students, single parents, and elder people will feel these effects when a country rises in economic wealth.",
+              "Therefore, However, personally, I believe that any additional increase in economic wealth in a country can be an investment for future generations and will make them more satisfied with their lives."
+            ]
+          },
+          "paragraphs": [
+            "We know that every year, one of the world organizations will publish a report about the country's Gross domestic product and a category of economic wealth levels. According to several scholars, they believe that when a country is already wealthy, every extra increase in economic riches does not make its residents any more satisfied because there are a lot of different types of people. However, we also should consider a country's development, which will be beneficial with additional growth in economic wealth. Regarding those issues, I will discuss them in this essay.",
+            "On the one hand, a country has various types of groups of people who live there. When a country makes additional gains regarding economic wealth, it will affect some groups of people. For example, students, single parents, and elder people will feel these effects when a country rises in economic wealth. It is because they do not have much money to support their lives when all of their physiological needs, such as food, clothes, and other costs, increase.",
+            "On the other hand, any extra increase in economic riches in a country will be invested in country development. It can be advantageous and also support their citizens in the future and make them more satisfied; as a result, a country will be growing rapidly. For example, currently, South Korea is increasing their economic wealth through investments in the technology field, such as artificial intelligence, to support their citizens healthier and happier lives by developing new technologies.",
+            "In conclusion, some experts argue that when a country is already wealthy, any growth in economic riches does not make its residents happier. However, personally, I believe that any additional increase in economic wealth in a country can be an investment for future generations and will make them more satisfied with their lives."
+          ]
+        },
+        "grammar": {
+          "feedback": "Excellent grammar with no detected errors.",
+          "top_errors": [],
+          "error_categories": {},
+          "targeted_corrections": [],
+          "typo_map": {}
+        },
+        "lexical": {
+          "overall_score": 6.8,
+          "component_scores": {
+            "vocabulary_diversity": 7.6,
+            "word_sophistication": 7.7,
+            "academic_usage": 1.2,
+            "advanced_vocabulary": 2.0
+          },
+          "detailed_analysis": {
+            "lexical_diversity": {
+              "total_words": 300,
+              "unique_words": 141,
+              "diversity_ratio": 0.47,
+              "yules_k": 109.55555555555556,
+              "repeated_words": [
+                "country",
+                "economic",
+                "wealth",
+                "increase",
+                "people"
+              ]
+            },
+            "word_sophistication": {
+              "avg_word_length": 5.04,
+              "long_words_ratio": 0.17333333333333334,
+              "medium_words_ratio": 0.22,
+              "basic_words_ratio": 0.016666666666666666,
+              "sophisticated_words": [
+                "organizations",
+                "domestic",
+                "category",
+                "economic",
+                "according",
+                "scholars",
+                "increase",
+                "economic",
+                "residents",
+                "satisfied"
+              ],
+              "basic_words": [
+                "make",
+                "lot",
+                "make",
+                "make",
+                "make"
+              ]
+            },
+            "sentence_structure": {
+              "avg_sentence_length": 23.076923076923077,
+              "sentence_count": 13,
+              "length_variability": 6.236686390532545,
+              "complex_sentences": 12,
+              "short_sentences": []
+            },
+            "academic_language": {
+              "academic_words_count": 10,
+              "academic_ratio": 0.03333333333333333,
+              "academic_words_used": [
+                "economic",
+                "issues"
+              ]
+            },
+            "advanced_vocabulary": {
+              "advanced_words_count": 0,
+              "advanced_ratio": 0.0,
+              "lexical_density": 0.4533333333333333,
+              "advanced_words_used": []
+            }
+          },
+          "feedback": {
+            "general_feedback": [],
+            "strengths": [
+              "Excellent vocabulary diversity.",
+              "You demonstrate good vocabulary richness.",
+              "Excellent use of sophisticated vocabulary.",
+              "Good use of academic vocabulary.",
+              "Good variety in sentence structures and lengths."
+            ],
+            "improvements": [],
+            "detailed_suggestions": {}
+          }
+        },
+        "task_achievement": null
+      }
+    },
+    {
+      "id": 9,
+      "essay": "It is often argued that parents should urge their offspring to allocate more time for practicing sports rather than studying. In my opinion, I would completely disagree with this statement because physical activities might distract them from their school's homeworks althought it would improve their fitness. \r\n\r\nIt is believed that playing sports has significantly contributed to the wellbeing of children. This is because a physical exercise could help students to move their bodies and burn all the colories that were gained from eating fast foods. Playing sport games, such as football, basketball, and swimming could stimulate children to follow more active lifestyle, and therefore it would lower their stress levels coming from school as well as enhancing their motor skills.\r\n\r\nHowever, I would go against this perspective because spending more time in physical practices would negatively affect their academic performance at school. This is because when children get fully immersed in certain type of sports, it would immediately become more difficult for them to concentrate on studying as well as understanding their teacher's explaination. For instance, many football players have failed to finish their education because their parents were supporting them to focus more in practicing rather than successding in their exams. This would result in establishing a successful career or life in the long run as they will not have the necessary skills and education. \r\n\r\nTo sum up, although it might seem sensible to motivate children to spend more time in playing sports than compeleting their school assignments because it would heighten their fitness, it would impede their intellectual and cognitive development that are important for their future lifestyle.",
+      "true_score": 6.0,
+      "predicted_score": 7.423152387142181,
+      "feedback": {
+        "summary": {
+          "predicted_overall": 7.423152387142181,
+          "key_weaknesses": [
+            [
+              "grammar",
+              "top_errors",
+              {
+                "categories": [
+                  "TYPOS"
+                ]
+              }
+            ]
+          ]
+        },
+        "coherence_cohesion": {
+          "overall_score": 7.4,
+          "component_scores": {
+            "paragraph_structure": 7.2,
+            "linking_devices": 9,
+            "referential_cohesion": 9,
+            "logical_flow": 2.7
+          },
+          "detailed_analysis": {
+            "paragraph_structure": {
+              "paragraph_count": 4,
+              "paragraph_details": [
+                {
+                  "sentence_count": 3,
+                  "topic_sentence_quality": 1
+                },
+                {
+                  "sentence_count": 3,
+                  "topic_sentence_quality": 1
+                },
+                {
+                  "sentence_count": 3,
+                  "topic_sentence_quality": 1
+                },
+                {
+                  "sentence_count": 1,
+                  "topic_sentence_quality": 1
+                }
+              ],
+              "average_paragraph_length": 67.5
+            },
+            "linking_device_usage": {
+              "total_linking_devices": 7,
+              "device_distribution": {
+                "addition": 0,
+                "contrast": 3,
+                "cause_effect": 1,
+                "example": 2,
+                "sequence": 0,
+                "conclusion": 1
+              },
+              "linking_diversity_score": 0.6666666666666666
+            },
+            "referential_cohesion": {
+              "noun_reference_count": 41,
+              "most_referenced_nouns": {
+                "sport": 5,
+                "school": 4,
+                "child": 4
+              },
+              "pronoun_usage": 8
+            },
+            "logical_flow": {
+              "average_sentence_length": 29.5,
+              "sentence_length_variation": 31,
+              "complex_sentences_ratio": 1.0
+            }
+          },
+          "feedback": {
+            "strengths": [
+              "Strong paragraph organization",
+              "Effective use of linking devices",
+              "Good use of references to maintain text coherence"
+            ],
+            "improvements": [
+              "Ensure claim → support → implication within each paragraph"
+            ],
+            "detailed_suggestions": {
+              "logical_flow": [
+                "Use sequencing (firstly, secondly, finally) to guide the reader",
+                "Connect evidence to conclusions with cause-effect markers (therefore, thus)",
+                "Close paragraphs with mini-conclusions that reinforce the main point"
+              ]
+            }
+          },
+          "examples": {
+            "sentence_rewrite": {
+              "original": "To sum up, although it might seem sensible to motivate children to spend more time in playing sports than compeleting their school assignments because it would heighten their fitness, it would impede their intellectual and cognitive development that are important for their future lifestyle.",
+              "rewrite": "To sum up. although it might seem sensible to motivate children to spend more time in playing sports than compeleting their school assignments because it would heighten their fitness it would impede their intellectual and cognitive development that are important for their future lifestyle."
+            },
+            "logical_flow_example": [
+              "Firstly, It is often argued that parents should urge their offspring to allocate more time for practicing sports rather than studying.",
+              "For instance, However, I would go against this perspective because spending more time in physical practices would negatively affect their academic performance at school.",
+              "Therefore, To sum up, although it might seem sensible to motivate children to spend more time in playing sports than compeleting their school assignments because it would heighten their fitness, it would impede their intellectual and cognitive development that are important for their future lifestyle."
+            ]
+          },
+          "paragraphs": [
+            "It is often argued that parents should urge their offspring to allocate more time for practicing sports rather than studying. In my opinion, I would completely disagree with this statement because physical activities might distract them from their school's homeworks althought it would improve their fitness. It is believed that playing sports has significantly contributed to the wellbeing of children.",
+            "This is because a physical exercise could help students to move their bodies and burn all the colories that were gained from eating fast foods. Playing sport games, such as football, basketball, and swimming could stimulate children to follow more active lifestyle, and therefore it would lower their stress levels coming from school as well as enhancing their motor skills. However, I would go against this perspective because spending more time in physical practices would negatively affect their academic performance at school.",
+            "This is because when children get fully immersed in certain type of sports, it would immediately become more difficult for them to concentrate on studying as well as understanding their teacher's explaination. For instance, many football players have failed to finish their education because their parents were supporting them to focus more in practicing rather than successding in their exams. This would result in establishing a successful career or life in the long run as they will not have the necessary skills and education.",
+            "To sum up, although it might seem sensible to motivate children to spend more time in playing sports than compeleting their school assignments because it would heighten their fitness, it would impede their intellectual and cognitive development that are important for their future lifestyle."
+          ]
+        },
+        "grammar": {
+          "feedback": "Very good grammar with minimal errors. Main areas for improvement: spelling (5 errors).",
+          "top_errors": [
+            {
+              "message": "Possible spelling mistake found.",
+              "context": "ract them from their school's homeworks althought it would improve their fitness. \r\n\r\nIt ",
+              "suggestion": "although",
+              "category": "TYPOS",
+              "rule_id": "MORFOLOGIK_RULE_EN_GB"
+            },
+            {
+              "message": "Possible spelling mistake found.",
+              "context": "s to move their bodies and burn all the colories that were gained from eating fast foods",
+              "suggestion": "colonies",
+              "category": "TYPOS",
+              "rule_id": "MORFOLOGIK_RULE_EN_GB"
+            },
+            {
+              "message": "Possible spelling mistake found.",
+              "context": "s well as understanding their teacher's explaination. For instance, many football players ha",
+              "suggestion": "explanation",
+              "category": "TYPOS",
+              "rule_id": "MORFOLOGIK_RULE_EN_GB"
+            },
+            {
+              "message": "Possible spelling mistake found.",
+              "context": "to focus more in practicing rather than successding in their exams. This would result in es",
+              "suggestion": "success ding",
+              "category": "TYPOS",
+              "rule_id": "MORFOLOGIK_RULE_EN_GB"
+            },
+            {
+              "message": "Possible spelling mistake found.",
+              "context": " spend more time in playing sports than compeleting their school assignments because it wou",
+              "suggestion": "completing",
+              "category": "TYPOS",
+              "rule_id": "MORFOLOGIK_RULE_EN_GB"
+            }
+          ],
+          "error_categories": {
+            "TYPOS": 5
+          },
+          "targeted_corrections": [
+            {
+              "token": "althought",
+              "suggestion": "although",
+              "reason": "Possible spelling mistake found."
+            },
+            {
+              "token": "colories",
+              "suggestion": "colonies",
+              "reason": "Possible spelling mistake found."
+            },
+            {
+              "token": "explaination",
+              "suggestion": "explanation",
+              "reason": "Possible spelling mistake found."
+            },
+            {
+              "token": "successding",
+              "suggestion": "success ding",
+              "reason": "Possible spelling mistake found."
+            },
+            {
+              "token": "compeleting",
+              "suggestion": "completing",
+              "reason": "Possible spelling mistake found."
+            }
+          ],
+          "typo_map": {
+            "althought": "although",
+            "colories": "colonies",
+            "explaination": "explanation",
+            "successding": "success ding",
+            "compeleting": "completing"
+          }
+        },
+        "lexical": {
+          "overall_score": 7.3,
+          "component_scores": {
+            "vocabulary_diversity": 9,
+            "word_sophistication": 9,
+            "academic_usage": 1,
+            "advanced_vocabulary": 2.0
+          },
+          "detailed_analysis": {
+            "lexical_diversity": {
+              "total_words": 270,
+              "unique_words": 152,
+              "diversity_ratio": 0.562962962962963,
+              "yules_k": 105.34979423868313,
+              "repeated_words": [
+                "sports",
+                "school",
+                "children",
+                "time",
+                "physical"
+              ]
+            },
+            "word_sophistication": {
+              "avg_word_length": 5.4222222222222225,
+              "long_words_ratio": 0.24444444444444444,
+              "medium_words_ratio": 0.18518518518518517,
+              "basic_words_ratio": 0.007407407407407408,
+              "sophisticated_words": [
+                "offspring",
+                "allocate",
+                "practicing",
+                "studying",
+                "completely",
+                "disagree",
+                "statement",
+                "physical",
+                "activities",
+                "distract"
+              ],
+              "basic_words": [
+                "get",
+                "many"
+              ]
+            },
+            "sentence_structure": {
+              "avg_sentence_length": 27.0,
+              "sentence_count": 10,
+              "length_variability": 6.2,
+              "complex_sentences": 9,
+              "short_sentences": []
+            },
+            "academic_language": {
+              "academic_words_count": 0,
+              "academic_ratio": 0.0,
+              "academic_words_used": []
+            },
+            "advanced_vocabulary": {
+              "advanced_words_count": 0,
+              "advanced_ratio": 0.0,
+              "lexical_density": 0.45555555555555555,
+              "advanced_words_used": []
+            }
+          },
+          "feedback": {
+            "general_feedback": [],
+            "strengths": [
+              "Excellent vocabulary diversity.",
+              "You demonstrate good vocabulary richness.",
+              "Excellent use of sophisticated vocabulary.",
+              "Good variety in sentence structures and lengths."
+            ],
+            "improvements": [
+              "Try to incorporate more formal or academic vocabulary."
+            ],
+            "detailed_suggestions": {
+              "vocabulary_enhancement": {
+                "issue": "Limited formal vocabulary",
+                "academic_examples": [],
+                "suggestions": {
+                  "linking_phrases": {
+                    "addition": [
+                      "furthermore",
+                      "moreover",
+                      "additionally",
+                      "in addition"
+                    ],
+                    "contrast": [
+                      "however",
+                      "nevertheless",
+                      "on the other hand",
+                      "conversely"
+                    ],
+                    "cause_effect": [
+                      "consequently",
+                      "therefore",
+                      "as a result",
+                      "thus"
+                    ],
+                    "example": [
+                      "for instance",
+                      "for example",
+                      "specifically",
+                      "in particular"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "task_achievement": null
+      }
+    }
+  ]
+}

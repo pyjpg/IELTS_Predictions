@@ -6,7 +6,7 @@ import torch
 import torch.nn as nn
 import matplotlib.pyplot as plt
 import seaborn as sns
-from sklearn.metrics import mean_absolute_error, r2_score
+from sklearn.metrics import mean_absolute_error, r2_score, confusion_matrix
 from scipy.stats import pearsonr, spearmanr
 from transformers import AutoTokenizer, AutoModel
 from torch.utils.data import Dataset, DataLoader
@@ -307,7 +307,11 @@ def main():
     
     # Visualization
     sns.set(style="whitegrid")
-    fig, axes = plt.subplots(1, 2, figsize=(12, 5))
+    
+    # ========================================================================
+    # 1. SCATTER PLOTS - Actual vs Predicted
+    # ========================================================================
+    fig, axes = plt.subplots(1, 2, figsize=(14, 5))
     
     for idx, (name, (y_true, y_pred, metrics)) in enumerate(all_results.items()):
         ax = axes[idx]
@@ -315,25 +319,140 @@ def main():
         ax.plot([1, 9], [1, 9], 'r--', linewidth=2, label='Perfect prediction')
         ax.set_xlabel("Actual Band", fontsize=12)
         ax.set_ylabel("Predicted Band", fontsize=12)
-        ax.set_title(f"{name}\nMAE: {metrics['mae']:.3f} | R²: {metrics['r2']:.3f}", fontsize=11)
+        ax.set_title(
+            f"{name}\nMAE: {metrics['mae']:.3f} | R²: {metrics['r2']:.3f} | "
+            f"Pearson: {metrics['pearson_r']:.3f} | Spearman: {metrics['spearman_rho']:.3f}",
+            fontsize=10
+        )
         ax.grid(alpha=0.3)
         ax.set_xlim(0.5, 9.5)
         ax.set_ylim(0.5, 9.5)
         ax.legend()
     
     plt.tight_layout()
-    plt.savefig('bert_v3_evaluation.png', dpi=150, bbox_inches='tight')
-    print(f"\n✓ Saved: bert_v3_evaluation.png")
-    plt.show()
+    plt.savefig('bert_v3_evaluation_scatter.png', dpi=150, bbox_inches='tight')
+    print(f"\n✓ Saved: bert_v3_evaluation_scatter.png")
+    plt.close()
+    
+    # ========================================================================
+    # 2. BOX PLOTS - Distribution Comparison
+    # ========================================================================
+    fig, axes = plt.subplots(1, 2, figsize=(14, 6))
+    
+    for idx, (name, (y_true, y_pred, metrics)) in enumerate(all_results.items()):
+        ax = axes[idx]
+        
+        # Prepare data for box plot
+        df_plot = pd.DataFrame({
+            'Score': np.concatenate([y_true, y_pred]),
+            'Type': ['Actual'] * len(y_true) + ['Predicted'] * len(y_pred)
+        })
+        
+        sns.boxplot(data=df_plot, x='Type', y='Score', ax=ax, palette=['#3498db', '#e74c3c'])
+        ax.set_ylabel("Band Score", fontsize=12)
+        ax.set_xlabel("")
+        ax.set_title(f"{name} - Distribution Comparison\nMAE: {metrics['mae']:.3f}", fontsize=11)
+        ax.grid(axis='y', alpha=0.3)
+        ax.set_ylim(0.5, 9.5)
+        
+        # Add mean markers
+        ax.axhline(y_true.mean(), color='#3498db', linestyle='--', alpha=0.5, linewidth=1.5, label=f"Actual Mean: {y_true.mean():.2f}")
+        ax.axhline(y_pred.mean(), color='#e74c3c', linestyle='--', alpha=0.5, linewidth=1.5, label=f"Pred Mean: {y_pred.mean():.2f}")
+        ax.legend(fontsize=9)
+    
+    plt.tight_layout()
+    plt.savefig('bert_v3_evaluation_boxplot.png', dpi=150, bbox_inches='tight')
+    print(f"✓ Saved: bert_v3_evaluation_boxplot.png")
+    plt.close()
+    
+    # ========================================================================
+    # 3. RESIDUAL PLOTS - Error Distribution
+    # ========================================================================
+    fig, axes = plt.subplots(2, 2, figsize=(14, 10))
+    
+    for idx, (name, (y_true, y_pred, metrics)) in enumerate(all_results.items()):
+        residuals = y_pred - y_true
+        
+        # Residuals vs True Scores
+        ax1 = axes[idx, 0]
+        ax1.scatter(y_true, residuals, alpha=0.5, s=40, edgecolors='black', linewidth=0.5)
+        ax1.axhline(y=0, color='r', linestyle='--', linewidth=2, label='Zero Error')
+        ax1.axhline(y=0.5, color='orange', linestyle=':', linewidth=1.5, alpha=0.7, label='±0.5 bands')
+        ax1.axhline(y=-0.5, color='orange', linestyle=':', linewidth=1.5, alpha=0.7)
+        ax1.set_xlabel("True Band Score", fontsize=11)
+        ax1.set_ylabel("Residual (Pred - True)", fontsize=11)
+        ax1.set_title(f"{name} - Residuals vs True Score", fontsize=10)
+        ax1.grid(alpha=0.3)
+        ax1.legend(fontsize=9)
+        
+        # Residual Distribution Histogram
+        ax2 = axes[idx, 1]
+        ax2.hist(residuals, bins=30, alpha=0.7, edgecolor='black', color='#3498db')
+        ax2.axvline(x=0, color='r', linestyle='--', linewidth=2, label='Zero Error')
+        ax2.axvline(x=residuals.mean(), color='green', linestyle='--', linewidth=2, label=f'Mean: {residuals.mean():.3f}')
+        ax2.set_xlabel("Residual (Pred - True)", fontsize=11)
+        ax2.set_ylabel("Frequency", fontsize=11)
+        ax2.set_title(f"{name} - Error Distribution\nStd: {residuals.std():.3f}", fontsize=10)
+        ax2.grid(axis='y', alpha=0.3)
+        ax2.legend(fontsize=9)
+    
+    plt.tight_layout()
+    plt.savefig('bert_v3_evaluation_residuals.png', dpi=150, bbox_inches='tight')
+    print(f"✓ Saved: bert_v3_evaluation_residuals.png")
+    plt.close()
+    
+    # ========================================================================
+    # 4. CONFUSION MATRIX
+    # ========================================================================
+    fig, axes = plt.subplots(1, 2, figsize=(16, 6))
+    
+    for idx, (name, (y_true, y_pred, metrics)) in enumerate(all_results.items()):
+        ax = axes[idx]
+        
+        # Round predictions to nearest 0.5 for confusion matrix
+        y_true_rounded = np.round(y_true * 2) / 2
+        y_pred_rounded = np.round(y_pred * 2) / 2
+        
+        # Create confusion matrix with string labels to avoid continuous type error
+        labels = np.arange(1.0, 9.5, 0.5)
+        y_true_str = [f'{x:.1f}' for x in y_true_rounded]
+        y_pred_str = [f'{x:.1f}' for x in y_pred_rounded]
+        labels_str = [f'{l:.1f}' for l in labels]
+        
+        cm = confusion_matrix(y_true_str, y_pred_str, labels=labels_str)
+        
+        # Normalize by row (true labels)
+        cm_normalized = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
+        cm_normalized = np.nan_to_num(cm_normalized)
+        
+        # Plot
+        sns.heatmap(
+            cm_normalized,
+            annot=cm,
+            fmt='d',
+            cmap='Blues',
+            xticklabels=labels_str,
+            yticklabels=labels_str,
+            ax=ax,
+            cbar_kws={'label': 'Normalized Frequency'}
+        )
+        ax.set_xlabel("Predicted Band Score", fontsize=11)
+        ax.set_ylabel("Actual Band Score", fontsize=11)
+        ax.set_title(f"{name} - Confusion Matrix\n(counts shown, normalized by row)", fontsize=10)
+    
+    plt.tight_layout()
+    plt.savefig('bert_v3_evaluation_confusion.png', dpi=150, bbox_inches='tight')
+    print(f"✓ Saved: bert_v3_evaluation_confusion.png")
+    plt.close()
     
     # Summary
     print("\n" + "="*70)
     print("FINAL SUMMARY")
     print("="*70)
-    print(f"\n{'Split':<10} {'MAE':>8} {'R²':>8} {'±0.5':>8} {'±1.0':>8}")
-    print("-" * 50)
+    print(f"\n{'Split':<10} {'MAE':>8} {'R²':>8} {'Pearson':>9} {'Spearman':>9} {'±0.5':>8} {'±1.0':>8}")
+    print("-" * 80)
     for name, (_, _, m) in all_results.items():
-        print(f"{name:<10} {m['mae']:>8.3f} {m['r2']:>8.3f} {m['within_05']:>7.1%} {m['within_10']:>7.1%}")
+        print(f"{name:<10} {m['mae']:>8.3f} {m['r2']:>8.3f} {m['pearson_r']:>9.3f} {m['spearman_rho']:>9.3f} {m['within_05']:>7.1%} {m['within_10']:>7.1%}")
     
     gap = train_metrics['mae'] - test_metrics['mae']
     print(f"\nTrain-Test Gap: {gap:+.3f} bands")
