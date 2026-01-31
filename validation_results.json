@@ -1,75 +1,50 @@
 {
-  "n_essays": 4,
-  "original_scores": {
-    "predicted_mean": 6.388310953974724,
-    "predicted_std": 0.8372393937173643,
-    "true_mean": 6.425
-  },
-  "revised_scores": {
-    "predicted_mean": 6.723140090703964,
-    "predicted_std": 0.7855777285625424,
-    "true_mean": 6.425
-  },
-  "improvements": {
-    "mean": 0.3348291367292404,
-    "std": 0.19871424726718534,
-    "median": 0.34681499004364014,
-    "min": 0.0677483081817627,
-    "max": 0.5779382586479187,
-    "pct_improved": 100.0,
-    "pct_no_change": 0.0,
-    "pct_worsened": 0.0
-  },
-  "statistical_tests": {
-    "paired_t_test": {
-      "t_statistic": 2.9184675213030857,
-      "p_value": 0.06157249917176009,
-      "significant_at_0.05": false
+  "n_essays": 30,
+  "original_mean": 6.723979371786117,
+  "revised_mean": 6.784131038188934,
+  "improvement_mean": 0.06015166640281677,
+  "improvement_median": 0.06659898161888123,
+  "pct_improved": 76.66666666666667,
+  "pct_worsened": 23.333333333333332,
+  "t_test_p": 0.011061543221275904,
+  "wilcoxon_p": 0.005382779985666275,
+  "cohens_d": 0.5040554014397114,
+  "significant": true,
+  "persona_stats": {
+    "1": {
+      "n": 6,
+      "original_mean": 6.463001310825348,
+      "revised_mean": 6.546043217182159,
+      "improvement_mean": 0.08304190635681152,
+      "pct_improved": 100.0
     },
-    "wilcoxon_test": {
-      "statistic": 0.0,
-      "p_value": 0.125,
-      "significant_at_0.05": false
+    "2": {
+      "n": 6,
+      "original_mean": 6.684921741485596,
+      "revised_mean": 6.731262713670731,
+      "improvement_mean": 0.04634097218513489,
+      "pct_improved": 66.66666666666666
     },
-    "cohens_d": 1.6849780090455164,
-    "effect_size": "large"
-  },
-  "per_essay": [
-    {
-      "index": 0,
-      "original_pred": 6.943834662437439,
-      "revised_pred": 7.521772921085358,
-      "delta": 0.5779382586479187,
-      "improved": true,
-      "no_change": false,
-      "worsened": false
+    "3": {
+      "n": 6,
+      "original_mean": 6.654438078403473,
+      "revised_mean": 6.725425869226456,
+      "improvement_mean": 0.07098779082298279,
+      "pct_improved": 66.66666666666666
     },
-    {
-      "index": 1,
-      "original_pred": 5.173468887805939,
-      "revised_pred": 5.636962652206421,
-      "delta": 0.4634937644004822,
-      "improved": true,
-      "no_change": false,
-      "worsened": false
+    "4": {
+      "n": 6,
+      "original_mean": 6.955645322799683,
+      "revised_mean": 6.902397036552429,
+      "improvement_mean": -0.05324828624725342,
+      "pct_improved": 50.0
     },
-    {
-      "index": 2,
-      "original_pred": 6.084692537784576,
-      "revised_pred": 6.3148287534713745,
-      "delta": 0.2301362156867981,
-      "improved": true,
-      "no_change": false,
-      "worsened": false
-    },
-    {
-      "index": 3,
-      "original_pred": 7.351247727870941,
-      "revised_pred": 7.418996036052704,
-      "delta": 0.0677483081817627,
-      "improved": true,
-      "no_change": false,
-      "worsened": false
+    "5": {
+      "n": 6,
+      "original_mean": 6.861890405416489,
+      "revised_mean": 7.015526354312897,
+      "improvement_mean": 0.15363594889640808,
+      "pct_improved": 100.0
     }
-  ]
+  }
 }

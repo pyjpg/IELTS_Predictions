@@ -682,10 +682,35 @@ def validate_improvements(original_csv, revised_csv):
     rev_scores = np.array(rev_scores)
     improvements = rev_scores - orig_scores
     
+    # Persona assignment by index (1..5 cycling):
+    # Persona 1: 1,6,11,16,21,26 | Persona 2: 2,7,12,17,22,27 | ... | Persona 5: 5,10,15,20,25,30
+    personas = np.array([(i % 5) + 1 for i in range(len(orig_scores))], dtype=int)
+    
     # Statistical tests
     t_stat, p_value = stats.ttest_rel(rev_scores, orig_scores)
     wilcoxon_stat, wilcoxon_p = stats.wilcoxon(rev_scores, orig_scores)
     cohens_d = np.mean(improvements) / np.std(improvements)
+    
+    # Persona-wise stats
+    persona_stats = {}
+    for p in range(1, 6):
+        mask = personas == p
+        if np.any(mask):
+            persona_stats[p] = {
+                'n': int(np.sum(mask)),
+                'original_mean': float(np.mean(orig_scores[mask])),
+                'revised_mean': float(np.mean(rev_scores[mask])),
+                'improvement_mean': float(np.mean(improvements[mask])),
+                'pct_improved': float(np.mean(improvements[mask] > 0) * 100),
+            }
+        else:
+            persona_stats[p] = {
+                'n': 0,
+                'original_mean': None,
+                'revised_mean': None,
+                'improvement_mean': None,
+                'pct_improved': None,
+            }
     
     # Results
     results = {
@@ -699,7 +724,8 @@ def validate_improvements(original_csv, revised_csv):
         't_test_p': float(p_value),
         'wilcoxon_p': float(wilcoxon_p),
         'cohens_d': float(cohens_d),
-        'significant': bool(p_value < 0.05)
+        'significant': bool(p_value < 0.05),
+        'persona_stats': persona_stats,
     }
     
     # Print report
@@ -720,6 +746,15 @@ def validate_improvements(original_csv, revised_csv):
     print(f"   Result: {'✅ SIGNIFICANT' if results['significant'] else '❌ NOT SIGNIFICANT'}")
     print(f"   Cohen's d: {cohens_d:.3f} ({'small' if abs(cohens_d) < 0.5 else 'medium' if abs(cohens_d) < 0.8 else 'large'})")
     
+    # Persona breakdown
+    print("\n🎭 PERSONA BREAKDOWN (mean improvement):")
+    for p in range(1, 6):
+        mean_imp = persona_stats[p]['improvement_mean']
+        if mean_imp is not None:
+            print(f"   Persona {p}: {mean_imp:+.3f} (n={persona_stats[p]['n']})")
+        else:
+            print(f"   Persona {p}: n=0")
+    
     # Interpretation
     print(f"\n💡 INTERPRETATION:")
     if results['significant'] and cohens_d > 0.5:
@@ -731,7 +766,7 @@ def validate_improvements(original_csv, revised_csv):
         print("      Possible reasons: small sample, poor compliance, or ineffective feedback.")
     
     # Visualization
-    visualize_improvements(orig_scores, rev_scores, improvements)
+    visualize_improvements(orig_scores, rev_scores, improvements, personas)
     
     # Save results
     with open('validation_results.json', 'w') as f:
@@ -741,20 +776,40 @@ def validate_improvements(original_csv, revised_csv):
     print(f"   Plots saved to: improvement_analysis.png")
 
 
-def visualize_improvements(orig, rev, improvements):
-    """Create improvement visualizations."""
+def visualize_improvements(orig, rev, improvements, personas=None):
+    """Create improvement visualizations.
+    Adds persona-aware legends and saves separate PNGs for comparison.
+    """
+    # If personas not provided, derive from index using the 5-cycle mapping
+    if personas is None:
+        personas = np.array([(i % 5) + 1 for i in range(len(orig))], dtype=int)
+    persona_colors = {
+        1: '#e41a1c',  # red
+        2: '#377eb8',  # blue
+        3: '#4daf4a',  # green
+        4: '#984ea3',  # purple
+        5: '#ff7f00',  # orange
+    }
     fig, axes = plt.subplots(2, 2, figsize=(14, 10))
     
     # 1. Before/After scatter
     ax = axes[0, 0]
-    ax.scatter(range(len(orig)), orig, alpha=0.6, label='Original', color='#e74c3c', s=50)
-    ax.scatter(range(len(rev)), rev, alpha=0.6, label='Revised', color='#2ecc71', s=50)
+    # Persona-colored points: circles for Original, triangles for Revised
+    for p in range(1, 6):
+        idxs = np.where(personas == p)[0]
+        if len(idxs) == 0:
+            continue
+        ax.scatter(idxs, orig[idxs], alpha=0.75, label=f'Original · Persona {p}',
+                   color=persona_colors[p], s=60, marker='o', edgecolors='white', linewidths=0.5)
+        ax.scatter(idxs, rev[idxs], alpha=0.75, label=f'Revised · Persona {p}',
+                   color=persona_colors[p], s=60, marker='^', edgecolors='white', linewidths=0.5)
+    # Connect each essay's before/after
     for i in range(len(orig)):
-        ax.plot([i, i], [orig[i], rev[i]], 'gray', alpha=0.3, linestyle='--')
+        ax.plot([i, i], [orig[i], rev[i]], 'gray', alpha=0.25, linestyle='--', linewidth=1)
     ax.set_xlabel("Essay Index")
     ax.set_ylabel("Predicted Score")
     ax.set_title("Before vs After Scores")
-    ax.legend()
+    ax.legend(ncol=2, fontsize=9, frameon=True)
     ax.grid(alpha=0.3)
     
     # 2. Improvement distribution
@@ -783,15 +838,127 @@ def visualize_improvements(orig, rev, improvements):
     
     # 4. Improvement vs original score
     ax = axes[1, 1]
-    ax.scatter(orig, improvements, alpha=0.6, edgecolors='black', linewidth=0.5)
+    # Persona-colored improvement vs original
+    for p in range(1, 6):
+        idxs = np.where(personas == p)[0]
+        if len(idxs) == 0:
+            continue
+        ax.scatter(orig[idxs], improvements[idxs], alpha=0.8, edgecolors='black', linewidth=0.5,
+                   color=persona_colors[p], label=f'Persona {p}', s=60)
     ax.axhline(0, color='red', linestyle='--', linewidth=2)
     ax.set_xlabel("Original Score")
     ax.set_ylabel("Improvement")
     ax.set_title("Improvement by Original Score")
     ax.grid(alpha=0.3)
+    ax.legend(fontsize=9, frameon=True)
     
     plt.tight_layout()
     plt.savefig('improvement_analysis.png', dpi=150, bbox_inches='tight')
+    plt.close()
+    # Additional individual plots
+    """Create multiple improvement visualizations and save as separate PNGs."""
+        # 1. Before/After scatter (persona-colored)
+    plt.figure(figsize=(8, 6))
+    for p in range(1, 6):
+        idxs = np.where(personas == p)[0]
+        if len(idxs) == 0:
+            continue
+        plt.scatter(idxs, orig[idxs], alpha=0.75, label=f'Original · Persona {p}',
+                    color=persona_colors[p], s=60, marker='o', edgecolors='white', linewidths=0.5)
+        plt.scatter(idxs, rev[idxs], alpha=0.75, label=f'Revised · Persona {p}',
+                    color=persona_colors[p], s=60, marker='^', edgecolors='white', linewidths=0.5)
+    for i in range(len(orig)):
+        plt.plot([i, i], [orig[i], rev[i]], color='gray', alpha=0.25)
+    plt.xlabel("Essay Index")
+    plt.ylabel("Predicted Score")
+    plt.title("Before vs After Scores")
+    plt.legend(ncol=2, fontsize=9, frameon=True)
+    plt.grid(alpha=0.3)
+    plt.tight_layout()
+    plt.savefig('plot_before_after.png', dpi=150, bbox_inches='tight')
+    plt.close()
+
+        # 2. Improvement distribution (overall)
+    plt.figure(figsize=(8, 6))
+    plt.hist(improvements, bins=20, edgecolor='black', alpha=0.7, color='#3498db')
+    plt.axvline(0, color='red', linestyle='--', linewidth=2, label='No change')
+    plt.axvline(np.mean(improvements), color='green', linestyle='--', linewidth=2, label=f'Mean: {np.mean(improvements):.3f}')
+    plt.xlabel("Score Change (Revised - Original)")
+    plt.ylabel("Frequency")
+    plt.title("Distribution of Improvements")
+    plt.legend()
+    plt.grid(axis='y', alpha=0.3)
+    plt.tight_layout()
+    plt.savefig('plot_improvement_distribution.png', dpi=150, bbox_inches='tight')
+    plt.close()
+
+    # 2b. Improvement distribution by persona (overlay)
+    plt.figure(figsize=(8, 6))
+    for p in range(1, 6):
+        mask = personas == p
+        if np.any(mask):
+            plt.hist(improvements[mask], bins=15, alpha=0.45, edgecolor='black',
+                     color=persona_colors[p], label=f'Persona {p}')
+    plt.axvline(0, color='black', linestyle='--', linewidth=1, label='No change')
+    plt.xlabel("Score Change (Revised - Original)")
+    plt.ylabel("Frequency")
+    plt.title("Distribution of Improvements by Persona")
+    plt.legend(fontsize=9, frameon=True)
+    plt.grid(axis='y', alpha=0.3)
+    plt.tight_layout()
+    plt.savefig('plot_improvement_distribution_by_persona.png', dpi=150, bbox_inches='tight')
+    plt.close()
+
+    # 2c. Individual persona distributions
+    for p in range(1, 6):
+        mask = personas == p
+        if not np.any(mask):
+            continue
+        plt.figure(figsize=(8, 6))
+        plt.hist(improvements[mask], bins=15, edgecolor='black', alpha=0.7, color=persona_colors[p])
+        plt.axvline(0, color='black', linestyle='--', linewidth=1, label='No change')
+        plt.axvline(np.mean(improvements[mask]), color='green', linestyle='--', linewidth=2, label=f'Mean: {np.mean(improvements[mask]):.3f}')
+        plt.xlabel("Score Change (Revised - Original)")
+        plt.ylabel("Frequency")
+        plt.title(f"Distribution of Improvements · Persona {p}")
+        plt.legend(fontsize=9, frameon=True)
+        plt.grid(axis='y', alpha=0.3)
+        plt.tight_layout()
+        plt.savefig(f'plot_improvement_distribution_p{p}.png', dpi=150, bbox_inches='tight')
+        plt.close()
+
+    # 3. Box plot of score distributions
+    plt.figure(figsize=(8, 6))
+    data = pd.DataFrame({
+        'Score': np.concatenate([orig, rev]),
+        'Type': ['Original']*len(orig) + ['Revised']*len(rev)
+    })
+    ax = plt.gca()
+    data.boxplot(column='Score', by='Type', ax=ax)
+    plt.title("Score Distributions")
+    plt.suptitle("")
+    plt.ylabel("Score")
+    plt.xticks([1, 2], ['Original', 'Revised'])
+    plt.tight_layout()
+    plt.savefig('plot_score_boxplot.png', dpi=150, bbox_inches='tight')
+    plt.close()
+
+    # 4. Improvement vs original score
+    plt.figure(figsize=(8, 6))
+    for p in range(1, 6):
+        idxs = np.where(personas == p)[0]
+        if len(idxs) == 0:
+            continue
+        plt.scatter(orig[idxs], improvements[idxs], alpha=0.8, edgecolors='black', linewidth=0.5,
+                    color=persona_colors[p], label=f'Persona {p}', s=60)
+    plt.axhline(0, color='red', linestyle='--', linewidth=2)
+    plt.xlabel("Original Score")
+    plt.ylabel("Improvement")
+    plt.title("Improvement by Original Score")
+    plt.grid(alpha=0.3)
+    plt.legend(fontsize=9, frameon=True)
+    plt.tight_layout()
+    plt.savefig('plot_improvement_vs_original.png', dpi=150, bbox_inches='tight')
     plt.close()
 
 
