@@ -1,10 +1,38 @@
 venv/
-data/*.csv
 __pycache__/
 *.pyc
+.DS_Store
+.ipynb_checkpoints/
+
+# Large model files (keep only README in models/)
+*.pt
+models/*.pt
+!models/README.md
+
+# Data files
+data/*.csv
+data/*.json
 *.pkl
-*.txt
 *.vec
-*.npy
 *.modal
 *.vocab
+
+# Feature normalization (will be regenerated)
+*.npy
+
+# Environment files
+.env
+.venv/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Jupyter notebook outputs
+*.nbconvert.ipynb
+
+# Exclude requirements.txt and README
+!requirements.txt
+!README.md
