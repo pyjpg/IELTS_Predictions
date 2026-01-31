@@ -22,7 +22,8 @@ The BERT v3 model is the best-performing architecture that combines:
 IELTS_Predictions/
 ├── data/                      # Dataset files (not included in repo)
 ├── models/                    # Saved model checkpoints
-│   └── bert_ielts_model_v3.pt
+│   ├── bert_ielts_model_v3.pt
+│   └── README.md
 ├── notebooks/                 # Jupyter notebooks
 │   └── bert_v3_reproducible.ipynb
 ├── results/                   # Evaluation results
@@ -42,6 +43,10 @@ IELTS_Predictions/
 │   └── evaluation/            # Evaluation and metrics
 │       ├── __init__.py
 │       └── metrics.py
+├── legacy/                    # Old code (for reference only)
+├── train.py                   # Training script
+├── evaluate.py                # Evaluation script
+├── predict.py                 # Prediction script
 ├── requirements.txt           # Python dependencies
 └── README.md                  # This file
 ```
@@ -73,7 +78,7 @@ The model requires an IELTS essay dataset with the following format:
 
 ### Quick Start
 
-#### Using the Jupyter Notebook (Recommended)
+#### 1. Using the Jupyter Notebook (Recommended)
 
 The easiest way to get started is with our reproducible notebook:
 
@@ -88,6 +93,29 @@ The notebook includes:
 - Training from scratch (or loading pre-trained)
 - Comprehensive evaluation
 - Inference examples
+
+#### 2. Using Command-Line Scripts
+
+**Train the model:**
+```bash
+python train.py
+```
+
+**Evaluate the model:**
+```bash
+python evaluate.py
+```
+
+**Predict on a new essay:**
+```bash
+python predict.py "Your essay text here..."
+```
+
+Or interactive mode:
+```bash
+python predict.py
+# Then paste your essay and press Ctrl+D (Unix) or Ctrl+Z (Windows)
+```
 
 #### Training from Python
 
